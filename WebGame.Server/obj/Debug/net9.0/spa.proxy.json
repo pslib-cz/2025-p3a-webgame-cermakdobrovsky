@@ -1,0 +1,10 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:59447",
+"RedirectUrl": "",
+"LaunchCommand": "npm run dev",
+"WorkingDirectory": "C:\\Users\\bohuslav.cermak.023\\Desktop\\2025-p3a-webgame-cermakdobrovsky\\WebGame\\WebGame.Server\\..\\webgame.client",
+"MaxTimeoutInSeconds": "120",
+"KeepRunning": "false"
+}
+}

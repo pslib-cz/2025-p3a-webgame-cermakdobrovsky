@@ -22,11 +22,10 @@ Naše hra je jednoduché **budovatelské RPG** v prohlížeči. Hráč si buduje
 ## ⚙️ Technologie
 Používáme moderní stack, který kombinuje backend, frontend i práci s animacemi:
 
-- **ASP.NET** – backendová logika, API, autentizace  
-- **React** – frontend, dynamické UI  
-- **NoSQL databáze** – ukládání vesnic, hráčů, budov a progresu  
-- **react-sprite-animator** – animace jednotek, efektů a objektů  
-- **Canvas** – vykreslování mapy a herních prvků  
-- **TailwindCSS** – stylování UI  
-- **SignalR / WebSockets** *(volitelné)* – realtime změny ve vesnici  
-- **Docker** *(volitelné)* – snadné nasazení
+- **ASP.NET** – backendová logika, API, autentizace 
+- **React** – frontend, dynamické UI
+- **NoSQL databáze** – ukládání vesnic, hráčů, budov a progresu
+- **Konva.js** – animace jednotek, efektů a objektů
+- **Canvas** – vykreslování mapy a herních prvků
+- **TailwindCSS** – stylování UI
+- **Docker** – snadné nasazení
