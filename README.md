@@ -9,12 +9,13 @@ Naše hra je jednoduché **budovatelské RPG** v prohlížeči. Hráč si buduje
 - **Náhodné události (Eventy)** *(pokud stihneme)* – bonusy, katastrofy, buffy a speciální herní situace.
 
 ## 🧩 Klíčová logika | Mini hry
-- **Generování vesnice z databáze** podle přihlášeného hráče.  
-- **Akční menu budov** – upgrady, čas stavby, prodej, detailní panel informací.  
-- **Animační logika** – efekty stavby, upgradu, produkce nebo boje.  
-- **Úvodní tutorial** – interaktivní vedení hráče při začátku hry.  
-- **Dynamické renderování grafiky** podle vybraného klanu / stylu hráče.  
-- **Registrace a správa uživatele** – account systém.  
+- **Generování vesnice z databáze** podle přihlášeného hráče.
+- **Akční menu budov** – upgrady, čas stavby, prodej, detailní panel informací.
+- **Animační logika** – efekty stavby, upgradu, produkce nebo boje.
+- **Úvodní tutorial** – interaktivní vedení hráče při začátku hry.
+- **Dynamické renderování grafiky** podle vybraného klanu / stylu hráče.
+- **Ukládání hry** - s NoSQL db
+- **Počasí podle lokace hráče (z DB)** *(pokud zbyde čas)* – mění světlo, efekty, vizuální atmosféru a možné eventy.
 - **Battle logika** *(pokud zbyde čas)* – simulace soubojů, výpočty armád, zásob a levelů.
 
 ---
@@ -22,10 +23,9 @@ Naše hra je jednoduché **budovatelské RPG** v prohlížeči. Hráč si buduje
 ## ⚙️ Technologie
 Používáme moderní stack, který kombinuje backend, frontend i práci s animacemi:
 
-- **ASP.NET** – backendová logika, API, autentizace 
+- **ASP.NET** – backendová logika, API, autentizace
 - **React** – frontend, dynamické UI
 - **NoSQL databáze** – ukládání vesnic, hráčů, budov a progresu
 - **Konva.js** – animace jednotek, efektů a objektů
 - **Canvas** – vykreslování mapy a herních prvků
-- **TailwindCSS** – stylování UI
 - **Docker** – snadné nasazení

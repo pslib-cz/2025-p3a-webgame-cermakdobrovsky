@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bohuslav.cermak.023\\Desktop\\2025-p3a-webgame-cermakdobrovsky\\WebGame\\WebGame.Server\\WebGame.Server.csproj": {}
+    "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\WebGame.Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bohuslav.cermak.023\\Desktop\\2025-p3a-webgame-cermakdobrovsky\\WebGame\\WebGame.Server\\WebGame.Server.csproj": {
+    "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\WebGame.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bohuslav.cermak.023\\Desktop\\2025-p3a-webgame-cermakdobrovsky\\WebGame\\WebGame.Server\\WebGame.Server.csproj",
+        "projectUniqueName": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\WebGame.Server.csproj",
         "projectName": "WebGame.Server",
-        "projectPath": "C:\\Users\\bohuslav.cermak.023\\Desktop\\2025-p3a-webgame-cermakdobrovsky\\WebGame\\WebGame.Server\\WebGame.Server.csproj",
-        "packagesPath": "C:\\Users\\bohuslav.cermak.023\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bohuslav.cermak.023\\Desktop\\2025-p3a-webgame-cermakdobrovsky\\WebGame\\WebGame.Server\\obj\\",
+        "projectPath": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\WebGame.Server.csproj",
+        "packagesPath": "C:\\Users\\bohus\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\bohuslav.cermak.023\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\bohus\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,7 +44,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -57,6 +57,24 @@
             "Microsoft.AspNetCore.SpaProxy": {
               "target": "Package",
               "version": "[9.*-*, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[9.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.11, )"
+            },
+            "Scalar.AspNetCore": {
+              "target": "Package",
+              "version": "[2.11.0, )"
             }
           },
           "imports": [
@@ -78,7 +96,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
