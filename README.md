@@ -3,16 +3,30 @@
 Naše hra je jednoduché **budovatelské RPG** v prohlížeči. Hráč si buduje vlastní vesnici, rozvíjí ji, sbírá suroviny (ovce 🐑) a postupně odemyká nové možnosti.
 
 ## 🎮 Herní koncept
-- **Budování vesnice** - hráč staví a vylepšuje budovy, které generují ovce, obyvatele nebo strategické bonusy.  
-- **Unikátní role budov** - každá budova má vlastní účel (produkční, obranné, rekrutovací…).  
-- **Dobývání jiných vesnic** *(pokud stihneme)* - některé budovy umožňují trénovat vojáky. Při dostatečné armádě, zásobách a levelech může hráč útočit na ostatní vesnice.
-- **Náhodné události (Eventy)** *(pokud stihneme)* - občas se stanou speciální situace, které ovlivní chod vesnice (bonusová sklizeň, bouře, požehnání, útok zlodějů…). Hráč musí reagovat strategicky.
+- **Budování vesnice** – hráč staví a vylepšuje budovy, které generují ovce, obyvatele nebo strategické bonusy.  
+- **Unikátní role budov** – každá budova má vlastní účel (produkční, obranné, rekrutovací…).  
+- **Dobývání jiných vesnic** *(pokud stihneme)* – trénink vojáků, útoky na jiné hráče, porovnání statistik.  
+- **Náhodné události (Eventy)** *(pokud stihneme)* – bonusy, katastrofy, buffy a speciální herní situace.
 
 ## 🧩 Klíčová logika | Mini hry
-- **Generování vesnice z databáze** podle konkrétního hráče.  
-- **Akční menu budov** - upgrady, čas stavby, prodej, info panely.  
-- **Animační logika** - efekty stavby, upgradu a produkce.  
-- **Úvodní tutorial**, který hráče provede začátkem hry.  
-- **Dynamické renderování grafiky** podle vybraného klanu.  
-- **Registrace a správa uživatele**.  
-- **Battle logika** *(pokud zbyde čas)* - porovnání armád, zásob a levelů při útocích.
+- **Generování vesnice z databáze** podle přihlášeného hráče.  
+- **Akční menu budov** – upgrady, čas stavby, prodej, detailní panel informací.  
+- **Animační logika** – efekty stavby, upgradu, produkce nebo boje.  
+- **Úvodní tutorial** – interaktivní vedení hráče při začátku hry.  
+- **Dynamické renderování grafiky** podle vybraného klanu / stylu hráče.  
+- **Registrace a správa uživatele** – account systém.  
+- **Battle logika** *(pokud zbyde čas)* – simulace soubojů, výpočty armád, zásob a levelů.
+
+---
+
+## ⚙️ Technologie
+Používáme moderní stack, který kombinuje backend, frontend i práci s animacemi:
+
+- **ASP.NET** – backendová logika, API, autentizace  
+- **React** – frontend, dynamické UI  
+- **NoSQL databáze** – ukládání vesnic, hráčů, budov a progresu  
+- **react-sprite-animator** – animace jednotek, efektů a objektů  
+- **Canvas** – vykreslování mapy a herních prvků  
+- **TailwindCSS** – stylování UI  
+- **SignalR / WebSockets** *(volitelné)* – realtime změny ve vesnici  
+- **Docker** *(volitelné)* – snadné nasazení
