@@ -3,10 +3,11 @@
 Naše hra je jednoduché **budovatelské RPG** v prohlížeči. Hráč si buduje vlastní vesnici, rozvíjí ji, sbírá suroviny (ovce 🐑) a postupně odemyká nové možnosti.
 
 ## 🎮 Herní koncept
-- **Budování vesnice** – hráč staví a vylepšuje budovy, které generují ovce, obyvatele nebo strategické bonusy.  
-- **Unikátní role budov** – každá budova má vlastní účel (produkční, obranné, rekrutovací…).  
-- **Dobývání jiných vesnic** *(pokud stihneme)* – trénink vojáků, útoky na jiné hráče, porovnání statistik.  
-- **Náhodné události (Eventy)** *(pokud stihneme)* – bonusy, katastrofy, buffy a speciální herní situace.
+
+- **Budování vesnice** – hráč staví a vylepšuje budovy, které generují ovce, obyvatele nebo strategické bonusy.
+- **Unikátní role budov** – každá budova má vlastní účel (produkční, obranné, rekrutovací…).
+- **Dobývání jiných vesnic** _(pokud stihneme)_ – trénink vojáků, útoky na jiné hráče, porovnání statistik.
+- **Náhodné události (Eventy)** _(pokud stihneme)_ – bonusy, katastrofy, buffy a speciální herní situace.
 
 ## 🧩 Klíčová logika | Mini hry
 - **Generování vesnice z databáze** podle přihlášeného hráče.
@@ -15,8 +16,8 @@ Naše hra je jednoduché **budovatelské RPG** v prohlížeči. Hráč si buduje
 - **Úvodní tutorial** – interaktivní vedení hráče při začátku hry.
 - **Dynamické renderování grafiky** podle vybraného klanu / stylu hráče.
 - **Ukládání hry** - s NoSQL db
-- **Počasí podle lokace hráče (z DB)** *(pokud zbyde čas)* – mění světlo, efekty, vizuální atmosféru a možné eventy.
-- **Battle logika** *(pokud zbyde čas)* – simulace soubojů, výpočty armád, zásob a levelů.
+- **Počasí podle lokace hráče (z DB)** _(pokud zbyde čas)_ – mění světlo, efekty, vizuální atmosféru a možné eventy.
+- **Battle logika** _(pokud zbyde čas)_ – simulace soubojů, výpočty armád, zásob a levelů.
 
 ---
 
@@ -35,8 +36,9 @@ Používáme moderní stack, který kombinuje backend, frontend i práci s anima
 ## Gameplay
 
 ### Mění
-- **Ovce** - Hlavní měna
-- **Populace** - Čím větší populace tím rychleji se množí ovce
+- **Ovce** - Hlavní měna, pokud uživatel příjde o všechny ovce, tak obyvatélé umírají a hra končí.
+- **Populace** - Jeden člověk se může starat o omezený počet ovcí. Pokud bude moc ovcí na populaci tak ovce umírají.
+- **Volná půda** - Ovce potřebují volnou půdu, pokud je moc málo volné půdy na počet ovcí tak ovce umírají.
 - **Vojáci** - Na dobývání jiných vesnic *(pokud zbyde čas)*
 - **Level** - Ukazuje současný level radnice. Vedlejší budovy nejdou upgradovat na vyšší level než tento.
 
