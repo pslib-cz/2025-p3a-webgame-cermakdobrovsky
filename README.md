@@ -36,8 +36,9 @@ Používáme moderní stack, který kombinuje backend, frontend i práci s anima
 ## Gameplay
 
 ### Mění
-- **Ovce** - Hlavní měna
-- **Populace** - Čím větší populace tím rychleji se množí ovce
+- **Ovce** - Hlavní měna, pokud uživatel příjde o všechny ovce, tak obyvatélé umírají a hra končí.
+- **Populace** - Jeden člověk se může starat o omezený počet ovcí. Pokud bude moc ovcí na populaci tak ovce umírají.
+- **Volná půda** - Ovce potřebují volnou půdu, pokud je moc málo volné půdy na počet ovcí tak ovce umírají.
 - **Vojáci** - Na dobývání jiných vesnic *(pokud zbyde čas)*
 - **Level** - Ukazuje současný level radnice. Vedlejší budovy nejdou upgradovat na vyšší level než tento.
 
