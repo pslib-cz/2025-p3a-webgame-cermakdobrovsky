@@ -29,3 +29,34 @@ Používáme moderní stack, který kombinuje backend, frontend i práci s anima
 - **Konva.js** – animace jednotek, efektů a objektů
 - **Canvas** – vykreslování mapy a herních prvků
 - **Docker** – snadné nasazení
+
+---
+  
+## Gameplay
+
+### Mění
+- **Ovce** - Hlavní měna
+- **Populace** - Čím větší populace tím rychleji se množí ovce
+- **Vojáci** - Na dobývání jiných vesnic *(pokud zbyde čas)*
+- **Level** - Ukazuje současný level radnice. Vedlejší budovy nejdou upgradovat na vyšší level než tento.
+
+### Budování vesnice
+- Uživatel může stavit nové budovy, nebo upgradovat staré.
+- Každá budova má svůj level - maximální level budovy je vždy level radnice
+
+### Menu budovy
+- Po kliknutí na budovu vyskočí menu, kde uživatel uvidí popis budovy a bude moct upgradovat nebo odstranit budovu.
+
+### Obchod
+- v HUD bude tlačítko "Obchod" kde si uživatel bude moct koupit nové budovy
+- Po koupení budovy si uživatel vybere kam chce budovu položit.
+
+### Budovy
+- **Radnice** - Hlavní budova, uřčuje level hráče, maximální level ostatních budov a maximální peníze. Upgrade této budovy vyžaduje nejvíce peněz a maximální level ostatních budov.
+- **Domek** - Navyšuje populaci
+- **Věž** - Navyšuje vojstvo *(pokud zbyde čas)*
+
+### Menu bojování 
+*(pokud zbyde čas)*
+- Mapa vesnic, u vesnice je napsané kolik je potřeba vojstva, levelu aby byla dobyta.
+- Jestli uživatel múže dobýt vesnicy tak dostane víc penež než bylo potřeba (funguje to vlastně jako výměna vojska za peníze)
