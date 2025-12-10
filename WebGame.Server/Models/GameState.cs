@@ -8,6 +8,6 @@ namespace WebGame.Server.Models
         public int Population { get; set; }
         public DateTime LastUpdated { get; set; }
 
-        public VillageMap Map = new VillageMap();
+        // public VillageMap Map = new VillageMap();
     }
 }
