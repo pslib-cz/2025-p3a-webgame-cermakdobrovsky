@@ -3242,31 +3242,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Bob\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/vitekdobrovsky/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Bob\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\WebGame.Server.csproj",
+      "projectUniqueName": "/Users/vitekdobrovsky/coding/school/2025-p3a-webgame-cermakdobrovsky/WebGame.Server/WebGame.Server.csproj",
       "projectName": "WebGame.Server",
-      "projectPath": "C:\\Users\\Bob\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\WebGame.Server.csproj",
-      "packagesPath": "C:\\Users\\Bob\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Bob\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\obj\\",
+      "projectPath": "/Users/vitekdobrovsky/coding/school/2025-p3a-webgame-cermakdobrovsky/WebGame.Server/WebGame.Server.csproj",
+      "packagesPath": "/Users/vitekdobrovsky/.nuget/packages/",
+      "outputPath": "/Users/vitekdobrovsky/coding/school/2025-p3a-webgame-cermakdobrovsky/WebGame.Server/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Bob\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/vitekdobrovsky/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3337,7 +3330,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.308/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
