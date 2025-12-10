@@ -1,0 +1,13 @@
+
+namespace WebGame.Server.Models
+{
+    public class GameState
+    {
+        public Guid PlayerId { get; set; }
+        public int Sheep { get; set; }
+        public int Population { get; set; }
+        public DateTime LastUpdated { get; set; }
+
+        public VillageMap Map = new VillageMap();
+    }
+}

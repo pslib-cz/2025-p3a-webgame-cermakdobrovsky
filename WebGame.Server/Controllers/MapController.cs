@@ -17,7 +17,7 @@ namespace WebGame.Server.Controllers
         {
             return Ok(new { message = "API: Buildings" });
         }
-       
+
         [HttpGet("occupied")]
         public IActionResult Get()
         {
