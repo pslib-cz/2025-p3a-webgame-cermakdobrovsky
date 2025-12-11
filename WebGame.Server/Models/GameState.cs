@@ -1,4 +1,3 @@
-
 namespace WebGame.Server.Models
 {
     public class GameState
@@ -7,7 +6,6 @@ namespace WebGame.Server.Models
         public int Sheep { get; set; }
         public int Population { get; set; }
         public DateTime LastUpdated { get; set; }
-
         // public VillageMap Map = new VillageMap();
     }
 }
