@@ -37,7 +37,7 @@ namespace WebGame.Server.Models
             return layer;
         }
 
-        private bool canPlaceBuilding(int topLeftX, int topLeftY, int width, int height)
+        private bool CanPlaceBuilding(int topLeftX, int topLeftY, int width, int height)
         {
 
             for (int x = topLeftX; x < topLeftX + width; x++)
@@ -55,7 +55,7 @@ namespace WebGame.Server.Models
             return true;
         }
 
-        private void writeRectToOccupiedAreasLayer(int topLeftX, int topLeftY, int width, int height, int value)
+        private void WriteRectToOccupiedAreasLayer(int topLeftX, int topLeftY, int width, int height, int value)
         {
             for (int x = topLeftX; x < topLeftX + width; x++)
             {
@@ -66,14 +66,13 @@ namespace WebGame.Server.Models
             }
         }
 
-        public void placeBuilding(int x, int y, int id, int width, int height)
+        public void PlaceBuilding(int x, int y, int id, int width, int height)
         {
-            if (!canPlaceBuilding(x, y, width, height)) throw new Exception("Building cannot be placed here.");
+            if (!CanPlaceBuilding(x, y, width, height)) throw new Exception("Building cannot be placed here.");
 
             BuildingLayer[x, y] = id;
-            writeRectToOccupiedAreasLayer(x, y, width, height, 1);
+            WriteRectToOccupiedAreasLayer(x, y, width, height, 1);
         }
-
 
     }
 
