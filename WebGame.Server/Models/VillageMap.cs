@@ -66,12 +66,20 @@ namespace WebGame.Server.Models
             }
         }
 
-        public void PlaceBuilding(int x, int y, int id, int width, int height)
+        public void PlaceBuilding(int topLeftX, int topLeftY, int id, int width, int height)
         {
-            if (!CanPlaceBuilding(x, y, width, height)) throw new Exception("Building cannot be placed here.");
+            if (!CanPlaceBuilding(topLeftX, topLeftY, width, height)) throw new Exception("Building cannot be placed here.");
 
-            BuildingLayer[x, y] = id;
-            WriteRectToOccupiedAreasLayer(x, y, width, height, 1);
+            BuildingLayer[topLeftX, topLeftY] = id;
+            WriteRectToOccupiedAreasLayer(topLeftX, topLeftY, width, height, 1);
+        }
+
+        public void DestroyBuilding(int topLeftX, int topLeftY, int id, int width, int height)
+        {
+            if (BuildingLayer[topLeftX, topLeftY] != 0) throw new Exception($"No building exists with x: {topLeftX} and y: {topLeftY}");
+
+            BuildingLayer[topLeftX, topLeftY] = 0;
+            WriteRectToOccupiedAreasLayer(topLeftX, topLeftY, width, height, 0);
         }
 
     }
