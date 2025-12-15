@@ -39,7 +39,6 @@ namespace WebGame.Server.Models
 
         private bool CanPlaceBuilding(int topLeftX, int topLeftY, int width, int height)
         {
-
             for (int x = topLeftX; x < topLeftX + width; x++)
             {
                 if (x > OccupiedAreasLayer.GetLength(0)) return false;
