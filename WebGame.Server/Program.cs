@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WebGame.Server.Data;
 using Scalar.AspNetCore;
 
 namespace WebGame.Server
