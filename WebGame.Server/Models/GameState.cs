@@ -1,4 +1,3 @@
-
 namespace WebGame.Server.Models
 {
     public class GameState

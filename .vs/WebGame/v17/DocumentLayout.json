@@ -5,6 +5,18 @@
     {
       "AbsoluteMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|c:\\users\\bohus\\desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\webgame.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|solutionrelative:webgame.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|c:\\users\\bohus\\desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\webgame.server\\models\\buildinglevel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|solutionrelative:webgame.server\\models\\buildinglevel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|c:\\users\\bohus\\desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\webgame.server\\models\\building.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|solutionrelative:webgame.server\\models\\building.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|c:\\users\\bohus\\desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\webgame.server\\models\\resource.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|solutionrelative:webgame.server\\models\\resource.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -24,9 +36,48 @@
               "RelativeDocumentMoniker": "WebGame.Server\\Program.cs",
               "ToolTip": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\Program.cs",
               "RelativeToolTip": "WebGame.Server\\Program.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAACcAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-01T13:52:11.2Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BuildingLevel.cs",
+              "DocumentMoniker": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\Models\\BuildingLevel.cs",
+              "RelativeDocumentMoniker": "WebGame.Server\\Models\\BuildingLevel.cs",
+              "ToolTip": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\Models\\BuildingLevel.cs",
+              "RelativeToolTip": "WebGame.Server\\Models\\BuildingLevel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T14:54:22.945Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Building.cs",
+              "DocumentMoniker": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\Models\\Building.cs",
+              "RelativeDocumentMoniker": "WebGame.Server\\Models\\Building.cs",
+              "ToolTip": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\Models\\Building.cs",
+              "RelativeToolTip": "WebGame.Server\\Models\\Building.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T14:47:46.918Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Resource.cs",
+              "DocumentMoniker": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\Models\\Resource.cs",
+              "RelativeDocumentMoniker": "WebGame.Server\\Models\\Resource.cs",
+              "ToolTip": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\Models\\Resource.cs",
+              "RelativeToolTip": "WebGame.Server\\Models\\Resource.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-11T14:52:11.604Z",
               "EditorCaption": ""
             }
           ]
