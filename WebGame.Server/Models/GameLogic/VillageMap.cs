@@ -5,35 +5,23 @@ namespace WebGame.Server.Models
         public int[,] BuildingLayer { get; private set; }
         public int[,] GroundLayer { get; private set; }
         public int[,] OccupiedAreasLayer { get; private set; }
+        public int FreeSpace { get; private set; }
 
-        public VillageMap(string buildingLayerPath, string groundLayerPath, string occupiedAreasLayerPath)
+        public VillageMap(int[,] _buildingLayer, int[,] _groundLayer)
         {
-            BuildingLayer = LoadLayerFromCsv(buildingLayerPath);
-            GroundLayer = LoadLayerFromCsv(groundLayerPath);
-            OccupiedAreasLayer = LoadLayerFromCsv(occupiedAreasLayerPath);
+            BuildingLayer = _buildingLayer;
+            GroundLayer = _groundLayer;
+            OccupiedAreasLayer = CalculateOccupiedAreasLayer(); // WIP
+            FreeSpace = CalculateFreeSpace(); // WIP
         }
 
-        private int[,] LoadLayerFromCsv(string path)
+        private int CalculateFreeSpace()
         {
-            // load csv
-            string[] lines = File.ReadAllLines(path);
-            int height = lines.Length;
-            int width = lines[0].Split(",").Length;
-
-            int[,] layer = new int[width, height];
-
-            for (int row = 0; row < height; row++) // y axes
-            {
-                string[] values = lines[row].Split(',');
-                if (values.Length != width) throw new Exception($"Row {row} is not {width} long. Fix row lenght inconsistency in CSV file.");
-
-                for (int col = 0; col < width; col++) // x axes
-                {
-                    layer[col, row] = int.Parse(values[col]);
-                }
-            }
-
-            return layer;
+            return 0; // WIP
+        }
+        private int[,] CalculateOccupiedAreasLayer()
+        {
+            return new int[GroundLayer.GetLength(0), GroundLayer.GetLength(1)]; // WIP
         }
 
         private bool CanPlaceBuilding(int topLeftX, int topLeftY, int width, int height)
