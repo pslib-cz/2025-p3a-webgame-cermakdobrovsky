@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebGame.Server.Data;
 
 namespace WebGame.Server.Controllers
 {
@@ -6,6 +7,11 @@ namespace WebGame.Server.Controllers
     [Route("api/[controller]")]
     public class MapController : ControllerBase
     {
+        private readonly GameDbContext _context;
+        public MapController(GameDbContext context)
+        {
+            _context = context;
+        }
         [HttpGet("ground")]
         public IActionResult Get()
         {
