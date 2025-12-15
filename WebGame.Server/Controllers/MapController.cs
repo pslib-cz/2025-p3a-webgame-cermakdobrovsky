@@ -12,19 +12,17 @@ namespace WebGame.Server.Controllers
         {
             _context = context;
         }
-        [HttpGet("ground")]
-        public IActionResult Get()
+        [HttpGet("map/ground")]
+        public async Task<IActionResult> Get()
         {
             return Ok(new { message = "API: Ground" });
         }
-
-        [HttpGet("bouldings")]
+        [HttpGet("map/bouldings")]
         public IActionResult Get()
         {
             return Ok(new { message = "API: Buildings" });
         }
-
-        [HttpGet("occupied")]
+        [HttpGet("map/occupied")]
         public IActionResult Get()
         {
             return Ok(new { message = "API: occupied" });

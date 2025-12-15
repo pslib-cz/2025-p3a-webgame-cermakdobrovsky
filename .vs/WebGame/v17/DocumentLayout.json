@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|c:\\users\\bohus\\desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\webgame.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|solutionrelative:webgame.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|c:\\users\\bohus\\desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\webgame.server\\models\\buildinglevel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|solutionrelative:webgame.server\\models\\buildinglevel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|c:\\users\\bohus\\desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\webgame.server\\controllers\\mapcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|solutionrelative:webgame.server\\controllers\\mapcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|c:\\users\\bohus\\desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\webgame.server\\data\\gamedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|solutionrelative:webgame.server\\data\\gamedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|c:\\users\\bohus\\desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\webgame.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6D0CAED-0F67-4280-AC8A-CFD3947F696B}|WebGame.Server\\WebGame.Server.csproj|solutionrelative:webgame.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,6 +27,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "BuildingLevel.cs",
+              "DocumentMoniker": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\Models\\BuildingLevel.cs",
+              "RelativeDocumentMoniker": "WebGame.Server\\Models\\BuildingLevel.cs",
+              "ToolTip": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\Models\\BuildingLevel.cs",
+              "RelativeToolTip": "WebGame.Server\\Models\\BuildingLevel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T12:47:01.098Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\Program.cs",
               "RelativeDocumentMoniker": "WebGame.Server\\Program.cs",
@@ -45,22 +58,9 @@
               "RelativeDocumentMoniker": "WebGame.Server\\Controllers\\MapController.cs",
               "ToolTip": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\Controllers\\MapController.cs",
               "RelativeToolTip": "WebGame.Server\\Controllers\\MapController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-15T12:21:26.744Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "GameDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\Data\\GameDbContext.cs",
-              "RelativeDocumentMoniker": "WebGame.Server\\Data\\GameDbContext.cs",
-              "ToolTip": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\Data\\GameDbContext.cs",
-              "RelativeToolTip": "WebGame.Server\\Data\\GameDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-15T12:17:24.307Z",
               "EditorCaption": ""
             }
           ]
