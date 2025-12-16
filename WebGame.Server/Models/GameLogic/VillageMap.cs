@@ -5,20 +5,21 @@ namespace WebGame.Server.Models
         public Building?[,] BuildingLayer { get; private set; }
         public Tile?[,] GroundLayer { get; private set; }
         public bool[,] OccupiedAreasLayer { get; private set; }
-        public int FreeSpace { 
-            get 
+        public int FreeSpace
+        {
+            get
+            {
+                int freeSpace = 0;
+                for (int x = 0; x < OccupiedAreasLayer.GetLength(0); x++)
                 {
-                    int freeSpace = 0;
-                    for (int x = 0; x < OccupiedAreasLayer.GetLength(0); x++)
+                    for (int y = 0; y < OccupiedAreasLayer.GetLength(1); y++)
                     {
-                        for (int y = 0; y < OccupiedAreasLayer.GetLength(1); y++)
-                        {
-                            if (!OccupiedAreasLayer[x, y]) freeSpace++;
-                        }
+                        if (!OccupiedAreasLayer[x, y]) freeSpace++;
                     }
-                    return freeSpace;
                 }
-         }
+                return freeSpace;
+            }
+        }
 
         public VillageMap(Building?[,] _buildingLayer, Tile?[,] _groundLayer)
         {
@@ -26,9 +27,9 @@ namespace WebGame.Server.Models
             GroundLayer = _groundLayer;
             OccupiedAreasLayer = CalculateOccupiedAreasLayer();
         }
+
         private bool[,] CalculateOccupiedAreasLayer()
-        {   
-            // WIP
+        {
             bool[,] occupiedAreas = new bool[GroundLayer.GetLength(0), GroundLayer.GetLength(1)];
 
             for (int x = 0; x < BuildingLayer.GetLength(0); x++)
@@ -55,7 +56,7 @@ namespace WebGame.Server.Models
                 }
             }
 
-            return occupiedAreas; 
+            return occupiedAreas;
         }
 
         private bool CanPlaceBuilding(int topLeftX, int topLeftY, int width, int height)
