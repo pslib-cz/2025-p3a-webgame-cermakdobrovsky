@@ -1,0 +1,10 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:59447",
+"RedirectUrl": "",
+"LaunchCommand": "npm run dev",
+"WorkingDirectory": "/Users/vitekdobrovsky/coding/school/webgame/WebGame.Server/../webgame.client",
+"MaxTimeoutInSeconds": "120",
+"KeepRunning": "false"
+}
+}
