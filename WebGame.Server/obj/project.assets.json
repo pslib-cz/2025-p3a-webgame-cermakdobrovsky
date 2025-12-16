@@ -3242,31 +3242,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\bohus\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/vitekdobrovsky/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\WebGame.Server.csproj",
+      "projectUniqueName": "/Users/vitekdobrovsky/coding/school/webgame/WebGame.Server/WebGame.Server.csproj",
       "projectName": "WebGame.Server",
-      "projectPath": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\WebGame.Server.csproj",
-      "packagesPath": "C:\\Users\\bohus\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\obj\\",
+      "projectPath": "/Users/vitekdobrovsky/coding/school/webgame/WebGame.Server/WebGame.Server.csproj",
+      "packagesPath": "/Users/vitekdobrovsky/.nuget/packages/",
+      "outputPath": "/Users/vitekdobrovsky/coding/school/webgame/WebGame.Server/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\bohus\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/vitekdobrovsky/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3285,7 +3278,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.200"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net9.0": {
@@ -3337,7 +3330,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.308/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
