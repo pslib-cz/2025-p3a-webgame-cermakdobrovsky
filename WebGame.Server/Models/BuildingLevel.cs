@@ -7,8 +7,6 @@ namespace WebGame.Server.Models
     public class BuildingLevel
     {
         public int BuildingId { get; set; }
-        [ForeignKey(nameof(BuildingId))]
-        public Building Building { get; set; } = null!;
         public int Level { get; set; }
         public int UpgradeCost { get; set; }
         public int ResourceGain { get; set; }

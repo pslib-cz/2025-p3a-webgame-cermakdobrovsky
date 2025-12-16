@@ -10,6 +10,5 @@ namespace WebGame.Server.Models
         public int ResourceId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public List<Building> Buildings { get; set; } = new List<Building>();
     }
 }
