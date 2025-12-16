@@ -12,7 +12,7 @@ namespace WebGame.Server.Models
         public string Description { get; set; } = string.Empty;
         public int ResourceId { get; set; }
         [ForeignKey(nameof(ResourceId))]
-        public Resource Resource { get; set; } = null!;
+        public Resource? Resource { get; set; }
         public bool IsTownHall { get; set; } = false;
         public int InitialCost { get; set; }
         public int Height { get; set; }
