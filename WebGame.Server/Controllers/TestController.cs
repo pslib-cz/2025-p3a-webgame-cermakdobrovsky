@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebGame.Server.Data;
 using WebGame.Server.Models;
 
@@ -18,7 +19,7 @@ namespace WebGame.Server.Controllers
         [HttpGet("buildings")]
         public IActionResult GetBuildings()
         {
-            Building[] buildings = _dbc.Buldings.ToArray();   
+            Building[] buildings = _dbc.Buldings.Include(b => b.Levels).ToArray();   
             if (buildings == null || buildings.Length == 0) return NotFound("No buildings found.");
             return Ok(buildings);
         }
@@ -39,5 +40,19 @@ namespace WebGame.Server.Controllers
             return Ok(resources);
         }
 
+
+        [HttpGet("maps")]
+        public IActionResult GetMaps()
+        {
+            Map[] maps = _dbc.Maps
+                .Include(m => m.Tiles)
+                    .ThenInclude(mt => mt.Tile)
+                .Include(m => m.Buildings)
+                    .ThenInclude(mb => mb.Building)
+                .ToArray();
+
+            if (maps == null || maps.Length == 0) return NotFound("No maps found.");
+            return Ok(maps);
+        }
     }
 }

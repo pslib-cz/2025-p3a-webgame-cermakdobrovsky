@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebGame.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ae63751dd1693fd3dfc366a1458e2bc6bbcb41ee")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+df8a23fc3d8d45c1e077a915a311eafcb5807fe1")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebGame.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebGame.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

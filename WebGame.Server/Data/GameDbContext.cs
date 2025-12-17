@@ -57,11 +57,27 @@ namespace WebGame.Server.Data
             modelBuilder.Entity<BuildingLevel>().HasData(levels);
         }
 
+        private void SeedDefaultMaps(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Map>().HasData(
+                new Map { MapId = 1, Title = "Default ground layer" },
+                new Map { MapId = 2, Title = "Default building layer" }
+            );
+
+            // buildings
+            modelBuilder.Entity<MapBuilding>().HasData(
+                new MapBuilding { BuildingId = 1, MapId = 2, TopLeftX = 5, TopLeftY = 5 }
+            );
+
+            // tiles
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SeedResources(modelBuilder);
             SeedBuildings(modelBuilder);
             SeedBuildingLevels(modelBuilder);
+            SeedDefaultMaps(modelBuilder);
         }
     }
 }
