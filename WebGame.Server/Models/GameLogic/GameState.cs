@@ -6,14 +6,16 @@ namespace WebGame.Server.Models
         public int Sheep { get; set; }
         public int Population { get; set; }
         public DateTime LastUpdated { get; set; }
-        // public VillageMap Map = new VillageMap();
+        public VillageMap Map { get; set; }
 
-        public GameState(Guid _playerId, DateTime _lastUpdated)
+        public GameState(Guid _playerId, Building?[,] _initBuildingLayer, Tile?[,] _initGroundLayer)
         {
             PlayerId = _playerId;
-            LastUpdated = _lastUpdated;
             Sheep = 0;
             Population = 1;
+
+            LastUpdated = DateTime.Now;
+            Map = new VillageMap(_initBuildingLayer, _initGroundLayer);
         }
     }
 }
