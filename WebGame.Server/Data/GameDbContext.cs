@@ -8,13 +8,13 @@ namespace WebGame.Server.Data
     public class GameDbContext : DbContext
     {
         public GameDbContext(DbContextOptions<GameDbContext> options) : base(options) { }
-        public DbSet<Building> Bulding { get; set; } = null!;
-        public DbSet<Tile> Tile { get; set; } = null!;
-        public DbSet<Map> Map { get; set; } = null!;
-        public DbSet<MapTile> MapTile { get; set; } = null!;
-        public DbSet<MapBuilding> MapBuilding { get; set; } = null!;
-        public DbSet<BuildingLevel> BuildingLevel { get; set; } = null!;
-        public DbSet<Resource> Resource { get; set; } = null!;
+        public DbSet<Building> Buldings { get; set; } = null!;
+        public DbSet<Tile> Tiles { get; set; } = null!;
+        public DbSet<Map> Maps { get; set; } = null!;
+        public DbSet<MapTile> MapTiles { get; set; } = null!;
+        public DbSet<MapBuilding> MapBuildings { get; set; } = null!;
+        public DbSet<BuildingLevel> BuildingLevels { get; set; } = null!;
+        public DbSet<Resource> Resources { get; set; } = null!;
         
         private void SeedResources(ModelBuilder modelBuilder)
         {

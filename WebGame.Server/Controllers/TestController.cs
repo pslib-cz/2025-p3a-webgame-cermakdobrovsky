@@ -18,7 +18,7 @@ namespace WebGame.Server.Controllers
         [HttpGet("buildings")]
         public IActionResult GetBuildings()
         {
-            Building[] buildings = _dbc.Bulding.ToArray();   
+            Building[] buildings = _dbc.Buldings.ToArray();   
             if (buildings == null || buildings.Length == 0) return NotFound("No buildings found.");
             return Ok(buildings);
         }
@@ -26,7 +26,7 @@ namespace WebGame.Server.Controllers
         [HttpGet("levels")]
         public IActionResult GetLevels()
         {
-            BuildingLevel[] levels = _dbc.BuildingLevel.ToArray();
+            BuildingLevel[] levels = _dbc.BuildingLevels.ToArray();
             if (levels == null || levels.Length == 0) return NotFound("No building levels found.");
             return Ok(levels);
         }
@@ -34,7 +34,7 @@ namespace WebGame.Server.Controllers
         [HttpGet("resources")]
         public IActionResult GetResources()
         {
-            Resource[] resources = _dbc.Resource.ToArray();
+            Resource[] resources = _dbc.Resources.ToArray();
             if (resources == null || resources.Length == 0) return NotFound("No resources found.");
             return Ok(resources);
         }
