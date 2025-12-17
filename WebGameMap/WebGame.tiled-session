@@ -8,8 +8,8 @@
             "scale": 0.125,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 1816,
-                "y": 1476
+                "x": 1820,
+                "y": 1484
             }
         },
         "WebGame.tmx#TileMap-1": {
@@ -21,7 +21,9 @@
             "scaleInEditor": 1
         }
     },
+    "last.exportedFilePath": "/Users/vitekdobrovsky/Downloads",
     "last.imagePath": "C:/Users/bohus/Desktop/WebGameMap",
+    "map.lastUsedExportFilter": "All Files (*)",
     "openFiles": [
         "WebGame.tmx"
     ],
