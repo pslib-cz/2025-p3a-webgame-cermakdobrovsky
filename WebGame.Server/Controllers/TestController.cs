@@ -23,6 +23,14 @@ namespace WebGame.Server.Controllers
             return Ok(buildings);
         }
 
+        [HttpGet("levels")]
+        public IActionResult GetLevels()
+        {
+            BuildingLevel[] levels = _dbc.BuildingLevel.ToArray();
+            if (levels == null || levels.Length == 0) return NotFound("No building levels found.");
+            return Ok(levels);
+        }
+
         [HttpGet("resources")]
         public IActionResult GetResources()
         {

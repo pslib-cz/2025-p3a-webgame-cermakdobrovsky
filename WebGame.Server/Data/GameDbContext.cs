@@ -11,8 +11,7 @@ namespace WebGame.Server.Data
         public DbSet<Building> Bulding { get; set; } = null!;
         public DbSet<BuildingLevel> BuildingLevel { get; set; } = null!;
         public DbSet<Resource> Resource { get; set; } = null!;
-
-
+        
         private void SeedResources(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Resource>().HasData(
@@ -34,10 +33,31 @@ namespace WebGame.Server.Data
             );
         }
 
+        private void SeedBuildingLevels(ModelBuilder modelBuilder)
+        {
+            var levels = new List<BuildingLevel>();
+            for (int bId = 1; bId <= 6; bId++)
+            {
+                for (int level = 1; level <= 10; level++)
+                {
+                    levels.Add(new BuildingLevel
+                    {
+                        BuildingId = bId,
+                        Level = level,
+                        UpgradeCost = level * 100,
+                        ResourceGain = level * 10,
+                        GainIntervalSeconds = 30
+                    });
+                }
+            }
+            modelBuilder.Entity<BuildingLevel>().HasData(levels);
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SeedResources(modelBuilder);
             SeedBuildings(modelBuilder);
+            SeedBuildingLevels(modelBuilder);
         }
     }
 }
