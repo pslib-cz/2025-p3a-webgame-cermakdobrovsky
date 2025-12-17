@@ -9,6 +9,10 @@ namespace WebGame.Server.Data
     {
         public GameDbContext(DbContextOptions<GameDbContext> options) : base(options) { }
         public DbSet<Building> Bulding { get; set; } = null!;
+        public DbSet<Tile> Tile { get; set; } = null!;
+        public DbSet<Map> Map { get; set; } = null!;
+        public DbSet<MapTile> MapTile { get; set; } = null!;
+        public DbSet<MapBuilding> MapBuilding { get; set; } = null!;
         public DbSet<BuildingLevel> BuildingLevel { get; set; } = null!;
         public DbSet<Resource> Resource { get; set; } = null!;
         
