@@ -6,6 +6,6 @@ namespace WebGame.Server.Models
     {
         [Key]
         public int TileId { get; set; }
-        public bool IsPlaceable { get; set; } = false;
+        public bool IsPlacable { get; set; } = false;
     }
 }

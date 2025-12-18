@@ -24,6 +24,14 @@ namespace WebGame.Server.Controllers
             return Ok(buildings);
         }
 
+        [HttpGet("tiles")]
+        public IActionResult GetTiles()
+        {
+            Tile[] tiles = _dbc.Tiles.ToArray();   
+            if (tiles == null || tiles.Length == 0) return NotFound("No tiles found.");
+            return Ok(tiles);
+        }
+
         [HttpGet("levels")]
         public IActionResult GetLevels()
         {
