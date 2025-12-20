@@ -87,6 +87,28 @@ namespace WebGame.Server.Data
             );
 
             // tiles
+            List<MapTile> mapTiles = new List<MapTile>();
+            string csvPath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Maps", "testMap.csv");
+            string[] csvLines = System.IO.File.ReadAllLines(csvPath);
+            for (int y = 0; y < csvLines.Length; y++)
+            {
+                string[] tileIds = csvLines[y].Split(',');
+                for (int x = 0; x < tileIds.Length; x++)
+                {
+                    if (int.TryParse(tileIds[x], out int tileId))
+                    {
+                        if (tileId == -1) continue; // skip empty tiles
+                        mapTiles.Add(new MapTile
+                        {   
+                            TileId = tileId,
+                            MapId = 1,
+                            X = x,
+                            Y = y
+                        }); 
+                    }
+                }
+            }
+            modelBuilder.Entity<MapTile>().HasData(mapTiles);
         }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)

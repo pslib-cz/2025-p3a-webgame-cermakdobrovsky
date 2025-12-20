@@ -62,5 +62,16 @@ namespace WebGame.Server.Controllers
             if (maps == null || maps.Length == 0) return NotFound("No maps found.");
             return Ok(maps);
         }
+
+        [HttpGet("mapTiles")]
+        public IActionResult GetMapTiles()
+        {
+            MapTile[] mapTiles = _dbc.MapTiles
+                .Include(mt => mt.Tile)
+                .ToArray();
+
+            if (mapTiles == null || mapTiles.Length == 0) return NotFound("No map tiles found.");
+            return Ok(mapTiles);
+        }
     }
 }
