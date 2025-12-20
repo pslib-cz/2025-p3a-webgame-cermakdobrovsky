@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebGame.Server.Models
 {
-    [PrimaryKey(nameof(BuildingId), nameof(MapId))]
+    [PrimaryKey(nameof(BuildingId), nameof(MapId), nameof(TopLeftX), nameof(TopLeftY))]
     public class MapBuilding
     {
         public int BuildingId { get; set; }
