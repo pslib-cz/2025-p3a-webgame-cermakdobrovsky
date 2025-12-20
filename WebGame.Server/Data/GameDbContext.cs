@@ -86,10 +86,12 @@ namespace WebGame.Server.Data
                 new MapBuilding { BuildingId = 1, MapId = 2, TopLeftX = 5, TopLeftY = 5 }
             );
 
-            // tiles
+            // tiles - load from csv
             List<MapTile> mapTiles = new List<MapTile>();
+
             string csvPath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Maps", "testMap.csv");
             string[] csvLines = System.IO.File.ReadAllLines(csvPath);
+
             for (int y = 0; y < csvLines.Length; y++)
             {
                 string[] tileIds = csvLines[y].Split(',');
@@ -108,6 +110,7 @@ namespace WebGame.Server.Data
                     }
                 }
             }
+
             modelBuilder.Entity<MapTile>().HasData(mapTiles);
         }
         
