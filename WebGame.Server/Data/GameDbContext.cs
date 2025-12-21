@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebGame.Server.Models;
-using System.ComponentModel;
-using System.Xml.Serialization;
+using WebGame.Server.Utils;
 
 namespace WebGame.Server.Data
 {
@@ -88,28 +87,22 @@ namespace WebGame.Server.Data
 
             // tiles - load from csv
             List<MapTile> mapTiles = new List<MapTile>();
-
             string csvPath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Maps", "testMap.csv");
-            string[] csvLines = System.IO.File.ReadAllLines(csvPath);
 
-            for (int y = 0; y < csvLines.Length; y++)
+            CsvParser.RunForEachValue(csvPath, (value, x, y) =>
             {
-                string[] tileIds = csvLines[y].Split(',');
-                for (int x = 0; x < tileIds.Length; x++)
+                if (int.TryParse(value, out int tileId))
                 {
-                    if (int.TryParse(tileIds[x], out int tileId))
+                    if (tileId == -1) return; // skip empty tiles
+                    mapTiles.Add(new MapTile
                     {
-                        if (tileId == -1) continue; // skip empty tiles
-                        mapTiles.Add(new MapTile
-                        {   
-                            TileId = tileId,
-                            MapId = 1,
-                            X = x,
-                            Y = y
-                        }); 
-                    }
+                        TileId = tileId,
+                        MapId = 1,
+                        X = x,
+                        Y = y
+                    });
                 }
-            }
+            }); 
 
             modelBuilder.Entity<MapTile>().HasData(mapTiles);
         }
