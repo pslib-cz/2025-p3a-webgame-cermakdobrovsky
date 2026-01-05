@@ -15,7 +15,6 @@ namespace WebGame.Server.Data
         public DbSet<MapBuilding> MapBuildings { get; set; } = null!;
         public DbSet<BuildingLevel> BuildingLevels { get; set; } = null!;
         public DbSet<Resource> Resources { get; set; } = null!;
-
         // Data
         private void SeedResources(ModelBuilder modelBuilder)
         {
@@ -28,12 +27,12 @@ namespace WebGame.Server.Data
         private void SeedBuildings(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Building>().HasData(
-              new Building { BuildingId = 1, Name = "Radnice", Description = "Popis radnice", IsTownHall = true, Width = 10, Height = 7, ResourceId = 2},
-              new Building { BuildingId = 2, Name = "Domek", Description = "Popis domu", Width = 4, Height = 6, InitialCost = 90, ResourceId = 2 },
-              new Building { BuildingId = 3, Name = "Kostel", Description = "Popis kostelu", Width = 6, Height = 9, InitialCost = 100, ResourceId = 2 },
-              new Building { BuildingId = 4, Name = "Střelnice", Description = "Popis střelnice", Width = 6, Height = 7, InitialCost = 110, ResourceId = 3 },
-              new Building { BuildingId = 5, Name = "Zbrojírna", Description = "Popis zbrojírny", Width = 6, Height = 7, InitialCost = 120, ResourceId = 3 },
-              new Building { BuildingId = 6, Name = "Věž", Description = "Popis věže", Width = 4, Height = 7, InitialCost = 130, ResourceId = 3 }
+                new Building { BuildingId = 1, Name = "Radnice", Description = "Popis radnice", IsTownHall = true, Width = 10, Height = 7, ResourceId = 2},
+                new Building { BuildingId = 2, Name = "Domek", Description = "Popis domu", Width = 4, Height = 6, InitialCost = 90, ResourceId = 2 },
+                new Building { BuildingId = 3, Name = "Kostel", Description = "Popis kostelu", Width = 6, Height = 9, InitialCost = 100, ResourceId = 2 },
+                new Building { BuildingId = 4, Name = "Střelnice", Description = "Popis střelnice", Width = 6, Height = 7, InitialCost = 110, ResourceId = 3 },
+                new Building { BuildingId = 5, Name = "Zbrojírna", Description = "Popis zbrojírny", Width = 6, Height = 7, InitialCost = 120, ResourceId = 3 },
+                new Building { BuildingId = 6, Name = "Věž", Description = "Popis věže", Width = 4, Height = 7, InitialCost = 130, ResourceId = 3 }
             );
         }
         private void SeedTiles(ModelBuilder modelBuilder)
@@ -79,21 +78,16 @@ namespace WebGame.Server.Data
                 new Map { MapId = 1, Title = "Default ground layer" },
                 new Map { MapId = 2, Title = "Default building layer" }
             );
-
-            // buildings
             modelBuilder.Entity<MapBuilding>().HasData(
                 new MapBuilding { BuildingId = 1, MapId = 2, TopLeftX = 5, TopLeftY = 5 }
             );
-
-            // tiles - load from csv
             List<MapTile> mapTiles = new List<MapTile>();
             string csvPath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Maps", "testMap.csv");
-
-            CsvParser.RunForEachValue(csvPath, (value, x, y) =>
+            ReadCsv.RunForEachValue(csvPath, (value, x, y) =>
             {
                 if (int.TryParse(value, out int tileId))
                 {
-                    if (tileId == -1) return; // skip empty tiles
+                    if (tileId == -1) return;
                     mapTiles.Add(new MapTile
                     {
                         TileId = tileId,
@@ -103,10 +97,8 @@ namespace WebGame.Server.Data
                     });
                 }
             }); 
-
             modelBuilder.Entity<MapTile>().HasData(mapTiles);
         }
-        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SeedResources(modelBuilder);
