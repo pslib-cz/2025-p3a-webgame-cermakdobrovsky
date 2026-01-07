@@ -49,7 +49,7 @@ namespace WebGame.Server.Data
                 tiles.Add(new Tile
                 {
                     TileId = id,
-                    IsPlacable = !nonPlacableTiles.Contains(id)
+                    IsPlaceable = !nonPlacableTiles.Contains(id)
                 });
             }
             modelBuilder.Entity<Tile>().HasData(tiles);
