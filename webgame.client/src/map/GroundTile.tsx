@@ -1,4 +1,4 @@
-import type { Tile } from "../../types/mapModels";
+import type { Tile } from "../../types";
 
 type GroundTileProps = {
   tile: Tile;
