@@ -49,7 +49,7 @@ namespace WebGame.Server.Models
                 for (int y = 0; y < GroundLayer.GetLength(1); y++)
                 {
                     Tile? tile = GroundLayer[x, y];
-                    if (tile != null && !tile.IsPlacable)
+                    if (tile != null && !tile.IsPlaceable)
                     {
                         occupiedAreas[x, y] = true;
                     }
