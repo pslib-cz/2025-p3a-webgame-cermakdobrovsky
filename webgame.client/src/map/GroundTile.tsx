@@ -1,5 +1,17 @@
+import type { Tile } from "../../types/mapModels";
+
 type GroundTileProps = {
-  imageUrl: string;
+  tile: Tile;
 };
 
-export const GroundTile: React.FC<GroundTileProps> = ({ imageUrl }) => {};
+const GroundTile: React.FC<GroundTileProps> = ({ tile }) => {
+  return (
+    <div>
+      <p>tileId: {tile.TileId}</p>
+      <p>isPlaceable: {tile.IsPlaceable ? "true" : "false"}</p>
+      <p>imageUrl: {tile.ImageUrl}</p>
+    </div>
+  );
+};
+
+export default GroundTile;
