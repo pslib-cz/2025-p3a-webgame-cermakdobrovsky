@@ -6,7 +6,7 @@ namespace WebGame.Server.Models
     {
         [Key]
         public int TileId { get; set; }
-        public bool IsPlacable { get; set; } = false;
-        public string imageUrl => $"/images/tiles/{TileId}.png";
+        public bool IsPlaceable { get; set; } = false;
+        public string ImageUrl => $"/images/tiles/{TileId}.png";
     }
 }
