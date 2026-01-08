@@ -1,5 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using WebGame.Server.Data;
 using WebGame.Server.Models;
 
@@ -7,31 +8,35 @@ namespace WebGame.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TestController : ControllerBase
+    public class MapController : ControllerBase
     {
         private readonly GameDbContext _dbc;
-
-        public TestController(GameDbContext context)
+        public MapController(GameDbContext context)
         {
             _dbc = context;
         }
-
+        //EndPoints
         [HttpGet("buildings")]
-        public IActionResult GetBuildings()
+        public async Task<ActionResult<IEnumerable<Building>>> GetBuildings()
         {
-            Building[] buildings = _dbc.Buldings.Include(b => b.Levels).ToArray();   
-            if (buildings == null || buildings.Length == 0) return NotFound("No buildings found.");
+            var buildings = await _dbc.Buildings.Include(b => b.Levels).ToListAsync();
+            if (buildings == null || buildings.Count == 0) return NotFound("No buildings found.");
             return Ok(buildings);
         }
-
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Building>>> GetBuildingsByLevel([FromQuery] int level)
+        {
+            var buildings = await _dbc.Buildings.Include(b => b.Levels).Where(b => b.Levels.Any(l => l.Level == level)).ToListAsync();
+            if (buildings.Count == 0) return NotFound("No buildings for this level.");
+            return Ok(buildings);
+        }
         [HttpGet("tiles")]
         public IActionResult GetTiles()
         {
-            Tile[] tiles = _dbc.Tiles.ToArray();   
+            Tile[] tiles = _dbc.Tiles.ToArray();
             if (tiles == null || tiles.Length == 0) return NotFound("No tiles found.");
             return Ok(tiles);
         }
-
         [HttpGet("levels")]
         public IActionResult GetLevels()
         {
@@ -39,7 +44,6 @@ namespace WebGame.Server.Controllers
             if (levels == null || levels.Length == 0) return NotFound("No building levels found.");
             return Ok(levels);
         }
-
         [HttpGet("resources")]
         public IActionResult GetResources()
         {
@@ -47,9 +51,7 @@ namespace WebGame.Server.Controllers
             if (resources == null || resources.Length == 0) return NotFound("No resources found.");
             return Ok(resources);
         }
-
-
-        [HttpGet("maps")]
+        [HttpGet("map")]
         public IActionResult GetMaps()
         {
             Map[] maps = _dbc.Maps
@@ -61,17 +63,6 @@ namespace WebGame.Server.Controllers
 
             if (maps == null || maps.Length == 0) return NotFound("No maps found.");
             return Ok(maps);
-        }
-
-        [HttpGet("mapTiles")]
-        public IActionResult GetMapTiles()
-        {
-            MapTile[] mapTiles = _dbc.MapTiles
-                .Include(mt => mt.Tile)
-                .ToArray();
-
-            if (mapTiles == null || mapTiles.Length == 0) return NotFound("No map tiles found.");
-            return Ok(mapTiles);
         }
     }
 }

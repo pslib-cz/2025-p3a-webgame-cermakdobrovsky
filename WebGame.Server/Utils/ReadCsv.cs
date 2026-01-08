@@ -1,6 +1,6 @@
 namespace WebGame.Server.Utils
 {
-    public static class CsvParser
+    public static class ReadCsv
     {
         public delegate void ValueAction(string value, int x, int y);   
         public static void RunForEachValue(string path, ValueAction action)
