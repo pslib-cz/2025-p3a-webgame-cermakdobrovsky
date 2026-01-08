@@ -9,10 +9,6 @@ namespace WebGame.Server.Controllers
     [Route("api/[controller]")]
     public class GameController : ControllerBase
     {
-        private readonly GameDbContext _dbc;
-        public GameController(GameDbContext context)
-        {
-            _dbc = context;
-        }
+        //Setup - localStorage
     }
 }

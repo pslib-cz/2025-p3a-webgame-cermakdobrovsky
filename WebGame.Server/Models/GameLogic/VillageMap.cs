@@ -20,14 +20,12 @@ namespace WebGame.Server.Models
                 return freeSpace;
             }
         }
-
         public VillageMap(Building?[,] _buildingLayer, Tile?[,] _groundLayer)
         {
             BuildingLayer = _buildingLayer;
             GroundLayer = _groundLayer;
             OccupiedAreasLayer = CalculateOccupiedAreasLayer();
         }
-
         private bool[,] CalculateOccupiedAreasLayer()
         {
             bool[,] occupiedAreas = new bool[GroundLayer.GetLength(0), GroundLayer.GetLength(1)];
@@ -58,7 +56,6 @@ namespace WebGame.Server.Models
 
             return occupiedAreas;
         }
-
         private bool CanPlaceBuilding(int topLeftX, int topLeftY, int width, int height)
         {
             for (int x = topLeftX; x < topLeftX + width; x++)
@@ -75,7 +72,6 @@ namespace WebGame.Server.Models
 
             return true;
         }
-
         private T[,] WriteRectTo2dArray<T>(T[,] array, int topLeftX, int topLeftY, int width, int height, T value)
         {
             for (int x = topLeftX; x < topLeftX + width; x++)
@@ -87,7 +83,6 @@ namespace WebGame.Server.Models
             }
             return array;
         }
-
         public void PlaceBuilding(MapBuilding building)
         {
             if (!CanPlaceBuilding(building.TopLeftX, building.TopLeftY, building.Building.Width, building.Building.Height)) throw new Exception("Building cannot be placed here.");
@@ -95,7 +90,6 @@ namespace WebGame.Server.Models
             BuildingLayer[building.TopLeftX, building.TopLeftY] = building.Building;
             OccupiedAreasLayer = WriteRectTo2dArray(OccupiedAreasLayer, building.TopLeftX, building.TopLeftY, building.Building.Width, building.Building.Height, true);
         }
-
         public void DestroyBuilding(MapBuilding building)
         {
             if (BuildingLayer[building.TopLeftX, building.TopLeftY] == null) throw new Exception($"No building exists on x: {building.TopLeftX} and y: {building.TopLeftY}");
