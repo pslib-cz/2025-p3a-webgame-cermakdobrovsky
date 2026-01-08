@@ -9,7 +9,6 @@ const App = () => {
       .then((response) => response.json())
       .then((data) => setMaps(data));
   }, []);
-
   return (
     <div>
       <h1>Maps</h1>
@@ -17,5 +16,4 @@ const App = () => {
     </div>
   );
 };
-
 export default App;

@@ -9,9 +9,6 @@ namespace WebGame.Server
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
-
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowFrontend", policy =>
@@ -21,7 +18,6 @@ namespace WebGame.Server
                           .AllowAnyMethod();
                 });
             });
-
             builder.Services.AddControllers();
             builder.Services.AddOpenApi();
             builder.Services.AddDbContext<GameDbContext>(options =>
@@ -34,9 +30,7 @@ namespace WebGame.Server
                 app.MapScalarApiReference();
             }
             app.UseHttpsRedirection();
-
             app.UseCors("AllowFrontend");
-
             app.UseAuthorization();
             app.MapControllers();
             app.Run();
