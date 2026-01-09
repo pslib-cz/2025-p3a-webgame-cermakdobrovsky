@@ -30,7 +30,7 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ map, tileSize = 64 }) => {
   }, []);
 
   return (
-    <div ref={containerRef} style={{ width: "100dvw", height: "100dvh", cursor: "grab" }}>
+    <div ref={containerRef} style={{ width: "100dvw", height: "100dvh", cursor: "grab", backgroundColor: "#47ABA9" }}>
       <Stage ref={stageRef} width={stageSize.width} height={stageSize.height} draggable>
         <Layer>
           {map.tiles.map((tile, index) => (
