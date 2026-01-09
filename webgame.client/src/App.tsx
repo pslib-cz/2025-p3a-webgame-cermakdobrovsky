@@ -1,14 +1,12 @@
-import { useState, useEffect } from "react";
+import { use, useState } from "react";
 import type { Map } from "./../types/mapModels";
 
+const mapsPromise = fetch("/api/test/maps").then(res => res.json());
 const App = () => {
-  const [maps, setMaps] = useState<Map[]>([]);
+  //Hooks
+  const initialMaps = use<Map[]>(mapsPromise);
+  const [maps, setMaps] = useState<Map[]>(initialMaps);
 
-  useEffect(() => {
-    fetch("/api/test/maps")
-      .then((response) => response.json())
-      .then((data) => setMaps(data));
-  }, []);
   return (
     <div>
       <h1>Maps</h1>
