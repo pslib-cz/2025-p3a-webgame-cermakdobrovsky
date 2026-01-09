@@ -1,6 +1,7 @@
 import { use, useState } from "react";
 import type { Map } from "./../types/mapModels";
 import MapCanvas from "./map/MapCanvas";
+import "./global.css";
 
 const mapsPromise = fetch("/api/test/maps").then(res => res.json());
 const App = () => {
