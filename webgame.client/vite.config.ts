@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import path from "path/win32";
 
 export default defineConfig({
   plugins: [react()],
@@ -9,7 +10,12 @@ export default defineConfig({
         target: "http://localhost:5125",
         changeOrigin: true,
         secure: false,
-      },
-    },
+      }
+    }
   },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src")
+    }
+  }
 });
