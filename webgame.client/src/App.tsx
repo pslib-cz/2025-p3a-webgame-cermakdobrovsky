@@ -13,5 +13,4 @@ const App = () => {
 
   return <>{maps.length > 0 && <MapCanvas map={maps[0]} tileSize={64} />}</>;
 };
-
 export default App;
