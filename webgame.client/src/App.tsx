@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Map } from "./../types/mapModels";
 import MapCanvas from "./map/MapCanvas";
+import "./global.css";
 
 const App = () => {
   const [maps, setMaps] = useState<Map[]>([]);
