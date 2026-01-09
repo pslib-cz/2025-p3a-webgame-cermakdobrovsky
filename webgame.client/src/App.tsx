@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import type { Map } from "./../types/mapModels";
+import MapCanvas from "./map/MapCanvas";
 
 const App = () => {
   const [maps, setMaps] = useState<Map[]>([]);
@@ -10,12 +11,7 @@ const App = () => {
       .then((data) => setMaps(data));
   }, []);
 
-  return (
-    <div>
-      <h1>Maps</h1>
-      <h2>{JSON.stringify(maps)}</h2>
-    </div>
-  );
+  return <>{maps.length > 0 && <MapCanvas map={maps[0]} tileSize={64} />}</>;
 };
 
 export default App;

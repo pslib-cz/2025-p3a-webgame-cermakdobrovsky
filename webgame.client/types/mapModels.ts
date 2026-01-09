@@ -1,55 +1,55 @@
 export type Tile = {
-  TileId: string;
-  IsPlaceable: boolean;
-  ImageUrl: string;
+  tileId: string;
+  isPlaceable: boolean;
+  imageUrl: string;
 };
 
 export type Building = {
-  BuildingId: number;
-  Name: string;
-  Description: string;
-  ResourceId: number | null;
-  Resource: Resource | null;
-  IsTownHall: boolean;
-  InitialCost: number;
-  Height: number;
-  Width: number;
-  Levels: BuildingLevel[];
+  buildingId: number;
+  name: string;
+  description: string;
+  resourceId: number | null;
+  resource: Resource | null;
+  isTownHall: boolean;
+  initialCost: number;
+  height: number;
+  width: number;
+  levels: BuildingLevel[];
 };
 
 export type BuildingLevel = {
-  BuildingLevelId: number;
-  BuildingId: number;
-  Level: number;
-  ProductionRate: number;
-  UpgradeCost: number;
+  buildingLevelId: number;
+  buildingId: number;
+  level: number;
+  productionRate: number;
+  upgradeCost: number;
 };
 
 export type Resource = {
-  ResourceId: number;
-  Name: string;
-  Description: string;
+  resourceId: number;
+  name: string;
+  description: string;
 };
 
 export type MapBuilding = {
-  BuildingId: number;
-  Building: Building;
-  MapId: number;
-  TopLeftX: number;
-  TopLeftY: number;
+  buildingId: number;
+  building: Building;
+  mapId: number;
+  topLeftX: number;
+  topLeftY: number;
 };
 
 export type MapTile = {
-  TileId: number;
-  Tile: Tile;
-  MapId: number;
-  X: number;
-  Y: number;
+  tileId: number;
+  tile: Tile;
+  mapId: number;
+  x: number;
+  y: number;
 };
 
 export type Map = {
-  MapId: number;
-  Title: string;
-  Buildings: MapBuilding[];
-  Tiles: MapTile[];
+  mapId: number;
+  title: string;
+  buildings: MapBuilding[];
+  tiles: MapTile[];
 };
