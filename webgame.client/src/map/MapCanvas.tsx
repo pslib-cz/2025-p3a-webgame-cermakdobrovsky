@@ -41,5 +41,4 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ map, tileSize = 64 }) => {
     </div>
   );
 };
-
 export default MapCanvas;
