@@ -1,16 +1,17 @@
-import { useState, useEffect } from "react";
+import { use, useState } from "react";
 import type { Map } from "./../types/mapModels";
 import MapCanvas from "./map/MapCanvas";
 
+const mapsPromise = fetch("/api/test/maps").then(res => res.json());
 const App = () => {
-  const [maps, setMaps] = useState<Map[]>([]);
+  //Hooks
+  const initialMaps = use<Map[]>(mapsPromise);
+  const [maps, setMaps] = useState<Map[]>(initialMaps);
 
-  useEffect(() => {
-    fetch("/api/test/maps")
-      .then((response) => response.json())
-      .then((data) => setMaps(data));
-  }, []);
-
-  return <>{maps.length > 0 && <MapCanvas map={maps[0]} tileSize={64} />}</>;
+  return (
+    <>
+      {maps.length > 0 && <MapCanvas map={maps[0]} tileSize={64} />}
+    </>
+  )
 };
 export default App;
