@@ -9,7 +9,7 @@ export default defineConfig({
         target: "http://localhost:5125",
         changeOrigin: true,
         secure: false,
-      },
-    },
-  },
+      }
+    }
+  }
 });
