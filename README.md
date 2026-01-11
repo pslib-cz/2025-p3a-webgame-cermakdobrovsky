@@ -1,4 +1,4 @@
-# 🏰 Webová hra | WEB + MPA
+# 🏰 Webová hra | WEB + MPA | ClashOfBrynza
 
 Naše hra je jednoduché **budovatelské RPG** v prohlížeči. Hráč si buduje vlastní vesnici, rozvíjí ji, sbírá suroviny (ovce 🐑) a postupně odemyká nové možnosti.
 
