@@ -56,13 +56,13 @@ namespace WebGame.Server.Models
 
             return occupiedAreas;
         }
-        private bool CanPlaceBuilding(int topLeftX, int topLeftY, int width, int height)
+        private bool CanPlaceBuilding(int bottomLeftX, int bottomLeftY, int width, int height)
         {
-            for (int x = topLeftX; x < topLeftX + width; x++)
+            for (int x = bottomLeftX; x < bottomLeftX + width; x++)
             {
                 if (x > OccupiedAreasLayer.GetLength(0)) return false;
 
-                for (int y = topLeftY; y < topLeftY + height; y++)
+                for (int y = bottomLeftY; y < bottomLeftY + height; y++)
                 {
                     if (y > OccupiedAreasLayer.GetLength(1)) return false;
 
@@ -72,11 +72,11 @@ namespace WebGame.Server.Models
 
             return true;
         }
-        private T[,] WriteRectTo2dArray<T>(T[,] array, int topLeftX, int topLeftY, int width, int height, T value)
+        private T[,] WriteRectTo2dArray<T>(T[,] array, int bottomLeftX, int bottomLeftY, int width, int height, T value)
         {
-            for (int x = topLeftX; x < topLeftX + width; x++)
+            for (int x = bottomLeftX; x < bottomLeftX + width; x++)
             {
-                for (int y = topLeftY; y < topLeftY + height; y++)
+                for (int y = bottomLeftY; y < bottomLeftY + height; y++)
                 {
                     array[x, y] = value;
                 }
@@ -85,17 +85,17 @@ namespace WebGame.Server.Models
         }
         public void PlaceBuilding(MapBuilding building)
         {
-            if (!CanPlaceBuilding(building.TopLeftX, building.TopLeftY, building.Building.Width, building.Building.Height)) throw new Exception("Building cannot be placed here.");
+            if (!CanPlaceBuilding(building.BottomLeftX, building.BottomLeftY, building.Building.Width, building.Building.Height)) throw new Exception("Building cannot be placed here.");
 
-            BuildingLayer[building.TopLeftX, building.TopLeftY] = building.Building;
-            OccupiedAreasLayer = WriteRectTo2dArray(OccupiedAreasLayer, building.TopLeftX, building.TopLeftY, building.Building.Width, building.Building.Height, true);
+            BuildingLayer[building.BottomLeftX, building.BottomLeftY] = building.Building;
+            OccupiedAreasLayer = WriteRectTo2dArray(OccupiedAreasLayer, building.BottomLeftX, building.BottomLeftY, building.Building.Width, building.Building.Height, true);
         }
         public void DestroyBuilding(MapBuilding building)
         {
-            if (BuildingLayer[building.TopLeftX, building.TopLeftY] == null) throw new Exception($"No building exists on x: {building.TopLeftX} and y: {building.TopLeftY}");
+            if (BuildingLayer[building.BottomLeftX, building.BottomLeftY] == null) throw new Exception($"No building exists on x: {building.BottomLeftX} and y: {building.BottomLeftY}");
 
-            BuildingLayer[building.TopLeftX, building.TopLeftY] = null;
-            OccupiedAreasLayer = WriteRectTo2dArray(OccupiedAreasLayer, building.TopLeftX, building.TopLeftY, building.Building.Width, building.Building.Height, false);
+            BuildingLayer[building.BottomLeftX, building.BottomLeftY] = null;
+            OccupiedAreasLayer = WriteRectTo2dArray(OccupiedAreasLayer, building.BottomLeftX, building.BottomLeftY, building.Building.Width, building.Building.Height, false);
         }
     }
 }
