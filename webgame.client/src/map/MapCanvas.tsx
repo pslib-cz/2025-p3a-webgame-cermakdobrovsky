@@ -1,5 +1,5 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
-import TileComponent from "../components/Tile";
+import TileComponent from "../Components/Tile";
 import { Stage, Layer } from "react-konva";
 import type { Map } from "../../types/mapModels";
 
