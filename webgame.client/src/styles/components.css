@@ -19,7 +19,7 @@
     background-color: var(--brown, #D09862);
     outline: 3px solid var(--dark-brown, #805953);
     border: 3px solid var(--dark-brown-accent, #805953);
-    transition: var(--transition, .25s ease-in-out);
+    transition: background-color var(--transition), color var(--transition);
 }
 
 .button--primary:hover {
@@ -30,8 +30,6 @@
 /*button--secondary*/
 
 .button--secondary {
-    margin-left: 10rem;
-    margin-top: 10rem;
     display: flex;
     flex-direction: column;
     gap: .5rem;
@@ -43,6 +41,19 @@
     justify-content: center;
     align-items: center;
     font-size: var(--text-sub, 1.5625rem);
+    transition: transform var(--transition, .25s ease-in-out);
+}
+
+.button--secondary:hover {
+    transform: scale(1.05);
+}
+
+.button--secondary img {
+    transition: transform var(--transition, .25s ease-in-out);
+}
+
+.button--secondary:hover img {
+    transform: scale(.9);
 }
 
 .button--secondary--brown {
@@ -51,4 +62,22 @@
 
 .button--secondary--blue {
     background-color: var(--blue, #4795A7);
+}
+
+/*Resources*/
+
+.resource {
+    display: flex;
+    justify-content: end;
+    border: 5px solid var(--black, #000000);
+    background-color: #BFBFBF;
+    border-radius: .25rem;
+    height: fit-content;
+}
+
+.resource__amount {
+    font-size: var(--text-title, 2.4375rem);
+    margin: 0;
+    color: var(--white, #FFFFFF);
+    margin-left: 2rem;
 }

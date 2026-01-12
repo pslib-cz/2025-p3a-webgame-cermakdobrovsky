@@ -1,12 +1,28 @@
 .page {
     position: relative;
+    overflow: hidden;
 }
 
-.page__button-area {
+.page__resources-area {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    margin-right: 2.5rem;
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.page__buttons-area {
     position: fixed;
     bottom: 0;
     right: 0;
     z-index: 1;
     margin-right: 2.5rem;
     margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
