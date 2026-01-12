@@ -3,10 +3,10 @@ import type { Map } from "./../types/mapModels";
 import MapCanvas from "./map/MapCanvas";
 import "./global.css";
 
-const mapsPromise = fetch("/api/test/maps").then(res => res.json());
+const mapsPromise: Promise<Map[]> = fetch("/api/test/maps").then(res => res.json());
 const App = () => {
   //Hooks
-  const initialMaps = use<Map[]>(mapsPromise);
+  const initialMaps: Map[] = use<Map[]>(mapsPromise);
   const [maps, setMaps] = useState<Map[]>(initialMaps);
 
   return (
