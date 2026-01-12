@@ -15,6 +15,7 @@ export type Building = {
   height: number;
   width: number;
   levels: BuildingLevel[];
+  imageUrl: string;
 };
 
 export type BuildingLevel = {

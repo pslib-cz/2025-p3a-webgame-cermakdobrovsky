@@ -18,5 +18,6 @@ namespace WebGame.Server.Models
         public int Height { get; set; }
         public int Width { get; set; }
         public List<BuildingLevel> Levels { get; set; } = new List<BuildingLevel>();
+        public string ImageUrl => $"/images/buildings/{BuildingId}.png";
     }
 }

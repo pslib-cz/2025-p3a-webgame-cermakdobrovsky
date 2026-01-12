@@ -11,7 +11,7 @@ const App = () => {
 
   return (
     <>
-      {maps.length > 0 && <MapCanvas map={maps[0]} tileSize={54}/>}
+      {maps.length > 0 && <MapCanvas groundMap={maps[0]} buildingsMap={maps[1]} tileSize={54}/>}
     </>
   )
 };
