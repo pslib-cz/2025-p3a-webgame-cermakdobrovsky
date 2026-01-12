@@ -20,8 +20,8 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize }) => {
   return (
     <>
       <Rect
-        x={building.topLeftX * tileSize}
-        y={building.topLeftY * tileSize}
+        x={building.bottomLeftX * tileSize}
+        y={(building.bottomLeftY - building.building.height + 1) * tileSize}
         width={tileSize * building.building.width}
         height={tileSize * building.building.height}
         fillPatternImage={buildingImage}

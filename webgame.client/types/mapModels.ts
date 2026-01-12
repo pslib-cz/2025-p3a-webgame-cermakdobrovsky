@@ -36,8 +36,8 @@ export type MapBuilding = {
   buildingId: number;
   building: Building;
   mapId: number;
-  topLeftX: number;
-  topLeftY: number;
+  bottomLeftX: number;
+  bottomLeftY: number;
 };
 
 export type MapTile = {
