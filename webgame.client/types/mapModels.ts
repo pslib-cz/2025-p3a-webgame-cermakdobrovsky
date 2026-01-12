@@ -40,9 +40,11 @@ export type MapBuilding = {
 };
 
 export type MapTile = {
+  mapTileId: number;
   tileId: number;
   tile: Tile;
   mapId: number;
+  zIndex: number;
   x: number;
   y: number;
 };
