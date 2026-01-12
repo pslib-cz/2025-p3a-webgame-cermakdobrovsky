@@ -10,11 +10,14 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize }) => {
   const [buildingImage] = useImage(building.building.imageUrl);
 
   let scale = 1;
+  let yOffset = 0;
 
   if (buildingImage) {
     const buildingWidth = tileSize * building.building.width;
-    const buildingHeight = tileSize * building.building.height;
-    scale = Math.min(buildingWidth / buildingImage.width, buildingHeight / buildingImage.height);
+    scale = buildingWidth / buildingImage.width;
+
+    yOffset = building.building.height * tileSize - buildingImage.height * scale - (10);
+    yOffset = -yOffset
   }
 
   return (
@@ -26,6 +29,7 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize }) => {
         height={tileSize * building.building.height}
         fillPatternImage={buildingImage}
         fillPatternScale={{ x: scale, y: scale }}
+        fillPatternOffset={{ x: 0, y: yOffset }}
         fillPatternRepeat="no-repeat"
       />
     </>
