@@ -1,0 +1,12 @@
+.page {
+    position: relative;
+}
+
+.page__button-area {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    margin-right: 2.5rem;
+    margin-bottom: 2.5rem;
+}

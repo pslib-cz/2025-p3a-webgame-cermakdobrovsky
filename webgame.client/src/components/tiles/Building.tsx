@@ -1,4 +1,4 @@
-import type { MapBuilding } from "../../types/mapModels";
+import type { MapBuilding } from "../../../types/mapModels";
 import useImage from "use-image";
 import { Rect } from "react-konva";
 
@@ -6,7 +6,6 @@ type buildingProps = {
   building: MapBuilding;
   tileSize: number;
 };
-
 const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize }) => {
   const [buildingImage] = useImage(building.building.imageUrl);
 
@@ -32,5 +31,4 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize }) => {
     </>
   );
 };
-
 export default BuildingComponent;

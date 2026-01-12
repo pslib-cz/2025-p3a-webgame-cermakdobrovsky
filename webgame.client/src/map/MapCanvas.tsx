@@ -1,6 +1,6 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
-import TileComponent from "../Components/Tile";
-import BuildingComponent from "../Components/Building";
+import { Tile } from "../components";
+import { Building } from "../components";
 import { Stage, Layer } from "react-konva";
 import type { Map } from "../../types/mapModels";
 
@@ -28,14 +28,14 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, tileSize
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   return (
-    <div ref={containerRef} style={{ width: "100dvw", height: "100dvh", cursor: "grab" }}>
+    <div ref={containerRef} style={{ width: "100svw", height: "100svh", cursor: "grab" }}>
       <Stage ref={stageRef} width={stageSize.width} height={stageSize.height} draggable>
         <Layer>
           {groundMap.tiles.map((tile, index) => (
-            <TileComponent key={index} tile={tile} tileSize={tileSize} />
+            <Tile key={index} tile={tile} tileSize={tileSize} />
           ))}
           {buildingsMap.buildings.map((building, index) => (
-            <BuildingComponent key={index} building={building} tileSize={tileSize} />
+            <Building key={index} building={building} tileSize={tileSize} />
           ))}
         </Layer>
       </Stage>

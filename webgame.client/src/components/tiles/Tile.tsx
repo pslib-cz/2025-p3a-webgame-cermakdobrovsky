@@ -1,5 +1,5 @@
 import useImage from "use-image";
-import type { MapTile } from "../../types/mapModels";
+import type { MapTile } from "../../../types/mapModels";
 import { Rect, Text } from "react-konva";
 
 type TileProps = {
@@ -52,5 +52,4 @@ const TileComponent: React.FC<TileProps> = ({ tile, tileSize }) => {
     </>
   );
 };
-
 export default TileComponent;
