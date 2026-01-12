@@ -1,6 +1,6 @@
 import useImage from "use-image";
 import type { MapTile } from "../../types/mapModels";
-import { Rect } from "react-konva";
+import { Rect, Text } from "react-konva";
 
 type TileProps = {
   tile: MapTile;
@@ -8,6 +8,7 @@ type TileProps = {
 };
 const TileComponent: React.FC<TileProps> = ({ tile, tileSize }) => {
   const [tileImage] = useImage(tile.tile.imageUrl);
+  const debugMode = false
 
   let scale = 1;
   let offsetX = 0;
@@ -20,16 +21,35 @@ const TileComponent: React.FC<TileProps> = ({ tile, tileSize }) => {
   }
 
   return (
-    <Rect
-      x={tile.x * tileSize}
-      y={tile.y * tileSize}
-      width={tileSize}
-      height={tileSize}
-      fillPatternImage={tileImage}
-      fillPatternScale={{ x: scale, y: scale }}
-      fillPatternOffset={{ x: -offsetX / scale, y: -offsetY / scale }}
-      fillPatternRepeat="no-repeat"
-    />
+    <>
+      <Rect
+        x={tile.x * tileSize}
+        y={tile.y * tileSize}
+        width={tileSize}
+        height={tileSize}
+        fillPatternImage={tileImage}
+        fillPatternScale={{ x: scale, y: scale }}
+        fillPatternOffset={{ x: -offsetX / scale, y: -offsetY / scale }}
+        fillPatternRepeat="no-repeat"
+      />
+      {debugMode && (
+        <Text
+          text={`x: ${tile.x}\ny: ${tile.y}\n${tile.tile.isPlaceable}`}
+          fontSize={12}
+          x={tile.x * tileSize}
+          y={tile.y * tileSize}
+          fill="white"
+          shadowColor="black"
+          shadowBlur={2}
+          padding={5}
+          width={tileSize}
+          align="center"
+          verticalAlign="middle"
+          height={tileSize}
+          listening={false}
+        />
+      )}
+    </>
   );
 };
 

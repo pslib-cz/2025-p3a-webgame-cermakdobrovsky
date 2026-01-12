@@ -78,7 +78,7 @@ namespace WebGame.Server.Data
                 new Map { MapId = 2, Title = "Default building layer" }
             );
             modelBuilder.Entity<MapBuilding>().HasData(
-                new MapBuilding { BuildingId = 1, MapId = 2, TopLeftX = 5, TopLeftY = 5 }
+                new MapBuilding { BuildingId = 1, MapId = 2, TopLeftX = 1, TopLeftY = 13 }
             );
 
             List<MapTile> mapTiles = new List<MapTile>();
