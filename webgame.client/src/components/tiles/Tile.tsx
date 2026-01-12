@@ -1,5 +1,5 @@
 import useImage from "use-image";
-import type { MapTile } from "../../types/mapModels";
+import type { MapTile } from "../../../types/mapModels";
 import { Rect } from "react-konva";
 
 type TileProps = {
