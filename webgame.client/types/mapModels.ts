@@ -15,6 +15,7 @@ export type Building = {
   height: number;
   width: number;
   levels: BuildingLevel[];
+  imageUrl: string;
 };
 
 export type BuildingLevel = {
@@ -40,9 +41,11 @@ export type MapBuilding = {
 };
 
 export type MapTile = {
+  mapTileId: number;
   tileId: number;
   tile: Tile;
   mapId: number;
+  zIndex: number;
   x: number;
   y: number;
 };

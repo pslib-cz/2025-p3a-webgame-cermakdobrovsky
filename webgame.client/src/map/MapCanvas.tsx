@@ -1,13 +1,15 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
 import { Tile } from "../components";
+import { Building } from "../components";
 import { Stage, Layer } from "react-konva";
 import type { Map } from "../../types/mapModels";
 
 type MapCanvasProps = {
-  map: Map;
+  groundMap: Map;
+  buildingsMap: Map;
   tileSize?: number;
 };
-const MapCanvas: React.FC<MapCanvasProps> = ({ map, tileSize = 64 }) => {
+const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, tileSize = 64 }) => {
   const stageRef = useRef(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
@@ -29,8 +31,11 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ map, tileSize = 64 }) => {
     <div ref={containerRef} style={{ width: "100svw", height: "100svh", cursor: "grab" }}>
       <Stage ref={stageRef} width={stageSize.width} height={stageSize.height} draggable>
         <Layer>
-          {map.tiles.map((tile, index) => (
+          {groundMap.tiles.map((tile, index) => (
             <Tile key={index} tile={tile} tileSize={tileSize} />
+          ))}
+          {buildingsMap.buildings.map((building, index) => (
+            <Building key={index} building={building} tileSize={tileSize} />
           ))}
         </Layer>
       </Stage>
