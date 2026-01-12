@@ -78,24 +78,41 @@ namespace WebGame.Server.Data
                 new Map { MapId = 2, Title = "Default building layer" }
             );
             modelBuilder.Entity<MapBuilding>().HasData(
-                new MapBuilding { BuildingId = 1, MapId = 2, TopLeftX = 5, TopLeftY = 5 }
+                new MapBuilding { BuildingId = 1, MapId = 2, TopLeftX = 1, TopLeftY = 13 }
             );
+
             List<MapTile> mapTiles = new List<MapTile>();
-            string csvPath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Maps", "testMap.csv");
-            ReadCsv.RunForEachValue(csvPath, (value, x, y) =>
+            // order of csvs represents map layers from bottom to top
+            List<string> csvPaths = [
+                Path.Combine(Directory.GetCurrentDirectory(), "Data", "Maps", "1.csv"),
+                Path.Combine(Directory.GetCurrentDirectory(), "Data", "Maps", "2.csv"),
+                Path.Combine(Directory.GetCurrentDirectory(), "Data", "Maps", "3.csv"),
+                Path.Combine(Directory.GetCurrentDirectory(), "Data", "Maps", "4.csv"),
+                Path.Combine(Directory.GetCurrentDirectory(), "Data", "Maps", "5.csv"),
+            ];
+
+            for (int layerIndex = 0; layerIndex < csvPaths.Count; layerIndex++)
             {
-                if (int.TryParse(value, out int tileId))
+                string csvPath = csvPaths[layerIndex];
+                int zIndex = layerIndex + 1;
+            
+                ReadCsv.RunForEachValue(csvPath, (value, x, y) =>
                 {
-                    if (tileId == -1) return;
-                    mapTiles.Add(new MapTile
+                    if (int.TryParse(value, out int tileId))
                     {
-                        TileId = tileId,
-                        MapId = 1,
-                        X = x,
-                        Y = y
-                    });
-                }
-            }); 
+                        if (tileId == -1) return;
+                        mapTiles.Add(new MapTile
+                        {
+                            MapTileId = mapTiles.Count + 1,
+                            TileId = tileId,
+                            MapId = 1,
+                            ZIndex = zIndex,
+                            X = x,
+                            Y = y
+                        });
+                    }
+                }); 
+            }
             modelBuilder.Entity<MapTile>().HasData(mapTiles);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
