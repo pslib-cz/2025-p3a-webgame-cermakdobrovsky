@@ -16,7 +16,7 @@ const Button: FC<ButtonProps> = ({ variant = "primary", bgColor = "button--secon
   };
   return (
     <>
-      <button className={`${baseStyles} ${variantStyles[variant]} ${className}`} onClick={onClick}>{imgSrc && variant === "secondary" && <figure><img src={imgSrc} alt="Obrázek tlačítka"/></figure>}{children}</button>
+      <button className={`${baseStyles} ${variantStyles[variant]} ${className}`} onClick={onClick}>{imgSrc && variant === "secondary" && <figure><img src={imgSrc} alt="Obrázek tlačítka"/></figure>}<span className={`${variantStyles[variant]}__span`}>{children}</span></button>
       </>
     )
 }

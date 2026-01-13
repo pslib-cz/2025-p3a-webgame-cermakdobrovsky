@@ -17,6 +17,7 @@ const App = () => {
         <li><Resource maxAmount={30} currentAmount={20} maxWidth="200px" imgSrc="images/content/grass.png" color="#455A4B"/></li>
       </ul>
       <ul className="page__buttons-area">
+        <li><Button>Útok</Button></li>
         <li><Button variant="secondary" imgSrc="images/content/warrior.png">Útok</Button></li>
         <li><Button variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">Stavět</Button></li>
       </ul>

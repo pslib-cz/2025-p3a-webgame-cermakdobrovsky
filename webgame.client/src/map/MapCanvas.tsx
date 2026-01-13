@@ -28,7 +28,7 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, tileSize
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   return (
-    <div ref={containerRef} style={{ width: "100svw", height: "100svh", cursor: "grab" }}>
+    <div ref={containerRef} style={{ width: "100svw", height: "100svh" }}>
       <Stage ref={stageRef} width={stageSize.width} height={stageSize.height} draggable>
         <Layer>
           {groundMap.tiles.map((tile, index) => (
