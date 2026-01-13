@@ -58,16 +58,13 @@ namespace WebGame.Server.Models
         }
         private bool CanPlaceBuilding(int bottomLeftX, int bottomLeftY, int width, int height)
         {
-            int topY = bottomLeftY - height + 1;
-            if (topY < 0) return false;
-            
             for (int x = bottomLeftX; x < bottomLeftX + width; x++)
             {
-                if (x >= OccupiedAreasLayer.GetLength(0)) return false;
+                if (x > OccupiedAreasLayer.GetLength(0)) return false;
 
-                for (int y = topY; y <= bottomLeftY; y++)
+                for (int y = bottomLeftY; y < bottomLeftY + height; y++)
                 {
-                    if (y >= OccupiedAreasLayer.GetLength(1)) return false;
+                    if (y > OccupiedAreasLayer.GetLength(1)) return false;
 
                     if (OccupiedAreasLayer[x, y]) return false;
                 }
@@ -77,11 +74,9 @@ namespace WebGame.Server.Models
         }
         private T[,] WriteRectTo2dArray<T>(T[,] array, int bottomLeftX, int bottomLeftY, int width, int height, T value)
         {
-            int topY = bottomLeftY - height + 1;
-            
             for (int x = bottomLeftX; x < bottomLeftX + width; x++)
             {
-                for (int y = topY; y <= bottomLeftY; y++)
+                for (int y = bottomLeftY; y < bottomLeftY + height; y++)
                 {
                     array[x, y] = value;
                 }
