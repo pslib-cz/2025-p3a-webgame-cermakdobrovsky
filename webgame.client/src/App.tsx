@@ -11,15 +11,15 @@ const App = () => {
 
   return (
     <div className="page">
-      <div className="page__resources-area">
-        <Resource maxAmount={1700} currentAmount={1230} maxWidth="400px" imgSrc="images/content/sheep.png" color="#9B7260"/>
-        <Resource maxAmount={350} currentAmount={211} maxWidth="400px" imgSrc="images/content/sheep.png" color="#4795A7"/>
-        <Resource maxAmount={30} currentAmount={20} maxWidth="400px" imgSrc="images/content/sheep.png" color="#455A4B"/>
-      </div>
-      <div className="page__buttons-area">
-        <Button variant="secondary" imgSrc="images/content/warrior.png">Útok</Button>
-        <Button variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">Stavět</Button>
-      </div>
+      <ul className="page__resources-area">
+        <li><Resource maxAmount={1700} currentAmount={1230} maxWidth="300px" imgSrc="images/content/sheep.png" color="#9B7260"/></li>
+        <li><Resource maxAmount={350} currentAmount={211} maxWidth="250px" imgSrc="images/content/mong.png" color="#4795A7"/></li>
+        <li><Resource maxAmount={30} currentAmount={20} maxWidth="200px" imgSrc="images/content/grass.png" color="#455A4B"/></li>
+      </ul>
+      <ul className="page__buttons-area">
+        <li><Button variant="secondary" imgSrc="images/content/warrior.png">Útok</Button></li>
+        <li><Button variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">Stavět</Button></li>
+      </ul>
       {maps.length > 0 && <MapCanvas groundMap={maps[0]} buildingsMap={maps[1]} tileSize={54}/>}
     </div>
   )
