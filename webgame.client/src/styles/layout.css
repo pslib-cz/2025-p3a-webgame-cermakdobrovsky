@@ -12,7 +12,12 @@
     margin-top: 2.5rem;
     display: flex;
     flex-direction: column;
+    align-items: end;
     gap: 1.25rem;
+}
+
+.page__resources-area li {
+    list-style: none;
 }
 
 .page__buttons-area {
