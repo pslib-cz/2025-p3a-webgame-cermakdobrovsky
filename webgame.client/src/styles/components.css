@@ -52,11 +52,14 @@
     transition: transform var(--transition, .25s ease-in-out);
 }
 
-.button--secondary__span {
+.button--secondary--brown__span, .button--secondary--blue__span {
     position: absolute;
-    bottom: 10%;
     left: 50%;
+    top: 57.5%;
     transform: translateX(-50%);
+    width: fit-content;
+    height: fit-content;
+    pointer-events: none;
 }
 
 .button--secondary:hover {
@@ -65,15 +68,15 @@
 
 .button--secondary img {
     position: absolute;
-    top: 0;
+    top: 5%;
     left: 50%;
     transform: translateX(-50%);
-    transition: transform var(--transition, .25s ease-in-out);
-    width: 60%;
+    transition: height var(--transition, .25s ease-in-out);
+    height: 50%;
 }
 
 .button--secondary:hover img {
-    width: 70%;
+    height: 40%;
 }
 
 .button--secondary--brown {
@@ -112,4 +115,24 @@
     top: 50%;
     transform: translateY(-50%);
     width: 22.5%;
+}
+
+.town-hall-level {
+    width: 70px;
+    height: 70px;
+    font-size: var(--text-title, 2.4375rem);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url("../../images/content/button-blue.png");
+    background-color: transparent;
+    border: none;
+}
+
+.town-hall-level__span {
+
+}
+
+.town-hall-level-span__number {
+
 }
