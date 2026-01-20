@@ -9,6 +9,7 @@ namespace WebGame.Server.Data
         // Models
         public GameDbContext(DbContextOptions<GameDbContext> options) : base(options) { }
         public DbSet<Building> Buildings { get; set; } = null!;
+        public DbSet<GameState> GameStates { get; set; }
         public DbSet<Tile> Tiles { get; set; } = null!;
         public DbSet<Map> Maps { get; set; } = null!;
         public DbSet<MapTile> MapTiles { get; set; } = null!;
