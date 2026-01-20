@@ -7,8 +7,8 @@ type TownHallLevelProps = {
 const TownHallLevel: FC<TownHallLevelProps> = ({ currentLevel, className }) => {
   return (
     <div className={`town-hall-level ${className}`}>
-        <span className="town-hall-level__span">
-            <p>{currentLevel}</p>
+        <span className="town-hall-level__span rounded-star-8">
+            <p className="town-hall-level-span__number">{currentLevel}</p>
         </span>
     </div>
   )

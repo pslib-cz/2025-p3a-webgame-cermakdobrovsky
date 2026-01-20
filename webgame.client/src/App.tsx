@@ -2,7 +2,7 @@ import { use } from "react";
 import type { Map } from "./../types/mapModels";
 import MapCanvas from "./map/MapCanvas";
 import "./styles/global.css";
-import { Button, Resource, TownHallLevel } from "./components";
+import { Button, Resource, TownHallLevel, Shop } from "./components";
 
 const mapsPromise: Promise<Map[]> = fetch("/api/test/maps").then(res => res.json());
 const App = () => {
@@ -11,7 +11,12 @@ const App = () => {
 
   return (
     <div className="page">
-      <TownHallLevel currentLevel={2}/>
+      <div className="page__townhall-level">
+        <TownHallLevel currentLevel={6}/>
+      </div>
+      <div>
+        <Shop/>
+      </div>
       <ul className="page__resources-area">
         <li><Resource maxAmount={1700} currentAmount={1230} maxWidth="300px" imgSrc="images/content/sheep.png" color="#9B7260"/></li>
         <li><Resource maxAmount={350} currentAmount={211} maxWidth="250px" imgSrc="images/content/mong.png" color="#4795A7"/></li>
