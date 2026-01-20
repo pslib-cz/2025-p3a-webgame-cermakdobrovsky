@@ -3,7 +3,7 @@ import type { GameState } from "./../types/gameModels";
 import type { Map } from "./../types/mapModels";
 import MapCanvas from "./map/MapCanvas";
 import "./styles/global.css";
-import { Button, Resource, TownHallLevel } from "./components";
+import { Button, Resource, TownHallLevel, Shop } from "./components";
 
 const groundMapPromise: Promise<Map> = fetch("/api/map/ground").then((res) => res.json());
 
@@ -26,7 +26,12 @@ const App = () => {
 
   return (
     <div className="page">
-      <TownHallLevel currentLevel={2} />
+      <div className="page__townhall-level">
+        <TownHallLevel currentLevel={6}/>
+      </div>
+      <div>
+        <Shop/>
+      </div>
       <ul className="page__resources-area">
         <li>
           <Resource maxAmount={1700} currentAmount={1230} maxWidth="300px" imgSrc="images/content/sheep.png" color="#9B7260" />

@@ -11,7 +11,7 @@ const Resource: FC<ReasourceProps> = ({ maxAmount, currentAmount, maxWidth, imgS
   return (
     <div className="resource" style={{ width: maxWidth }}>
       <figure>
-        <img className="img-responsive" src={imgSrc} alt="Obrázek zdroje"/>
+        <img className="img-responsive" src={imgSrc} alt="Obrázek zdroje" loading='lazy'/>
       </figure>
       <div style={{backgroundColor: color, width: `${(currentAmount / maxAmount) * 100}%`}}>
         <p className="resource__amount">{currentAmount}</p>
