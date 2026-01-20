@@ -75,11 +75,7 @@ namespace WebGame.Server.Data
         private void SeedDefaultMaps(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Map>().HasData(
-                new Map { MapId = 1, Title = "Default ground layer" },
-                new Map { MapId = 2, Title = "Default building layer" }
-            );
-            modelBuilder.Entity<MapBuilding>().HasData(
-                new MapBuilding { BuildingId = 1, MapId = 2, BottomLeftX = 18, BottomLeftY = 3 }
+                new Map { MapId = 1, Title = "Default ground layer" }
             );
 
             List<MapTile> mapTiles = new List<MapTile>();

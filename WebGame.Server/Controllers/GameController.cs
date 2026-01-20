@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Cryptography;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebGame.Server.Data;
 using WebGame.Server.Models;
@@ -9,6 +10,63 @@ namespace WebGame.Server.Controllers
     [Route("api/[controller]")]
     public class GameController : ControllerBase
     {
-        //Setup - localStorage
+        private readonly GameDbContext _dbc;
+        public GameController(GameDbContext context)
+        {
+            _dbc = context;
+        }
+
+        [HttpGet("create")]
+        public async Task<IActionResult> GetPlayers()
+        {
+            string readableWord = new WordGenerator().Generate(6);
+
+            // create new map
+            var buildingMap = new Map { Title = "Building Layer:" + readableWord };
+            _dbc.Maps.Add(buildingMap);
+            await _dbc.SaveChangesAsync();
+
+            var townHall = new MapBuilding
+            {
+                BuildingId = 1,
+                MapId = buildingMap.MapId,
+                BottomLeftX = 18,
+                BottomLeftY = 3
+            };
+            _dbc.MapBuildings.Add(townHall);
+
+            GameState newGameState = new GameState
+            {
+                PlayerId = readableWord,
+                Sheep = 100,
+                Population = 10,
+                LastUpdated = DateTime.UtcNow,
+                buildingMapId = buildingMap.MapId
+            };
+            _dbc.GameStates.Add(newGameState);
+            await _dbc.SaveChangesAsync();
+            
+            return Ok(readableWord);
+        }
+
+        [HttpGet("state/{playerId}")]
+        public async Task<ActionResult<GameState>> GetGameState(string playerId)
+        {
+            var gameState = await _dbc.GameStates
+                .Include(gs => gs.BuildingMap)
+                .ThenInclude(m => m.Buildings)
+                .ThenInclude(mb => mb.Building)
+                .Include(gs => gs.BuildingMap)
+                .ThenInclude(m => m.Tiles)
+                .ThenInclude(mt => mt.Tile)
+                .FirstOrDefaultAsync(gs => gs.PlayerId == playerId);
+
+            if (gameState == null)
+            {
+                return NotFound("Game state not found for the given player ID.");
+            }
+
+            return Ok(gameState);
+        }
     }
 }
