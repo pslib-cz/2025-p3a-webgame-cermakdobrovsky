@@ -5,12 +5,12 @@ import MapCanvas from "./map/MapCanvas";
 import "./styles/global.css";
 import { Button, Resource, TownHallLevel, Shop } from "./components";
 
+//Promises
 const groundMapPromise: Promise<Map> = fetch("/api/map/ground").then((res) => res.json());
 
 const playerIdPromise: Promise<string> = (async () => {
   const storedId = localStorage.getItem("playerId");
   if (storedId) return storedId;
-
   const res = await fetch("/api/game/create");
   const newId = await res.text();
   localStorage.setItem("playerId", newId);
