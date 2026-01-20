@@ -22,8 +22,6 @@ const gameStatePromise: Promise<GameState> = playerIdPromise.then((playerId) => 
 const App = () => {
   //Hooks
   const groundMap: Map = use<Map>(groundMapPromise);
-
-  const playerId = use(playerIdPromise);
   const gameState = use(gameStatePromise);
 
   return (
