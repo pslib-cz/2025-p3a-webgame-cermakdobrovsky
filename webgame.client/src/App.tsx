@@ -17,7 +17,17 @@ const playerIdPromise: Promise<string> = (async () => {
   return newId;
 })();
 
-const gameStatePromise: Promise<GameState> = playerIdPromise.then((playerId) => fetch(`/api/game/state/${playerId}`).then((res) => res.json()));
+const gameStatePromise: Promise<GameState> = playerIdPromise.then(async (playerId) => {
+  let res = await fetch(`/api/game/state/${playerId}`);
+
+  if (!res.ok) {
+    await fetch(`/api/game/create/?playerId=${playerId}`);
+    res = await fetch(`/api/game/state/${playerId}`);
+  }
+
+  const data = await res.json();
+  return data;
+});
 
 const App = () => {
   //Hooks
@@ -28,11 +38,11 @@ const App = () => {
   return (
     <div className="page">
       <div className="page__townhall-level">
-        <TownHallLevel currentLevel={6}/>
+        <TownHallLevel currentLevel={6} />
       </div>
       {isOpenShop && (
-        <div className="page__shop">  
-          <Shop isOpen={isOpenShop} setIsOpen={setIsOpenShop}/>
+        <div className="page__shop">
+          <Shop isOpen={isOpenShop} setIsOpen={setIsOpenShop} />
         </div>
       )}
       <ul className="page__resources-area">
