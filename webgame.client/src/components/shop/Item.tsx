@@ -1,5 +1,5 @@
 import { Button } from "../../components"
-import { type FC } from 'react'
+import { type FC } from 'react';
 
 type ItemProps = {
     imgSrc: string,
@@ -9,17 +9,19 @@ type ItemProps = {
 const Item: FC<ItemProps> = ({ imgSrc, price, onBuy }) => {
   return (
     <div className="item">
-        <figure>
+        <figure className="item__figure">
             <img className="img-responsive" src={imgSrc} alt="Obrázek ovce" loading='lazy'/>
         </figure>
-        <div>
-            <p className="item__content">{price}</p>
-            <figure>
-                <img className="img-responsive" src="images/content/sheep.png" alt="Obrázek ovce" loading='lazy'/>
-            </figure>
-        </div>
-        <div>
-            <Button onClick={onBuy}>Koupit</Button>
+        <div className="item__details">
+           <div className="item__info">
+                <p className="item__info-content">{price}</p>
+                <figure className="item__info-sheep">
+                    <img className="img-responsive" src="images/content/sheep.png" alt="Obrázek ovce" loading='lazy'/>
+                </figure>
+            </div>
+            <div className="item__action">
+                <Button onClick={onBuy}>Koupit</Button>
+            </div> 
         </div>
     </div>
   )
