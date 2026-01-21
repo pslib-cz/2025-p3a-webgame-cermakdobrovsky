@@ -32,5 +32,36 @@ namespace WebGame.Server.Controllers
 
             return Ok(map);
         }
+
+        [HttpPost("building")]
+        public async Task<ActionResult<Map>> CreateBuilding([FromBody] MapBuildingDTO request)
+        {
+            var gameState = await _dbc.GameStates.FirstOrDefaultAsync(gs => gs.PlayerId == request.PlayerId);
+
+            if (gameState == null)
+            {
+                return NotFound("Game state not found for the given player ID.");
+            }
+
+            // check if building can be placed - WIP
+
+            var mapBuilding = new MapBuilding
+            {
+                BuildingId = request.BuildingId,
+                MapId = gameState.buildingMapId,
+                BottomLeftX = request.BottomLeftX,
+                BottomLeftY = request.BottomLeftY
+            };
+
+            _dbc.MapBuildings.Add(mapBuilding);
+            await _dbc.SaveChangesAsync();
+
+            var map = await _dbc.Maps
+                .Include(m => m.Tiles).ThenInclude(mt => mt.Tile)
+                .Include(m => m.Buildings).ThenInclude(mb => mb.Building)
+                .FirstOrDefaultAsync(m => m.MapId == gameState.buildingMapId);
+
+            return Ok(map);
+        }
     }
 }
