@@ -22,6 +22,8 @@ namespace WebGame.Server.Controllers
             if (buildings == null || buildings.Length == 0) return NotFound("No buildings found.");
             return Ok(buildings);
         }
+
+        [HttpGet("ground")]
         public async Task<ActionResult<Map>> GetGroundMaps()
         {
             Map? map = await _dbc.Maps.Include(m => m.Tiles).ThenInclude(mt => mt.Tile).Include(m => m.Buildings).ThenInclude(mb => mb.Building).Where(m => m.Title.StartsWith("Default ground layer")).SingleOrDefaultAsync();

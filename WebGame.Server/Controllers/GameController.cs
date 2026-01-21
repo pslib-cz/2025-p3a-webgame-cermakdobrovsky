@@ -17,9 +17,9 @@ namespace WebGame.Server.Controllers
         }
 
         [HttpGet("create")]
-        public async Task<IActionResult> GetPlayers()
+        public async Task<IActionResult> GetPlayers(string? playerId = null)
         {
-            string readableWord = new WordGenerator().Generate(6);
+            string readableWord = !string.IsNullOrEmpty(playerId) ? playerId : new WordGenerator().Generate(6);
 
             // create new map
             var buildingMap = new Map { Title = "Building Layer:" + readableWord };
