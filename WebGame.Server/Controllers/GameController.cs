@@ -15,17 +15,14 @@ namespace WebGame.Server.Controllers
         {
             _dbc = context;
         }
-
         [HttpGet("create")]
         public async Task<IActionResult> GetPlayers(string? playerId = null)
         {
             string readableWord = !string.IsNullOrEmpty(playerId) ? playerId : new WordGenerator().Generate(6);
-
             // create new map
             var buildingMap = new Map { Title = "Building Layer:" + readableWord };
             _dbc.Maps.Add(buildingMap);
             await _dbc.SaveChangesAsync();
-
             var townHall = new MapBuilding
             {
                 BuildingId = 1,
@@ -34,7 +31,6 @@ namespace WebGame.Server.Controllers
                 BottomLeftY = 3
             };
             _dbc.MapBuildings.Add(townHall);
-
             GameState newGameState = new GameState
             {
                 PlayerId = readableWord,
@@ -48,7 +44,6 @@ namespace WebGame.Server.Controllers
             
             return Ok(readableWord);
         }
-
         [HttpGet("state/{playerId}")]
         public async Task<ActionResult<GameState>> GetGameState(string playerId)
         {
@@ -60,12 +55,10 @@ namespace WebGame.Server.Controllers
                 .ThenInclude(m => m.Tiles)
                 .ThenInclude(mt => mt.Tile)
                 .FirstOrDefaultAsync(gs => gs.PlayerId == playerId);
-
             if (gameState == null)
             {
                 return NotFound("Game state not found for the given player ID.");
             }
-
             return Ok(gameState);
         }
     }

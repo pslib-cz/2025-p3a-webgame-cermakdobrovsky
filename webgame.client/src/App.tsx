@@ -19,12 +19,10 @@ const playerIdPromise: Promise<string> = (async () => {
 
 const gameStatePromise: Promise<GameState> = playerIdPromise.then(async (playerId) => {
   let res = await fetch(`/api/game/state/${playerId}`);
-
   if (!res.ok) {
     await fetch(`/api/game/create/?playerId=${playerId}`);
     res = await fetch(`/api/game/state/${playerId}`);
   }
-
   const data = await res.json();
   return data;
 });
