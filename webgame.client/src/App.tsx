@@ -1,12 +1,14 @@
 import { use, useState } from "react";
 import type { GameState } from "./../types/gameModels";
-import type { Map } from "./../types/mapModels";
+import type { Building, Map } from "./../types/mapModels";
 import MapCanvas from "./map/MapCanvas";
 import "./styles/global.css";
 import { Button, Resource, TownHallLevel, Shop } from "./components";
 
 //Promises
 const groundMapPromise: Promise<Map> = fetch("/api/map/ground").then((res) => res.json());
+
+const buildingsPromise: Promise<Building[]> = fetch("/api/map/buildings").then((res) => res.json());
 
 const playerIdPromise: Promise<string> = (async () => {
   const storedId = localStorage.getItem("playerId");
@@ -30,7 +32,8 @@ const gameStatePromise: Promise<GameState> = playerIdPromise.then(async (playerI
 const App = () => {
   //Hooks
   const groundMap: Map = use<Map>(groundMapPromise);
-  const gameState = use<GameState>(gameStatePromise);
+  const gameState: GameState = use<GameState>(gameStatePromise);
+  const buildings: Building[] = use<Building[]>(buildingsPromise);
   const [isOpenShop, setIsOpenShop] = useState<boolean>(false);
 
   return (
@@ -40,7 +43,7 @@ const App = () => {
       </div>
       {isOpenShop && (
         <div className="page__shop">
-          <Shop isOpen={isOpenShop} setIsOpen={setIsOpenShop} />
+          <Shop isOpen={isOpenShop} buildings={buildings} setIsOpen={setIsOpenShop} />
         </div>
       )}
       <ul className="page__resources-area">
