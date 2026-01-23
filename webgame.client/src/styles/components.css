@@ -234,7 +234,7 @@
 .shop__close {
     position: absolute;
     top: 0;
-    left: 100%;
+    left: 93.5%;
     transform: translate(-80%, 80%);
 }
 
@@ -255,10 +255,6 @@
     cursor: url("images/content/cursor-2.png") 32 32, auto;
 }
 
-.close:hover span {
-    background-color: var(--green, #455A4B);
-}
-
 .close span {
     position: absolute;
     height: 4px;
@@ -269,6 +265,10 @@
     margin-top: -1rem;
     margin-left: 1rem;
     transition: background-color var(--transition, .25s ease-in-out);
+}
+
+.close:hover span {
+    background-color: var(--blue, #4795A7);
 }
 
 .close span:nth-child(1) {
@@ -289,6 +289,8 @@
 
 .swiper-primary__viewport {
     overflow: hidden;
+    width: 95%;
+    margin: 0 auto;
 }
 
 .swiper-primary__viewport-list {
@@ -300,6 +302,9 @@
     flex-shrink: 0;
     flex-basis: 32.5%;
     list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: end;
 }
 
 .swiper-primary__buttons {
@@ -307,21 +312,30 @@
     display: flex;
     gap: 1rem;
     bottom: 0;
-    right: 0;
-    margin-bottom: 2.5rem;
+    right: 6.5%;
+    margin-bottom: -4rem;
+}
+
+.swiper-primary__buttons button {
+    background-color: transparent;
+    border: none;
+    cursor: url("images/content/cursor-2.png") 32 32, auto;
 }
 
 .swiper-primary__button {
-    color: var(--blue, #4795A7);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url("../../images/content/button-blue.png");
+    background-color: transparent;
+    border: none;
     width: 40px;
     height: 40px;
-    border: 2px solid;
-    border-radius: 5px;
     background-color: transparent;
-    transition: color var(--transition, .25s ease-in-out), border-color var(--transition, .25s ease-in-out);
+    color: var(--dark-brown, #6B4742);
+    transition: color var(--transition, .25s ease-in-out);
 }
 
-.swiper-primary__button:hover {
-    color: var(--red, #FF0000);
-    border-color: var(--red, #FF0000);
+.swiper-primary__buttons button:hover .swiper-primary__button {
+    color: var(--white, #FFFFFF);
 }

@@ -17,13 +17,6 @@ const Shop: FC<ShopProps> = ({ isOpen, buildings, setIsOpen }) => {
           <Item imgSrc={building.imageUrl} price={building.initialCost} onBuy={() => setIsOpen(false)}/>
         ))}
       </SwiperPrimary>
-      <ul className="shop__list">
-        {buildings.filter((building: Building) => building.buildingId !== 1).map((building: Building) => (
-          <li key={building.buildingId}>
-            <Item imgSrc={building.imageUrl} price={building.initialCost} onBuy={() => setIsOpen(false)}/>
-          </li>
-        ))}
-      </ul>
     </div>
   )
 }
