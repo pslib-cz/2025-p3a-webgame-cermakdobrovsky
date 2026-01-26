@@ -128,6 +128,7 @@ const App = () => {
           onMapClick={(x, y) => {
             if (placingBuilding !== null) {
               addBuilding(placingBuilding.buildingId, x, y);
+              setPlacingBuilding(null);
             }
           }}
         />
