@@ -16,7 +16,9 @@ namespace WebGame.Server.Models
         public bool IsTownHall { get; set; } = false;
         public int InitialCost { get; set; }
         public int Height { get; set; }
+        public int BaseHeight { get; set; }
         public int Width { get; set; }
+        public int BaseWidth { get; set; }
         public List<BuildingLevel> Levels { get; set; } = new List<BuildingLevel>();
         public int CurrentLevel { get; set; } = 1;
         public string ImageUrl => $"/images/buildings/{BuildingId}.png";
