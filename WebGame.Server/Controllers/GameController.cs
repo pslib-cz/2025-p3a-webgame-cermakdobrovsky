@@ -22,7 +22,7 @@ namespace WebGame.Server.Controllers
             // create new map
             var buildingMap = new Map { Title = "Building Layer:" + readableWord };
             _dbc.Maps.Add(buildingMap);
-            await _dbc.SaveChangesAsync();
+
             var townHall = new MapBuilding
             {
                 BuildingId = 1,
@@ -30,7 +30,9 @@ namespace WebGame.Server.Controllers
                 BottomLeftX = 18,
                 BottomLeftY = 3
             };
+
             _dbc.MapBuildings.Add(townHall);
+
             GameState newGameState = new GameState
             {
                 PlayerId = readableWord,
@@ -48,6 +50,7 @@ namespace WebGame.Server.Controllers
         public async Task<ActionResult<GameState>> GetGameState(string playerId)
         {
             var gameState = await _dbc.GameStates
+                .AsNoTracking()
                 .Include(gs => gs.BuildingMap)
                 .ThenInclude(m => m.Buildings)
                 .ThenInclude(mb => mb.Building)
