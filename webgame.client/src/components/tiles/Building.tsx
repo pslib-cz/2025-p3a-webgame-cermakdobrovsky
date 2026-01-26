@@ -8,20 +8,26 @@ type buildingProps = {
   building: MapBuilding;
   tileSize: number;
   transparentOnHover?: boolean;
+  opacity?: number;
+  listening?: boolean;
 };
-const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transparentOnHover = false }) => {
+const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transparentOnHover = false, opacity, listening = true }) => {
   const [buildingImage] = useImage(building.building.imageUrl);
   const [isHovered, setIsHovered] = useState(false);
   const imageRef = useRef<Konva.Image>(null);
 
   useEffect(() => {
     if (imageRef.current) {
-      imageRef.current.to({
-        opacity: transparentOnHover && isHovered ? 0.2 : 1,
-        duration: 0.1,
-      });
+      if (opacity !== undefined) {
+        imageRef.current.opacity(opacity);
+      } else {
+        imageRef.current.to({
+          opacity: transparentOnHover && isHovered ? 0.2 : 1,
+          duration: 0.1,
+        });
+      }
     }
-  }, [isHovered, transparentOnHover]);
+  }, [isHovered, transparentOnHover, opacity]);
 
   if (!buildingImage) return null;
 
@@ -37,6 +43,7 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transp
       <KonvaImage
         ref={imageRef}
         image={buildingImage}
+        listening={listening}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         x={building.bottomLeftX * tileSize}

@@ -124,7 +124,7 @@ const App = () => {
           groundMap={groundMap}
           buildingsMap={gameState.buildingMap}
           tileSize={54}
-          placingBuilding={placingBuilding !== null}
+          placingBuilding={placingBuilding}
           onMapClick={(x, y) => {
             if (placingBuilding !== null) {
               addBuilding(placingBuilding.buildingId, x, y);

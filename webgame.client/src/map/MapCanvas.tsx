@@ -1,20 +1,21 @@
 import React, { useRef, useState, useLayoutEffect } from "react";
-import { Tile, Building } from "../components";
+import { Tile, Building as BuildingComponent } from "../components";
 import { Stage, Layer } from "react-konva";
 import Konva from "konva";
-import type { Map } from "../../types/mapModels";
+import type { Map, Building, MapBuilding } from "../../types/mapModels";
 
 type MapCanvasProps = {
   groundMap: Map;
   buildingsMap: Map;
   tileSize?: number;
-  placingBuilding?: boolean;
+  placingBuilding?: Building | null;
   onMapClick?: (x: number, y: number) => void;
 };
-const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, tileSize = 64, placingBuilding = false }) => {
+const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, tileSize = 64, placingBuilding = null }) => {
   const stageRef = useRef<Konva.Stage>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
+  const [hoverPosition, setHoverPosition] = useState<{ x: number; y: number } | null>(null);
 
   const scaleBy = 1.1;
   const handleWheel = (e: Konva.KonvaEventObject<WheelEvent>) => {
@@ -59,6 +60,20 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapCli
         height={stageSize.height}
         draggable
         onWheel={handleWheel}
+        onMouseMove={() => {
+          if (!placingBuilding) {
+            if (hoverPosition) setHoverPosition(null);
+            return;
+          }
+          const stage = stageRef.current;
+          if (!stage) return;
+          const pointerPosition = stage.getPointerPosition();
+          if (!pointerPosition) return;
+          const scale = stage.scaleX();
+          const x = Math.floor((pointerPosition.x - stage.x()) / scale / tileSize);
+          const y = Math.floor((pointerPosition.y - stage.y()) / scale / tileSize);
+          setHoverPosition({ x, y });
+        }}
         onClick={(e) => {
           if (!onMapClick) return;
           const stage = stageRef.current;
@@ -77,8 +92,27 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapCli
             <Tile key={`tile-${index}`} tile={tile} tileSize={tileSize} />
           ))}
           {buildingsMap.buildings.map((building, index) => (
-            <Building transparentOnHover={placingBuilding} key={`building-${index}`} building={building} tileSize={tileSize} />
+            <BuildingComponent transparentOnHover={!!placingBuilding} key={`building-${index}`} building={building} tileSize={tileSize} />
           ))}
+          {placingBuilding && hoverPosition && (
+            <React.Fragment>
+              <BuildingComponent
+                building={
+                  {
+                    building: placingBuilding,
+                    buildingId: -1,
+                    mapId: -1,
+                    bottomLeftX: hoverPosition.x,
+                    bottomLeftY: hoverPosition.y,
+                  } as MapBuilding
+                }
+                tileSize={tileSize}
+                transparentOnHover={false}
+                opacity={0.7}
+                listening={false}
+              />
+            </React.Fragment>
+          )}
         </Layer>
       </Stage>
     </div>
