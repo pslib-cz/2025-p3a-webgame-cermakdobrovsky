@@ -37,6 +37,8 @@ const App = () => {
   const buildings: Building[] = use<Building[]>(buildingsPromise);
   const [isOpenShop, setIsOpenShop] = useState<boolean>(false);
 
+  const [placingBuilding, setPlacingBuilding] = useState<Building | null>(null);
+
   const addBuilding = async (buildingId: number, bottomLeftX: number, bottomLeftY: number) => {
     const buildingToPlace: MapBuildingDTO = {
       playerId: gameState.playerId,
@@ -70,7 +72,15 @@ const App = () => {
       </div>
       {isOpenShop && (
         <div className="page__shop">
-          <Shop isOpen={isOpenShop} buildings={buildings} setIsOpen={setIsOpenShop} />
+          <Shop
+            isOpen={isOpenShop}
+            buildings={buildings}
+            setIsOpen={setIsOpenShop}
+            onBuildingBuy={(building) => {
+              setPlacingBuilding(building);
+              setIsOpenShop(false);
+            }}
+          />
         </div>
       )}
       <ul className="page__resources-area">
@@ -85,18 +95,28 @@ const App = () => {
         </li>
       </ul>
       <ul className="page__buttons-area">
-        <li>
-          <Button variant="secondary" imgSrc="images/content/warrior.png">
-            Útok
-          </Button>
-        </li>
-        <li>
-          <Button onClick={() => setIsOpenShop((prev) => !prev)} variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">
-            Stavět
-          </Button>
-        </li>
+        {placingBuilding ? (
+          <li>
+            <Button onClick={() => setPlacingBuilding(null)} variant="secondary" imgSrc="images/content/house.png">
+              Zrušit
+            </Button>
+          </li>
+        ) : (
+          <>
+            <li>
+              <Button variant="secondary" imgSrc="images/content/warrior.png">
+                Útok
+              </Button>
+            </li>
+            <li>
+              <Button onClick={() => setIsOpenShop((prev) => !prev)} variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">
+                Stavět
+              </Button>
+            </li>
+          </>
+        )}
       </ul>
-      {gameState && <MapCanvas groundMap={groundMap} buildingsMap={gameState.buildingMap} tileSize={54} />}
+      {gameState && <MapCanvas groundMap={groundMap} buildingsMap={gameState.buildingMap} tileSize={54} placingBuilding={placingBuilding !== null} />}
     </div>
   );
 };
