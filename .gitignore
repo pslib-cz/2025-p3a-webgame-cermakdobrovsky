@@ -24,3 +24,5 @@ dist/
 # Rider/VSCode
 .idea/
 .vscode/
+
+*.db
