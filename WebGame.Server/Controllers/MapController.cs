@@ -33,15 +33,13 @@ namespace WebGame.Server.Controllers
         [HttpPost("building")]
         public async Task<ActionResult<Map>> CreateBuilding([FromBody] MapBuildingDTO request)
         {
-            var gameState = await _dbc.GameStates.FirstOrDefaultAsync(gs => gs.PlayerId == request.PlayerId);
+            GameState? gameState = await _dbc.GameStates.FirstOrDefaultAsync(gs => gs.PlayerId == request.PlayerId);
+            Building? buildingType = await _dbc.Buildings.FirstOrDefaultAsync(b => b.BuildingId == request.BuildingId);
 
-            if (gameState == null)
-            {
-                return NotFound("Game state not found for the given player ID.");
-            }
-
-            // check if building can be placed - WIP
-
+            if (gameState == null) return NotFound("Game state not found for the given player ID.");
+            if (buildingType == null) return NotFound("Building type not found for the given building ID.");
+            if (buildingType.InitialCost > gameState.Sheep) return NotFound("Not enough resources to build this building.");
+    
             var mapBuilding = new MapBuilding
             {
                 BuildingId = request.BuildingId,
