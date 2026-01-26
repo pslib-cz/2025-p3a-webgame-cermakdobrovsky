@@ -1,6 +1,6 @@
 import type { MapBuilding } from "../../../types/mapModels";
 import useImage from "use-image";
-import { Rect } from "react-konva";
+import { Image as KonvaImage } from "react-konva";
 import { useEffect, useRef, useState } from "react";
 import Konva from "konva";
 
@@ -12,42 +12,37 @@ type buildingProps = {
 const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transparentOnHover = false }) => {
   const [buildingImage] = useImage(building.building.imageUrl);
   const [isHovered, setIsHovered] = useState(false);
-  const rectRef = useRef<Konva.Rect>(null);
+  const imageRef = useRef<Konva.Image>(null);
 
   useEffect(() => {
-    if (rectRef.current) {
-      rectRef.current.to({
+    if (imageRef.current) {
+      imageRef.current.to({
         opacity: transparentOnHover && isHovered ? 0.2 : 1,
         duration: 0.1,
       });
     }
   }, [isHovered, transparentOnHover]);
 
-  let scale = 1;
-  let yOffset = 0;
+  if (!buildingImage) return null;
 
-  if (buildingImage) {
-    const buildingWidth = tileSize * building.building.width;
-    scale = buildingWidth / buildingImage.width;
+  const buildingWidth = tileSize * building.building.width;
+  const scale = buildingWidth / buildingImage.width;
 
-    yOffset = building.building.height * tileSize - buildingImage.height * scale - 10;
-    yOffset = -yOffset;
-  }
+  const rectY = (building.bottomLeftY - building.building.height + 1) * tileSize;
+  const rectHeight = tileSize * building.building.height;
+  const imageHeight = buildingImage.height * scale;
 
   return (
     <>
-      <Rect
-        ref={rectRef}
+      <KonvaImage
+        ref={imageRef}
+        image={buildingImage}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         x={building.bottomLeftX * tileSize}
-        y={(building.bottomLeftY - building.building.height + 1) * tileSize}
-        width={tileSize * building.building.width}
-        height={tileSize * building.building.height}
-        fillPatternImage={buildingImage}
-        fillPatternScale={{ x: scale, y: scale }}
-        fillPatternOffset={{ x: 0, y: yOffset }}
-        fillPatternRepeat="no-repeat"
+        y={rectY + rectHeight - imageHeight - 10}
+        width={buildingWidth}
+        height={imageHeight}
       />
     </>
   );
