@@ -8,8 +8,9 @@ type MapCanvasProps = {
   groundMap: Map;
   buildingsMap: Map;
   tileSize?: number;
+  setIsOpenMenu?: (value: boolean) => void;
 };
-const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, tileSize = 64 }) => {
+const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, tileSize = 64, setIsOpenMenu }) => {
   const stageRef = useRef<Konva.Stage>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
@@ -57,7 +58,7 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, tileSize
             <Tile key={`tile-${index}`} tile={tile} tileSize={tileSize} />
           ))}
           {buildingsMap.buildings.map((building, index) => (
-            <Building key={`building-${index}`} building={building} tileSize={tileSize} />
+            <Building key={`building-${index}`} building={building} tileSize={tileSize} setIsOpenMenu={setIsOpenMenu}/>
           ))}
         </Layer>
       </Stage>

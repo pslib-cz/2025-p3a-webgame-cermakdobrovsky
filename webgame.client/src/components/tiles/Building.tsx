@@ -5,8 +5,9 @@ import { Rect } from "react-konva";
 type buildingProps = {
   building: MapBuilding;
   tileSize: number;
+  setIsOpenMenu?: (value: boolean) => void;
 };
-const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize }) => {
+const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, setIsOpenMenu }) => {
   const [buildingImage] = useImage(building.building.imageUrl);
 
   let scale = 1;
@@ -31,6 +32,20 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize }) => {
         fillPatternScale={{ x: scale, y: scale }}
         fillPatternOffset={{ x: 0, y: yOffset }}
         fillPatternRepeat="no-repeat"
+        // opacity={0.2}
+        onClick={() => setIsOpenMenu && setIsOpenMenu(true)}
+        onMouseEnter={(e) => {
+          const container = e.target.getStage()?.container();
+          if (container) {
+            container.style.cursor = "pointer";
+          }
+        }}
+        onMouseLeave={(e) => {
+          const container = e.target.getStage()?.container();
+          if (container) {
+            container.style.cursor = "default";
+          }
+        }}
       />
     </>
   );

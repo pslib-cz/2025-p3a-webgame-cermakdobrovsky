@@ -20,7 +20,7 @@
     list-style: none;
 }
 
-.page__shop {
+.page__shop, .page__building-menu {
     position: fixed;
     top: 50%;
     left: 50%;

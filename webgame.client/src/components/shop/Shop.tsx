@@ -10,7 +10,7 @@ type ShopProps = {
 const Shop: FC<ShopProps> = ({ isOpen, buildings, setIsOpen }) => {
   return (
     <div className="shop" style={{ display: isOpen ? "block" : "none" }}>
-      <Close className="shop__close" onToggle={() => setIsOpen(false)}></Close>
+      <Close className="shop__close" onToggle={() => setIsOpen(false)}/>
       <p className="shop__title">Obchod</p>
       <SwiperPrimary>
         {buildings.filter((building: Building) => building.buildingId !== 1).map((building: Building) => (
