@@ -183,6 +183,7 @@
     flex-direction: column;
     align-items: center;
     gap: .5rem;
+    width: fit-content;
 }
 
 .item__figure {
@@ -233,7 +234,7 @@
 .shop__close {
     position: absolute;
     top: 0;
-    left: 100%;
+    left: 93.5%;
     transform: translate(-80%, 80%);
 }
 
@@ -244,13 +245,6 @@
     margin: 0;
 }
 
-.shop__list {
-    display: flex;
-    align-items: end;
-    justify-content: center;
-    gap: 4rem;
-}
-
 /*Close button*/
 
 .close {
@@ -259,10 +253,6 @@
     height: 32px;
     padding: 1rem;
     cursor: url("images/content/cursor-2.png") 32 32, auto;
-}
-
-.close:hover span {
-    background-color: var(--green, #455A4B);
 }
 
 .close span {
@@ -277,10 +267,75 @@
     transition: background-color var(--transition, .25s ease-in-out);
 }
 
+.close:hover span {
+    background-color: var(--blue, #4795A7);
+}
+
 .close span:nth-child(1) {
     rotate: 45deg;
 }
   
 .close span:nth-child(2) {
     rotate: -45deg;
+}
+
+/*Swiper*/
+
+.swiper-primary {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.swiper-primary__viewport {
+    overflow: hidden;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.swiper-primary__viewport-list {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.swiper-primary__viewport-list-item {
+    flex-shrink: 0;
+    flex-basis: 32.5%;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.swiper-primary__buttons {
+    position: absolute;
+    display: flex;
+    gap: 1rem;
+    bottom: 0;
+    right: 6.5%;
+    margin-bottom: -4rem;
+}
+
+.swiper-primary__buttons button {
+    background-color: transparent;
+    border: none;
+    cursor: url("images/content/cursor-2.png") 32 32, auto;
+}
+
+.swiper-primary__button {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url("../../images/content/button-blue.png");
+    background-color: transparent;
+    border: none;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    color: var(--dark-brown, #6B4742);
+    transition: color var(--transition, .25s ease-in-out);
+}
+
+.swiper-primary__buttons button:hover .swiper-primary__button {
+    color: var(--white, #FFFFFF);
 }
