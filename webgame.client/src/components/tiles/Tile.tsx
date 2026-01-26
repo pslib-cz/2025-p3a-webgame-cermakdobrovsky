@@ -8,7 +8,7 @@ type TileProps = {
 };
 const TileComponent: React.FC<TileProps> = ({ tile, tileSize }) => {
   const [tileImage] = useImage(tile.tile.imageUrl);
-  const debugMode = true
+  const debugMode = false;
 
   let scale = 1;
   let offsetX = 0;
