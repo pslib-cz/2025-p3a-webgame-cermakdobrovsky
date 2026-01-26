@@ -119,7 +119,7 @@ const App = () => {
           </>
         )}
       </ul>
-      {gameState && <MapCanvas groundMap={groundMap} buildingsMap={gameState.buildingMap} tileSize={54} />}
+      {gameState && <MapCanvas groundMap={groundMap} buildingsMap={gameState.buildingMap} tileSize={54} placingBuilding={placingBuilding !== null} />}
     </div>
   );
 };

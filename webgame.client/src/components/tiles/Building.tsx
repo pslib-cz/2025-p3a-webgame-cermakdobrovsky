@@ -1,7 +1,8 @@
 import type { MapBuilding } from "../../../types/mapModels";
 import useImage from "use-image";
 import { Rect } from "react-konva";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Konva from "konva";
 
 type buildingProps = {
   building: MapBuilding;
@@ -11,6 +12,16 @@ type buildingProps = {
 const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transparentOnHover = false }) => {
   const [buildingImage] = useImage(building.building.imageUrl);
   const [isHovered, setIsHovered] = useState(false);
+  const rectRef = useRef<Konva.Rect>(null);
+
+  useEffect(() => {
+    if (rectRef.current) {
+      rectRef.current.to({
+        opacity: transparentOnHover && isHovered ? 0.2 : 1,
+        duration: 0.1,
+      });
+    }
+  }, [isHovered, transparentOnHover]);
 
   let scale = 1;
   let yOffset = 0;
@@ -26,7 +37,7 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transp
   return (
     <>
       <Rect
-        opacity={transparentOnHover && isHovered ? 0.5 : 1}
+        ref={rectRef}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         x={building.bottomLeftX * tileSize}
