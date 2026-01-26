@@ -21,17 +21,14 @@ namespace WebGame.Server.Controllers
             string readableWord = !string.IsNullOrEmpty(playerId) ? playerId : new WordGenerator().Generate(6);
             // create new map
             var buildingMap = new Map { Title = "Building Layer:" + readableWord };
-            _dbc.Maps.Add(buildingMap);
-
+            
             var townHall = new MapBuilding
             {
                 BuildingId = 1,
-                MapId = buildingMap.MapId,
                 BottomLeftX = 18,
                 BottomLeftY = 3
             };
-
-            _dbc.MapBuildings.Add(townHall);
+            buildingMap.Buildings.Add(townHall);
 
             GameState newGameState = new GameState
             {
@@ -39,7 +36,7 @@ namespace WebGame.Server.Controllers
                 Sheep = 100,
                 Population = 10,
                 LastUpdated = DateTime.UtcNow,
-                BuildingMapId = buildingMap.MapId
+                BuildingMap = buildingMap
             };
             _dbc.GameStates.Add(newGameState);
             await _dbc.SaveChangesAsync();
