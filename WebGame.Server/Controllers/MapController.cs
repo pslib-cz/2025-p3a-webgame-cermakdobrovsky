@@ -18,29 +18,29 @@ namespace WebGame.Server.Controllers
         [HttpGet("buildings")]
         public async Task<ActionResult<IEnumerable<Building>>> GetBuildings()
         {
-            Building[] buildings = await _dbc.Buildings.Include(b => b.Levels).ToArrayAsync();
+            Building[] buildings = await _dbc.Buildings.AsNoTracking().Include(b => b.Levels).ToArrayAsync();
             if (buildings == null || buildings.Length == 0) return NotFound("No buildings found.");
             return Ok(buildings);
         }
         [HttpGet("ground")]
         public async Task<ActionResult<Map>> GetGroundMaps()
         {
-            Map? map = await _dbc.Maps.Include(m => m.Tiles).ThenInclude(mt => mt.Tile).Include(m => m.Buildings).ThenInclude(mb => mb.Building).Where(m => m.Title.StartsWith("Default ground layer")).SingleOrDefaultAsync();
+            Map? map = await _dbc.Maps.AsNoTracking().Include(m => m.Tiles).ThenInclude(mt => mt.Tile).Include(m => m.Buildings).ThenInclude(mb => mb.Building).Where(m => m.Title.StartsWith("Default ground layer")).SingleOrDefaultAsync();
             if (map == null) return NotFound("No ground map found.");
             return Ok(map);
         }
 
         [HttpPost("building")]
-        public async Task<ActionResult<Map>> CreateBuilding([FromBody] MapBuildingDTO request)
+        public async Task<ActionResult<GameState>> CreateBuilding([FromBody] MapBuildingDTO request)
         {
             GameState? gameState = await _dbc.GameStates.FirstOrDefaultAsync(gs => gs.PlayerId == request.PlayerId);
-            Building? buildingType = await _dbc.Buildings.FirstOrDefaultAsync(b => b.BuildingId == request.BuildingId);
+            Building? buildingType = await _dbc.Buildings.AsNoTracking().FirstOrDefaultAsync(b => b.BuildingId == request.BuildingId);
 
             if (gameState == null) return NotFound("Game state not found for the given player ID.");
             if (buildingType == null) return NotFound("Building type not found for the given building ID.");
             if (buildingType.InitialCost > gameState.Sheep) return NotFound("Not enough resources to build this building.");
 
-            var mapBuilding = new MapBuilding
+            MapBuilding mapBuilding = new MapBuilding
             {
                 BuildingId = request.BuildingId,
                 MapId = gameState.BuildingMapId,
@@ -54,15 +54,20 @@ namespace WebGame.Server.Controllers
             gameState.Sheep -= buildingType.InitialCost;
             _dbc.GameStates.Update(gameState);
 
-
             await _dbc.SaveChangesAsync();
 
-            var map = await _dbc.Maps
-                .Include(m => m.Tiles).ThenInclude(mt => mt.Tile)
-                .Include(m => m.Buildings).ThenInclude(mb => mb.Building)
-                .FirstOrDefaultAsync(m => m.MapId == gameState.BuildingMapId);
 
-            return Ok(map);
+            GameState? UpdatedGameState = await _dbc.GameStates
+                .AsNoTracking()
+                .Include(gs => gs.BuildingMap)
+                .ThenInclude(m => m.Buildings)
+                .ThenInclude(mb => mb.Building)
+                .Include(gs => gs.BuildingMap)
+                .ThenInclude(m => m.Tiles)
+                .ThenInclude(mt => mt.Tile)
+                .FirstOrDefaultAsync(gs => gs.PlayerId == request.PlayerId);
+
+            return Ok(UpdatedGameState);
         }
     }
 }

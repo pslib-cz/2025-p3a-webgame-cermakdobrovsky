@@ -1,6 +1,6 @@
 import { use, useState } from "react";
 import type { GameState } from "./../types/gameModels";
-import type { Building, Map } from "./../types/mapModels";
+import type { Building, Map, MapBuildingDTO } from "./../types/mapModels";
 import MapCanvas from "./map/MapCanvas";
 import "./styles/global.css";
 import { Button, Resource, TownHallLevel, Shop } from "./components";
@@ -32,9 +32,36 @@ const gameStatePromise: Promise<GameState> = playerIdPromise.then(async (playerI
 const App = () => {
   //Hooks
   const groundMap: Map = use<Map>(groundMapPromise);
-  const gameState: GameState = use<GameState>(gameStatePromise);
+  const initialGameState: GameState = use<GameState>(gameStatePromise);
+  const [gameState, setGameState] = useState<GameState>(initialGameState);
   const buildings: Building[] = use<Building[]>(buildingsPromise);
   const [isOpenShop, setIsOpenShop] = useState<boolean>(false);
+
+  const addBuilding = async (buildingId: number, bottomLeftX: number, bottomLeftY: number) => {
+    const buildingToPlace: MapBuildingDTO = {
+      playerId: gameState.playerId,
+      buildingId: buildingId,
+      bottomLeftX: bottomLeftX,
+      bottomLeftY: bottomLeftY,
+    };
+
+    const response = await fetch("/api/map/building", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(buildingToPlace),
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      alert(errorMessage);
+      return;
+    }
+
+    const data = await response.json();
+    setGameState(data);
+  };
 
   return (
     <div className="page">
