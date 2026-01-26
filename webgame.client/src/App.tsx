@@ -116,7 +116,20 @@ const App = () => {
           </>
         )}
       </ul>
-      {gameState && <MapCanvas groundMap={groundMap} buildingsMap={gameState.buildingMap} tileSize={54} placingBuilding={placingBuilding !== null} />}
+      {gameState && (
+        <MapCanvas
+          groundMap={groundMap}
+          buildingsMap={gameState.buildingMap}
+          tileSize={54}
+          placingBuilding={placingBuilding}
+          onMapClick={(x, y) => {
+            if (placingBuilding) {
+              addBuilding(placingBuilding.buildingId, x, y);
+              setPlacingBuilding(null);
+            }
+          }}
+        />
+      )}
     </div>
   );
 };
