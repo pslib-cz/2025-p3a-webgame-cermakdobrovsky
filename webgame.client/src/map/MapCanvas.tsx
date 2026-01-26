@@ -9,8 +9,9 @@ type MapCanvasProps = {
   buildingsMap: Map;
   tileSize?: number;
   placingBuilding?: boolean;
+  onMapClick?: (x: number, y: number) => void;
 };
-const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, tileSize = 64, placingBuilding = false }) => {
+const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, tileSize = 64, placingBuilding = false }) => {
   const stageRef = useRef<Konva.Stage>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
@@ -52,7 +53,25 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, tileSize
   }, []);
   return (
     <div ref={containerRef} style={{ width: "100svw", height: "100svh", overflow: "hidden" }}>
-      <Stage ref={stageRef} width={stageSize.width} height={stageSize.height} draggable onWheel={handleWheel}>
+      <Stage
+        ref={stageRef}
+        width={stageSize.width}
+        height={stageSize.height}
+        draggable
+        onWheel={handleWheel}
+        onClick={(e) => {
+          if (!onMapClick) return;
+          const stage = stageRef.current;
+          if (!stage) return;
+          const pointerPosition = stage.getPointerPosition();
+          if (!pointerPosition) return;
+
+          const scale = stage.scaleX();
+          const x = Math.floor((pointerPosition.x - stage.x()) / scale / tileSize);
+          const y = Math.floor((pointerPosition.y - stage.y()) / scale / tileSize);
+          onMapClick(x, y);
+        }}
+      >
         <Layer>
           {groundMap.tiles.map((tile, index) => (
             <Tile key={`tile-${index}`} tile={tile} tileSize={tileSize} />
