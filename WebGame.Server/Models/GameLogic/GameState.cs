@@ -11,8 +11,8 @@ namespace WebGame.Server.Models
         public int Population { get; set; }
         public DateTime LastUpdated { get; set; }
 
-        public int buildingMapId { get; set; }
-        [ForeignKey(nameof(buildingMapId))]
+        public int BuildingMapId { get; set; }
+        [ForeignKey(nameof(BuildingMapId))]
         public Map BuildingMap { get; set; }
     }
 }

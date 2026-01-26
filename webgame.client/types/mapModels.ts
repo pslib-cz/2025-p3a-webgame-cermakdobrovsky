@@ -40,6 +40,13 @@ export type MapBuilding = {
   bottomLeftY: number;
 };
 
+export type MapBuildingDTO = {
+  playerId: string;
+  buildingId: number;
+  bottomLeftX: number;
+  bottomLeftY: number;
+};
+
 export type MapTile = {
   mapTileId: number;
   tileId: number;

@@ -37,7 +37,7 @@ namespace WebGame.Server.Controllers
                 Sheep = 100,
                 Population = 10,
                 LastUpdated = DateTime.UtcNow,
-                buildingMapId = buildingMap.MapId
+                BuildingMapId = buildingMap.MapId
             };
             _dbc.GameStates.Add(newGameState);
             await _dbc.SaveChangesAsync();

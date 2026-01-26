@@ -39,22 +39,28 @@ namespace WebGame.Server.Controllers
             if (gameState == null) return NotFound("Game state not found for the given player ID.");
             if (buildingType == null) return NotFound("Building type not found for the given building ID.");
             if (buildingType.InitialCost > gameState.Sheep) return NotFound("Not enough resources to build this building.");
-    
+
             var mapBuilding = new MapBuilding
             {
                 BuildingId = request.BuildingId,
-                MapId = gameState.buildingMapId,
+                MapId = gameState.BuildingMapId,
                 BottomLeftX = request.BottomLeftX,
                 BottomLeftY = request.BottomLeftY
             };
 
             _dbc.MapBuildings.Add(mapBuilding);
+
+            // deduct resources
+            gameState.Sheep -= buildingType.InitialCost;
+            _dbc.GameStates.Update(gameState);
+
+
             await _dbc.SaveChangesAsync();
 
             var map = await _dbc.Maps
                 .Include(m => m.Tiles).ThenInclude(mt => mt.Tile)
                 .Include(m => m.Buildings).ThenInclude(mb => mb.Building)
-                .FirstOrDefaultAsync(m => m.MapId == gameState.buildingMapId);
+                .FirstOrDefaultAsync(m => m.MapId == gameState.BuildingMapId);
 
             return Ok(map);
         }
