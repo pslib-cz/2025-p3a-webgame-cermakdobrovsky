@@ -10,8 +10,10 @@ type buildingProps = {
   transparentOnHover?: boolean;
   opacity?: number;
   listening?: boolean;
+  setIsOpenMenu?: (value: boolean) => void;
 };
-const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transparentOnHover = false, opacity, listening = true }) => {
+const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transparentOnHover = false, opacity, listening = true, setIsOpenMenu }) => {
+  //Hooks
   const [buildingImage] = useImage(building.building.imageUrl);
   const [isHovered, setIsHovered] = useState(false);
   const imageRef = useRef<Konva.Image>(null);
@@ -20,7 +22,8 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transp
     if (imageRef.current) {
       if (opacity !== undefined) {
         imageRef.current.opacity(opacity);
-      } else {
+      } 
+      else {
         imageRef.current.to({
           opacity: transparentOnHover && isHovered ? 0.2 : 1,
           duration: 0.1,
@@ -28,16 +31,12 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transp
       }
     }
   }, [isHovered, transparentOnHover, opacity]);
-
   if (!buildingImage) return null;
-
   const buildingWidth = tileSize * building.building.width;
   const scale = buildingWidth / buildingImage.width;
-
   const rectY = (building.bottomLeftY - building.building.height + 1) * tileSize;
   const rectHeight = tileSize * building.building.height;
   const imageHeight = buildingImage.height * scale;
-
   return (
     <>
       <KonvaImage
@@ -50,6 +49,7 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transp
         y={rectY + rectHeight - imageHeight - 10}
         width={buildingWidth}
         height={imageHeight}
+        onClick={() => setIsOpenMenu?.(true)}
       />
     </>
   );
