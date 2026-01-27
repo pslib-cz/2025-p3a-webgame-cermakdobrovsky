@@ -7,3 +7,4 @@ export { default as Item } from './shop/Item';
 export { default as Shop } from './shop/Shop';
 export { default as Close } from './shop/Close';
 export { default as SwiperPrimary } from './swipers/SwiperPrimary';
+export { default as BuildingMenu } from './menus/BuildingMenu';

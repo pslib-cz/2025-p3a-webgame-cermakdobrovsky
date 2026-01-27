@@ -3,7 +3,7 @@ import type { GameState } from "./../types/gameModels";
 import type { Building, Map, MapBuildingDTO } from "./../types/mapModels";
 import MapCanvas from "./map/MapCanvas";
 import "./styles/global.css";
-import { Button, Resource, TownHallLevel, Shop } from "./components";
+import { Button, Resource, TownHallLevel, Shop, BuildingMenu } from "./components";
 
 //Promises
 const groundMapPromise: Promise<Map> = fetch("/api/map/ground").then((res) => res.json());
@@ -39,6 +39,7 @@ const App = () => {
   const [gameState, setGameState] = useState<GameState>(initialGameState);
   const buildings: Building[] = use<Building[]>(buildingsPromise);
   const [isOpenShop, setIsOpenShop] = useState<boolean>(false);
+  const [isOpenBuildingMenu, setIsOpenBuildingMenu] = useState<boolean>(false);
 
   const [placingBuilding, setPlacingBuilding] = useState<Building | null>(null);
 
@@ -68,6 +69,14 @@ const App = () => {
     setGameState(data);
   };
 
+  const handleShopClick = (): void => {
+    if (isOpenBuildingMenu) return;
+    setIsOpenShop((prev) => !prev);
+  }
+  const handleBuildingMenuClick = (): void => {
+    if (isOpenShop) return;
+    setIsOpenBuildingMenu((prev) => !prev);
+  }
   return (
     <div className="page">
       <div className="page__townhall-level">
@@ -78,12 +87,17 @@ const App = () => {
           <Shop
             isOpen={isOpenShop}
             buildings={buildings}
-            setIsOpen={setIsOpenShop}
+            setIsOpen={handleShopClick}
             onBuildingBuy={(building) => {
               setPlacingBuilding(building);
               setIsOpenShop(false);
             }}
           />
+        </div>
+      )}
+      {isOpenBuildingMenu && (
+        <div className="page__building-menu">
+          <BuildingMenu isOpen={isOpenBuildingMenu} building={buildings[0]} setIsOpen={handleBuildingMenuClick}/>
         </div>
       )}
       <ul className="page__resources-area">
@@ -131,6 +145,7 @@ const App = () => {
               setPlacingBuilding(null);
             }
           }}
+          setIsOpenMenu={handleBuildingMenuClick}
         />
       )}
     </div>
