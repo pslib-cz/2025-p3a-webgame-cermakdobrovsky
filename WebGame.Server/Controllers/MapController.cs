@@ -33,12 +33,33 @@ namespace WebGame.Server.Controllers
         [HttpPost("building")]
         public async Task<ActionResult<GameState>> CreateBuilding([FromBody] MapBuildingDTO request)
         {
-            GameState? gameState = await _dbc.GameStates.FirstOrDefaultAsync(gs => gs.PlayerId == request.PlayerId);
+            GameState? gameState = await _dbc.GameStates
+                .Include(gs => gs.BuildingMap)
+                .ThenInclude(m => m.Buildings)
+                .ThenInclude(mb => mb.Building)
+                .Include(gs => gs.BuildingMap)
+                .ThenInclude(m => m.Tiles)
+                .ThenInclude(mt => mt.Tile)
+                .FirstOrDefaultAsync(gs => gs.PlayerId == request.PlayerId);
+
             Building? buildingType = await _dbc.Buildings.AsNoTracking().FirstOrDefaultAsync(b => b.BuildingId == request.BuildingId);
 
             if (gameState == null) return NotFound("Game state not found for the given player ID.");
             if (buildingType == null) return NotFound("Building type not found for the given building ID.");
             if (buildingType.InitialCost > gameState.Sheep) return NotFound("Not enough resources to build this building.");
+
+            // check for collisions
+            bool isColiding = !MapUtils.CanPlaceBuilding(
+                new MapBuilding
+                {
+                    Building = buildingType,
+                    BottomLeftX = request.BottomLeftX,
+                    BottomLeftY = request.BottomLeftY
+                },
+                gameState.BuildingMap.Buildings.ToArray(),
+                gameState.BuildingMap.Tiles.ToArray()
+            );
+            if (isColiding) return BadRequest("Building placement collides with existing buildings.");
 
             MapBuilding mapBuilding = new MapBuilding
             {
@@ -55,7 +76,6 @@ namespace WebGame.Server.Controllers
             _dbc.GameStates.Update(gameState);
 
             await _dbc.SaveChangesAsync();
-
 
             GameState? UpdatedGameState = await _dbc.GameStates
                 .AsNoTracking()
