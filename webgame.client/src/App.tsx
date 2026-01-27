@@ -39,23 +39,9 @@ const App = () => {
   const [gameState, setGameState] = useState<GameState>(initialGameState);
   const buildings: Building[] = use<Building[]>(buildingsPromise);
   const [isOpenShop, setIsOpenShop] = useState<boolean>(false);
-  const [isOpenBuildingMenu, setIsOpenBuildingMenu] = useState<boolean>(false);
   const [placingBuilding, setPlacingBuilding] = useState<Building | null>(null);
-  const shopRef = useRef<HTMLDivElement>(null);
-  const buildingMenuRef = useRef<HTMLDivElement>(null);
+  const [currentBuilding, setCurrentBuilding] = useState<Building | null>(null);
   const shopButtonRef = useRef<HTMLLIElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-      if (isOpenShop && shopRef.current && !shopRef.current.contains(target) && shopButtonRef.current && !shopButtonRef.current.contains(target)) setIsOpenShop(false);
-      if (isOpenBuildingMenu && buildingMenuRef.current && !buildingMenuRef.current.contains(target)) setIsOpenBuildingMenu(false);
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpenShop, isOpenBuildingMenu]);
 
   const addBuilding = async (buildingId: number, bottomLeftX: number, bottomLeftY: number) => {
     const buildingToPlace: MapBuildingDTO = {
@@ -80,37 +66,21 @@ const App = () => {
     setGameState(data);
   };
 
-  const handleShopClick = (): void => {
-    if (isOpenBuildingMenu) return;
-    setIsOpenShop((prev) => !prev);
-  };
-  const handleBuildingMenuClick = (): void => {
-    if (isOpenShop) return;
-    setIsOpenBuildingMenu((prev) => !prev);
-  };
   return (
     <div className="page">
       <div className="page__townhall-level">
         <TownHallLevel currentLevel={6} />
       </div>
-      {isOpenShop && (
-        <div className="page__shop" ref={shopRef}>
-          <Shop
-            isOpen={isOpenShop}
-            buildings={buildings}
-            setIsOpen={handleShopClick}
-            onBuildingBuy={(building) => {
-              setPlacingBuilding(building);
-              setIsOpenShop(false);
-            }}
-          />
-        </div>
-      )}
-      {isOpenBuildingMenu && (
-        <div className="page__building-menu" ref={buildingMenuRef}>
-          <BuildingMenu isOpen={isOpenBuildingMenu} building={buildings[0]} setIsOpen={handleBuildingMenuClick} />
-        </div>
-      )}
+      <Shop
+        isOpen={isOpenShop}
+        buildings={buildings}
+        onClose={() => setIsOpenShop(false)}
+        onBuildingBuy={(building) => {
+          setPlacingBuilding(building);
+          setIsOpenShop(false);
+        }}
+      />
+      <BuildingMenu isOpen={currentBuilding !== null} building={currentBuilding ?? undefined} onClose={() => setCurrentBuilding(null)} />
       <ul className="page__resources-area">
         <li>
           <Resource maxWidth="300px" imgSrc="images/content/sheep.png" color="#9B7260" currentAmount={gameState.sheep} />
@@ -137,7 +107,7 @@ const App = () => {
               </Button>
             </li>
             <li ref={shopButtonRef}>
-              <Button onClick={() => setIsOpenShop((prev) => !prev)} variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">
+              <Button onClick={() => setIsOpenShop(true)} variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">
                 Stavět
               </Button>
             </li>
@@ -156,8 +126,8 @@ const App = () => {
               setPlacingBuilding(null);
             }
           }}
-          onBuildingClick={() => {
-            if (placingBuilding === null) handleBuildingMenuClick();
+          onBuildingClick={(building) => {
+            if (placingBuilding === null) setCurrentBuilding(building);
           }}
         />
       )}

@@ -10,7 +10,7 @@ type MapCanvasProps = {
   tileSize?: number;
   placingBuilding?: Building | null;
   onMapClick?: (x: number, y: number) => void;
-  onBuildingClick?: (value: boolean) => void;
+  onBuildingClick?: (building: Building) => void;
 };
 const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, tileSize = 64, placingBuilding = null, onBuildingClick }) => {
   //Hooks

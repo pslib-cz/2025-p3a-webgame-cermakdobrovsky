@@ -1,4 +1,4 @@
-import type { MapBuilding } from "../../../types/mapModels";
+import type { Building, MapBuilding } from "../../../types/mapModels";
 import useImage from "use-image";
 import { Image as KonvaImage } from "react-konva";
 import { useEffect, useRef, useState } from "react";
@@ -10,7 +10,7 @@ type buildingProps = {
   transparentOnHover?: boolean;
   opacity?: number;
   listening?: boolean;
-  onClick?: (value: boolean) => void;
+  onClick?: (building: Building) => void;
 };
 const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transparentOnHover = false, opacity, listening = true, onClick }) => {
   //Hooks
@@ -22,8 +22,7 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transp
     if (imageRef.current) {
       if (opacity !== undefined) {
         imageRef.current.opacity(opacity);
-      } 
-      else {
+      } else {
         imageRef.current.to({
           opacity: transparentOnHover && isHovered ? 0.2 : 1,
           duration: 0.1,
@@ -49,7 +48,7 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transp
         y={rectY + rectHeight - imageHeight - 10}
         width={buildingWidth}
         height={imageHeight}
-        onClick={() => onClick?.(true)}
+        onClick={() => onClick?.(building.building)}
       />
     </>
   );
