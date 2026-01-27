@@ -154,7 +154,7 @@ const App = () => {
               setPlacingBuilding(null);
             }
           }}
-          setIsOpenMenu={handleBuildingMenuClick}
+          onBuildingClick={handleBuildingMenuClick}
         />
       )}
     </div>

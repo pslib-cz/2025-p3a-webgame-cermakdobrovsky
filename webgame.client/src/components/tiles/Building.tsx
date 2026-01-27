@@ -10,9 +10,9 @@ type buildingProps = {
   transparentOnHover?: boolean;
   opacity?: number;
   listening?: boolean;
-  setIsOpenMenu?: (value: boolean) => void;
+  onClick?: (value: boolean) => void;
 };
-const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transparentOnHover = false, opacity, listening = true, setIsOpenMenu }) => {
+const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transparentOnHover = false, opacity, listening = true, onClick }) => {
   //Hooks
   const [buildingImage] = useImage(building.building.imageUrl);
   const [isHovered, setIsHovered] = useState(false);
@@ -49,7 +49,7 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transp
         y={rectY + rectHeight - imageHeight - 10}
         width={buildingWidth}
         height={imageHeight}
-        onClick={() => setIsOpenMenu?.(true)}
+        onClick={() => onClick?.(true)}
       />
     </>
   );

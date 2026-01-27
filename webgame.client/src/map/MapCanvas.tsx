@@ -10,9 +10,9 @@ type MapCanvasProps = {
   tileSize?: number;
   placingBuilding?: Building | null;
   onMapClick?: (x: number, y: number) => void;
-  setIsOpenMenu?: (value: boolean) => void;
+  onBuildingClick?: (value: boolean) => void;
 };
-const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, tileSize = 64, placingBuilding = null, setIsOpenMenu }) => {
+const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, tileSize = 64, placingBuilding = null, onBuildingClick }) => {
   //Hooks
   const stageRef = useRef<Konva.Stage>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -93,7 +93,7 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapCli
             <Tile key={`tile-${index}`} tile={tile} tileSize={tileSize} />
           ))}
           {buildingsMap.buildings.map((building, index) => (
-            <BuildingComponent transparentOnHover={!!placingBuilding} key={`building-${index}`} building={building} tileSize={tileSize} setIsOpenMenu={setIsOpenMenu}/>
+            <BuildingComponent transparentOnHover={!!placingBuilding} key={`building-${index}`} building={building} tileSize={tileSize} onClick={onBuildingClick} />
           ))}
           {placingBuilding && hoverPosition && (
             <>
@@ -111,7 +111,6 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapCli
                 transparentOnHover={false}
                 opacity={0.7}
                 listening={false}
-                setIsOpenMenu={setIsOpenMenu}
               />
             </>
           )}
