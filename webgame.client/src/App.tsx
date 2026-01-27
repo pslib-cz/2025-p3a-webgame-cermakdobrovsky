@@ -50,7 +50,7 @@ const App = () => {
       const target = event.target as Node;
       if (isOpenShop && shopRef.current && !shopRef.current.contains(target) && shopButtonRef.current && !shopButtonRef.current.contains(target)) setIsOpenShop(false);
       if (isOpenBuildingMenu && buildingMenuRef.current && !buildingMenuRef.current.contains(target)) setIsOpenBuildingMenu(false);
-    }
+    };
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -81,11 +81,11 @@ const App = () => {
   const handleShopClick = (): void => {
     if (isOpenBuildingMenu) return;
     setIsOpenShop((prev) => !prev);
-  }
+  };
   const handleBuildingMenuClick = (): void => {
     if (isOpenShop) return;
     setIsOpenBuildingMenu((prev) => !prev);
-  }
+  };
   return (
     <div className="page">
       <div className="page__townhall-level">
@@ -106,7 +106,7 @@ const App = () => {
       )}
       {isOpenBuildingMenu && (
         <div className="page__building-menu" ref={buildingMenuRef}>
-          <BuildingMenu isOpen={isOpenBuildingMenu} building={buildings[0]} setIsOpen={handleBuildingMenuClick}/>
+          <BuildingMenu isOpen={isOpenBuildingMenu} building={buildings[0]} setIsOpen={handleBuildingMenuClick} />
         </div>
       )}
       <ul className="page__resources-area">
@@ -154,7 +154,9 @@ const App = () => {
               setPlacingBuilding(null);
             }
           }}
-          onBuildingClick={handleBuildingMenuClick}
+          onBuildingClick={() => {
+            if (placingBuilding === null) handleBuildingMenuClick();
+          }}
         />
       )}
     </div>
