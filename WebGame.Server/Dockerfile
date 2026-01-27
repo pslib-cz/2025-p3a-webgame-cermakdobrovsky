@@ -7,10 +7,18 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
+
+# --- OPRAVA: Instalace Node.js (Nutné pro .esproj / frontend build) ---
+# Používáme Node.js 20 (LTS), což je standard pro moderní .NET/SPA šablony
+RUN apt-get update && \
+    apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs
+# -----------------------------------------------------------------------
+
 WORKDIR /src
 COPY ["WebGame.Server/WebGame.Server.csproj", "WebGame.Server/"]
 COPY ["webgame.client/webgame.client.esproj", "webgame.client/"]
