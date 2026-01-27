@@ -56,6 +56,7 @@ const App = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpenShop, isOpenBuildingMenu]);
+
   const addBuilding = async (buildingId: number, bottomLeftX: number, bottomLeftY: number) => {
     const buildingToPlace: MapBuildingDTO = {
       playerId: gameState.playerId,
@@ -78,6 +79,7 @@ const App = () => {
     const data = await response.json();
     setGameState(data);
   };
+
   const handleShopClick = (): void => {
     if (isOpenBuildingMenu) return;
     setIsOpenShop((prev) => !prev);

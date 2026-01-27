@@ -89,5 +89,13 @@ namespace WebGame.Server.Controllers
 
             return Ok(UpdatedGameState);
         }
+    
+        
+        [HttpDelete("building/{id}")]
+        public async Task<IActionResult> DeleteBuilding(int id)
+        {  
+            
+            return NoContent();
+        }
     }
 }
