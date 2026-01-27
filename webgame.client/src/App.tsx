@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { use, useState, useRef, useEffect } from "react";
 import type { GameState } from "./../types/gameModels";
 import type { Building, Map, MapBuildingDTO } from "./../types/mapModels";
 import MapCanvas from "./map/MapCanvas";
@@ -40,9 +40,22 @@ const App = () => {
   const buildings: Building[] = use<Building[]>(buildingsPromise);
   const [isOpenShop, setIsOpenShop] = useState<boolean>(false);
   const [isOpenBuildingMenu, setIsOpenBuildingMenu] = useState<boolean>(false);
-
   const [placingBuilding, setPlacingBuilding] = useState<Building | null>(null);
+  const shopRef = useRef<HTMLDivElement>(null);
+  const buildingMenuRef = useRef<HTMLDivElement>(null);
+  const shopButtonRef = useRef<HTMLLIElement>(null);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (isOpenShop && shopRef.current && !shopRef.current.contains(target) && shopButtonRef.current && !shopButtonRef.current.contains(target)) setIsOpenShop(false);
+      if (isOpenBuildingMenu && buildingMenuRef.current && !buildingMenuRef.current.contains(target)) setIsOpenBuildingMenu(false);
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpenShop, isOpenBuildingMenu]);
   const addBuilding = async (buildingId: number, bottomLeftX: number, bottomLeftY: number) => {
     const buildingToPlace: MapBuildingDTO = {
       playerId: gameState.playerId,
@@ -50,7 +63,6 @@ const App = () => {
       bottomLeftX: bottomLeftX,
       bottomLeftY: bottomLeftY,
     };
-
     const response = await fetch("/api/map/building", {
       method: "POST",
       headers: {
@@ -58,17 +70,14 @@ const App = () => {
       },
       body: JSON.stringify(buildingToPlace),
     });
-
     if (!response.ok) {
       const errorMessage = await response.text();
       alert(errorMessage);
       return;
     }
-
     const data = await response.json();
     setGameState(data);
   };
-
   const handleShopClick = (): void => {
     if (isOpenBuildingMenu) return;
     setIsOpenShop((prev) => !prev);
@@ -83,7 +92,7 @@ const App = () => {
         <TownHallLevel currentLevel={6} />
       </div>
       {isOpenShop && (
-        <div className="page__shop">
+        <div className="page__shop" ref={shopRef}>
           <Shop
             isOpen={isOpenShop}
             buildings={buildings}
@@ -96,19 +105,19 @@ const App = () => {
         </div>
       )}
       {isOpenBuildingMenu && (
-        <div className="page__building-menu">
+        <div className="page__building-menu" ref={buildingMenuRef}>
           <BuildingMenu isOpen={isOpenBuildingMenu} building={buildings[0]} setIsOpen={handleBuildingMenuClick}/>
         </div>
       )}
       <ul className="page__resources-area">
         <li>
-          <Resource currentAmount={gameState.sheep} maxWidth="300px" imgSrc="images/content/sheep.png" color="#9B7260" />
+          <Resource maxWidth="300px" imgSrc="images/content/sheep.png" color="#9B7260" currentAmount={gameState.sheep} />
         </li>
         <li>
-          <Resource currentAmount={gameState.population} maxWidth="250px" imgSrc="images/content/mong.png" color="#4795A7" />
+          <Resource maxWidth="250px" imgSrc="images/content/mong.png" color="#4795A7" currentAmount={gameState.population} />
         </li>
         <li>
-          <Resource currentAmount={20} maxWidth="200px" imgSrc="images/content/grass.png" color="#455A4B" />
+          <Resource maxWidth="200px" imgSrc="images/content/grass.png" color="#455A4B" currentAmount={20} />
         </li>
       </ul>
       <ul className="page__buttons-area">
@@ -125,7 +134,7 @@ const App = () => {
                 Útok
               </Button>
             </li>
-            <li>
+            <li ref={shopButtonRef}>
               <Button onClick={() => setIsOpenShop((prev) => !prev)} variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">
                 Stavět
               </Button>

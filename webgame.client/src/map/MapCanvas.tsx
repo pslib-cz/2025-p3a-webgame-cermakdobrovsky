@@ -10,10 +10,10 @@ type MapCanvasProps = {
   tileSize?: number;
   placingBuilding?: Building | null;
   onMapClick?: (x: number, y: number) => void;
-   setIsOpenMenu?: (value: boolean) => void;
+  setIsOpenMenu?: (value: boolean) => void;
 };
 const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, tileSize = 64, placingBuilding = null, setIsOpenMenu }) => {
-
+  //Hooks
   const stageRef = useRef<Konva.Stage>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
@@ -82,7 +82,6 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapCli
           if (!stage) return;
           const pointerPosition = stage.getPointerPosition();
           if (!pointerPosition) return;
-
           const scale = stage.scaleX();
           const x = Math.floor((pointerPosition.x - stage.x()) / scale / tileSize);
           const y = Math.floor((pointerPosition.y - stage.y()) / scale / tileSize);
@@ -94,11 +93,10 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapCli
             <Tile key={`tile-${index}`} tile={tile} tileSize={tileSize} />
           ))}
           {buildingsMap.buildings.map((building, index) => (
-            <BuildingComponent transparentOnHover={!!placingBuilding} key={`building-${index}`} building={building} tileSize={tileSize} setIsOpenMenu={setIsOpenMenu} />
-
+            <BuildingComponent transparentOnHover={!!placingBuilding} key={`building-${index}`} building={building} tileSize={tileSize} setIsOpenMenu={setIsOpenMenu}/>
           ))}
           {placingBuilding && hoverPosition && (
-            <React.Fragment>
+            <>
               <BuildingComponent
                 building={
                   {
@@ -113,8 +111,9 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapCli
                 transparentOnHover={false}
                 opacity={0.7}
                 listening={false}
+                setIsOpenMenu={setIsOpenMenu}
               />
-            </React.Fragment>
+            </>
           )}
         </Layer>
       </Stage>
