@@ -12,17 +12,19 @@ const Shop: FC<ShopProps> = ({ isOpen, buildings, onClose, onBuildingBuy }) => {
   return (
     <>
       {isOpen && (
-        <div className="page__shop">
-          <div className="shop">
-            <Close className="shop__close" onToggle={onClose} />
-            <p className="shop__title">Obchod</p>
-            <SwiperPrimary>
-              {buildings
-                .filter((building: Building) => building.buildingId !== 1)
-                .map((building: Building) => (
-                  <Item imgSrc={building.imageUrl} price={building.initialCost} onBuy={() => onBuildingBuy?.(building)} />
-                ))}
-            </SwiperPrimary>
+        <div className="menu-container" onClick={onClose}>
+          <div className="page__shop" onClick={(e) => e.stopPropagation()}>
+            <div className="shop">
+              <Close className="shop__close" onToggle={onClose} />
+              <p className="shop__title">Obchod</p>
+              <SwiperPrimary>
+                {buildings
+                  .filter((building: Building) => building.buildingId !== 1)
+                  .map((building: Building) => (
+                    <Item imgSrc={building.imageUrl} price={building.initialCost} onBuy={() => onBuildingBuy?.(building)} />
+                  ))}
+              </SwiperPrimary>
+            </div>
           </div>
         </div>
       )}
