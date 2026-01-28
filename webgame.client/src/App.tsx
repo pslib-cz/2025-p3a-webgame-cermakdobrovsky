@@ -1,4 +1,4 @@
-import { use, useState, useRef, useEffect } from "react";
+import { use, useState, useRef } from "react";
 import type { GameState } from "./../types/gameModels";
 import type { Building, Map, MapBuildingDTO } from "./../types/mapModels";
 import MapCanvas from "./map/MapCanvas";
