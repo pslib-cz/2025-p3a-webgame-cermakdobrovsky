@@ -10,7 +10,7 @@
   font-weight: 700;
   text-transform: uppercase;
   cursor:
-    url("images/content/cursor-2.png") 32 32,
+    url("/images/content/cursor-2.png") 32 32,
     auto;
 }
 
@@ -256,7 +256,7 @@
   height: 32px;
   padding: 1rem;
   cursor:
-    url("images/content/cursor-2.png") 32 32,
+    url("/images/content/cursor-2.png") 32 32,
     auto;
 }
 
@@ -325,7 +325,7 @@
   background-color: transparent;
   border: none;
   cursor:
-    url("images/content/cursor-2.png") 32 32,
+    url("/images/content/cursor-2.png") 32 32,
     auto;
 }
 

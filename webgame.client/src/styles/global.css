@@ -42,7 +42,7 @@
         background-color: var(--blue, #4795A7);
         scroll-behavior: smooth;
         overscroll-behavior: none;
-        cursor: url("images/content/cursor.png") 32 32, auto;
+        cursor: url("/images/content/cursor.png") 32 32, auto;
     }
 
     body {
@@ -52,7 +52,7 @@
     }
 
     canvas {
-        cursor: url("images/content/cursor.png") 32 32, auto;
+        cursor: url("/images/content/cursor.png") 32 32, auto;
     }
 }
 
