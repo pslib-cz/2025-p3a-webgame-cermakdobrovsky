@@ -7,7 +7,6 @@ namespace WebGame.Server.Models
     {   
         public static bool CanPlaceBuilding(MapBuilding buildingToPlace, MapBuilding[] buildings, MapTile[] tiles)
         {   
-            // Check for collisions with existing buildings
             foreach (MapBuilding building in buildings)
             {
                 bool overlapX = (buildingToPlace.BottomLeftX + buildingToPlace.Building.BaseWidth > building.BottomLeftX) && (buildingToPlace.BottomLeftX < building.BottomLeftX + building.Building.BaseWidth);
@@ -16,17 +15,31 @@ namespace WebGame.Server.Models
                 if (overlapX && overlapY) return false;
             }
 
-            // Check if all tiles under the building are placeable
-            for (int x = buildingToPlace.BottomLeftX; x < buildingToPlace.BottomLeftX + buildingToPlace.Building.BaseWidth; x++)
+            // check if all tiles under the building are placeable and don't cross edges
+            int minX = buildingToPlace.BottomLeftX;
+            int maxX = buildingToPlace.BottomLeftX + buildingToPlace.Building.BaseWidth - 1;
+            int minY = buildingToPlace.BottomLeftY - buildingToPlace.Building.BaseHeight + 1;
+            int maxY = buildingToPlace.BottomLeftY;
+
+            for (int x = minX; x <= maxX; x++)
             {   
-                for (int y = buildingToPlace.BottomLeftY - buildingToPlace.Building.BaseHeight; y <= buildingToPlace.BottomLeftY; y++)
+                for (int y = minY; y <= maxY; y++)
                 {
+                    // check if tile exist and it is placeable
                     var tilesAtLocation = tiles.Where(t => t.X == x && t.Y == y).ToArray();
 
                     if (tilesAtLocation.Length == 0 || tilesAtLocation.Any(t => !t.Tile.IsPlaceable))
                     {
                         return false;
                     }
+
+                    // check if building cross an edge
+                    var topTile = tilesAtLocation.OrderByDescending(t => t.ZIndex).First();
+                    
+                    if (topTile.Tile.IsEdgeNorth && y > minY) return false; 
+                    if (topTile.Tile.IsEdgeSouth && y < maxY) return false; 
+                    if (topTile.Tile.IsEdgeEast && x < maxX) return false;  
+                    if (topTile.Tile.IsEdgeWest && x > minX) return false;  
                 }
             }
 
