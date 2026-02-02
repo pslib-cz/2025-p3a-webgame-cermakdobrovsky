@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebGame.Server.Data;
 
@@ -10,9 +11,11 @@ using WebGame.Server.Data;
 namespace WebGame.Server.Migrations
 {
     [DbContext(typeof(GameDbContext))]
-    partial class GameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260202121921_TileIsEdgeProp")]
+    partial class TileIsEdgeProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.11");
@@ -15912,25 +15915,25 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 1,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 2,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 3,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 5,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
@@ -15948,19 +15951,19 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 8,
-                            IsEdge = false,
-                            IsPlaceable = true
-                        },
-                        new
-                        {
-                            TileId = 9,
                             IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
-                            TileId = 10,
+                            TileId = 9,
                             IsEdge = false,
+                            IsPlaceable = true
+                        },
+                        new
+                        {
+                            TileId = 10,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
@@ -15972,7 +15975,7 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 12,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
@@ -15984,7 +15987,7 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 15,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
@@ -15996,13 +15999,13 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 17,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 18,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
@@ -16056,7 +16059,7 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 28,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
@@ -16080,25 +16083,25 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 33,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 34,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 35,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 36,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
@@ -16110,19 +16113,19 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 41,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 42,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 43,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
@@ -16152,19 +16155,19 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 51,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 52,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 53,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
@@ -16176,13 +16179,13 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 55,
-                            IsEdge = true,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 56,
-                            IsEdge = true,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
@@ -16218,19 +16221,19 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 63,
-                            IsEdge = true,
-                            IsPlaceable = true
-                        },
-                        new
-                        {
-                            TileId = 64,
                             IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
-                            TileId = 65,
+                            TileId = 64,
                             IsEdge = true,
+                            IsPlaceable = true
+                        },
+                        new
+                        {
+                            TileId = 65,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
@@ -16242,13 +16245,13 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 68,
-                            IsEdge = true,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 69,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
@@ -16260,7 +16263,7 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 71,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
@@ -16272,19 +16275,19 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 73,
-                            IsEdge = true,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 74,
-                            IsEdge = true,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 75,
-                            IsEdge = true,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
@@ -16314,7 +16317,7 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 81,
-                            IsEdge = true,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
@@ -16326,13 +16329,13 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 83,
-                            IsEdge = true,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 84,
-                            IsEdge = true,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
@@ -16344,49 +16347,49 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 87,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 88,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 89,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 90,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 93,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 95,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 96,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 97,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
@@ -16404,31 +16407,31 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 102,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 104,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 105,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 106,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 107,
-                            IsEdge = false,
+                            IsEdge = true,
                             IsPlaceable = false
                         });
                 });

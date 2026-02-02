@@ -1,6 +1,7 @@
 export type Tile = {
-  tileId: string;
+  tileId: number;
   isPlaceable: boolean;
+  isEdge: boolean;
   imageUrl: string;
 };
 
