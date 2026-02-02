@@ -13,7 +13,7 @@ namespace WebGame.Server
             {
                 options.AddPolicy("AllowFrontend", policy =>
                 {
-                    policy.WithOrigins("http://localhost:5173")
+                    policy.AllowAnyOrigin()
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 });
@@ -29,10 +29,13 @@ namespace WebGame.Server
                 app.MapOpenApi();
                 app.MapScalarApiReference();
             }
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseCors("AllowFrontend");
             app.UseAuthorization();
             app.MapControllers();
+            app.MapFallbackToFile("/index.html");
             app.Run();
         }
     }
