@@ -1,6 +1,6 @@
 import type { MapBuilding } from "../../../types/mapModels";
 import useImage from "use-image";
-import { Image as KonvaImage } from "react-konva";
+import { Image as KonvaImage, Rect } from "react-konva";
 import { useEffect, useRef, useState } from "react";
 import Konva from "konva";
 
@@ -38,6 +38,7 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transp
   const imageHeight = buildingImage.height * scale;
   return (
     <>
+      <Rect x={building.bottomLeftX * tileSize} y={rectY} width={buildingWidth} height={rectHeight} fill="red" opacity={0.5} />
       <KonvaImage
         ref={imageRef}
         image={buildingImage}

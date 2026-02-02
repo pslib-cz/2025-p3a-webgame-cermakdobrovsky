@@ -34,7 +34,7 @@ const TileComponent: React.FC<TileProps> = ({ tile, tileSize }) => {
       />
       {debugMode && (
         <Text
-          text={`x: ${tile.x}\ny: ${tile.y}\n${tile.tile.isEdgeNorth ? "↑" : ""}${tile.tile.isEdgeSouth ? "↓" : ""}${tile.tile.isEdgeWest ? "←" : ""}${tile.tile.isEdgeEast ? "→" : ""}`}
+          text={`x: ${tile.x}\ny: ${tile.y}\n${tile.tile.isPlaceable}`}
           fontSize={12}
           x={tile.x * tileSize}
           y={tile.y * tileSize}
