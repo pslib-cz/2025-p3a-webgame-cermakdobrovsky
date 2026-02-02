@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebGame.Server.Data;
 
@@ -10,9 +11,11 @@ using WebGame.Server.Data;
 namespace WebGame.Server.Migrations
 {
     [DbContext(typeof(GameDbContext))]
-    partial class GameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260202123246_fixEdgeIds")]
+    partial class fixEdgeIds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.11");
@@ -15898,16 +15901,7 @@ namespace WebGame.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsEdgeEast")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsEdgeNorth")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsEdgeSouth")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsEdgeWest")
+                    b.Property<bool>("IsEdge")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsPlaceable")
@@ -15921,784 +15915,523 @@ namespace WebGame.Server.Migrations
                         new
                         {
                             TileId = 1,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 2,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 3,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 5,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 6,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = true,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 7,
-                            IsEdgeEast = true,
-                            IsEdgeNorth = true,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 8,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 9,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = true,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 10,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 11,
-                            IsEdgeEast = true,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 12,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 14,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = true,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 15,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 16,
-                            IsEdgeEast = true,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 17,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 18,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 19,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 20,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 21,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 23,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = true,
-                            IsEdgeWest = true,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 24,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = true,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 25,
-                            IsEdgeEast = true,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = true,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 26,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 27,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 28,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 29,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 30,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 32,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 33,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 34,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 35,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 36,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 39,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 41,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 42,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 43,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 44,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 45,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 48,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 50,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 51,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 52,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 53,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 54,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = true,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = true,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 55,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = true,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 56,
-                            IsEdgeEast = true,
-                            IsEdgeNorth = true,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 57,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 59,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = true,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = true,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 60,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = true,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 61,
-                            IsEdgeEast = true,
-                            IsEdgeNorth = true,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 62,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 63,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = true,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 64,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 65,
-                            IsEdgeEast = true,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 66,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 68,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = true,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 69,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 70,
-                            IsEdgeEast = true,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 71,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 72,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = true,
-                            IsEdgeWest = true,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 73,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = true,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 74,
-                            IsEdgeEast = true,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = true,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 75,
-                            IsEdgeEast = true,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = true,
-                            IsEdgeWest = true,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 77,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = true,
-                            IsEdgeWest = true,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 78,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = true,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 79,
-                            IsEdgeEast = true,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = true,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 80,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 81,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = true,
-                            IsEdgeSouth = true,
-                            IsEdgeWest = true,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 82,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = true,
-                            IsEdgeSouth = true,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 83,
-                            IsEdgeEast = true,
-                            IsEdgeNorth = true,
-                            IsEdgeSouth = true,
-                            IsEdgeWest = false,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 84,
-                            IsEdgeEast = true,
-                            IsEdgeNorth = true,
-                            IsEdgeSouth = true,
-                            IsEdgeWest = true,
+                            IsEdge = true,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 86,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 87,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 88,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 89,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 90,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 93,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 95,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 96,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 97,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 98,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = true
                         },
                         new
                         {
                             TileId = 99,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 102,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 104,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 105,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 106,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         },
                         new
                         {
                             TileId = 107,
-                            IsEdgeEast = false,
-                            IsEdgeNorth = false,
-                            IsEdgeSouth = false,
-                            IsEdgeWest = false,
+                            IsEdge = false,
                             IsPlaceable = false
                         });
                 });

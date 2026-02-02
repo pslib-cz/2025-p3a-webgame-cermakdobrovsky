@@ -43,6 +43,7 @@ namespace WebGame.Server.Controllers
                 .FirstOrDefaultAsync(gs => gs.PlayerId == request.PlayerId);
 
             Building? buildingType = await _dbc.Buildings.AsNoTracking().FirstOrDefaultAsync(b => b.BuildingId == request.BuildingId);
+            Map? map = await _dbc.Maps.AsNoTracking().Include(t => t.Tiles).ThenInclude(mt => mt.Tile).FirstOrDefaultAsync(m => m.MapId == 1);
 
             if (gameState == null) return NotFound("Game state not found for the given player ID.");
             if (buildingType == null) return NotFound("Building type not found for the given building ID.");
@@ -57,7 +58,7 @@ namespace WebGame.Server.Controllers
                     BottomLeftY = request.BottomLeftY
                 },
                 gameState.BuildingMap.Buildings.ToArray(),
-                gameState.BuildingMap.Tiles.ToArray()
+                map.Tiles.ToArray()
             );
             if (isColiding) return BadRequest("Building placement collides with existing buildings.");
 

@@ -42,12 +42,22 @@ namespace WebGame.Server.Data
             int highestId = 107;
             int[] idsToSkip = {4, 13, 22, 31, 40, 49, 58, 67, 76, 85, 94, 103, 91, 92, 100, 101, 37, 38, 46, 47};
             int[] nonPlacableTiles = {32, 33, 34, 35, 36, 45, 50, 51, 52, 53, 39, 48, 86, 87, 88, 89, 90, 99, 93, 102, 104, 105, 106, 107};
+
+            int[] northEdges = {55,54,56,59,60,61,6,7,82,83,81,84};
+            int[] eastEdges = {56,65,74,7,16,25,70,79,61,25,11,83,75,84};
+            int[] westEdges = {72,63,72,54,14,23,9,59,68,77,75,81,84};
+            int[] southEdges = {72,73,74,24,23,25,77,78,79,82,83,75,81,84};
+
             for (int id = 1; id <= highestId; id++)
             {
                 if (idsToSkip.Contains(id)) continue;
                 tiles.Add(new Tile
                 {
                     TileId = id,
+                    IsEdgeNorth = northEdges.Contains(id),
+                    IsEdgeSouth = southEdges.Contains(id),
+                    IsEdgeEast = eastEdges.Contains(id),
+                    IsEdgeWest = westEdges.Contains(id),
                     IsPlaceable = !nonPlacableTiles.Contains(id)
                 });
             }
