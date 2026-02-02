@@ -8,7 +8,7 @@ type TileProps = {
 };
 const TileComponent: React.FC<TileProps> = ({ tile, tileSize }) => {
   const [tileImage] = useImage(tile.tile.imageUrl);
-  const debugMode = false;
+  const debugMode = true;
 
   let scale = 1;
   let offsetX = 0;
@@ -34,7 +34,7 @@ const TileComponent: React.FC<TileProps> = ({ tile, tileSize }) => {
       />
       {debugMode && (
         <Text
-          text={`x: ${tile.x}\ny: ${tile.y}\n${tile.tile.isPlaceable}`}
+          text={`x: ${tile.x}\ny: ${tile.y}\n${tile.tile.isEdgeNorth ? "↑" : ""}${tile.tile.isEdgeSouth ? "↓" : ""}${tile.tile.isEdgeWest ? "←" : ""}${tile.tile.isEdgeEast ? "→" : ""}`}
           fontSize={12}
           x={tile.x * tileSize}
           y={tile.y * tileSize}

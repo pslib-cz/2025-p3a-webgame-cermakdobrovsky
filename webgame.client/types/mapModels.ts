@@ -1,8 +1,11 @@
 export type Tile = {
   tileId: number;
   isPlaceable: boolean;
-  isEdge: boolean;
   imageUrl: string;
+  isEdgeNorth: boolean;
+  isEdgeSouth: boolean;
+  isEdgeEast: boolean;
+  isEdgeWest: boolean;
 };
 
 export type Building = {

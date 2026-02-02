@@ -18,7 +18,7 @@ namespace WebGame.Server.Models
 
             // Check if all tiles under the building are placeable
             for (int x = buildingToPlace.BottomLeftX; x < buildingToPlace.BottomLeftX + buildingToPlace.Building.BaseWidth; x++)
-            {
+            {   
                 for (int y = buildingToPlace.BottomLeftY; y < buildingToPlace.BottomLeftY + buildingToPlace.Building.BaseHeight; y++)
                 {
                     MapTile? tile = tiles.FirstOrDefault(t => t.X == x && t.Y == y);
