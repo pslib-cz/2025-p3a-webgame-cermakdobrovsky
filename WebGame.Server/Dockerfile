@@ -1,39 +1,52 @@
-# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+# Stage 1: Build the React client
+FROM node:22-alpine AS client-build
+WORKDIR /app/client
 
-# This stage is used when running from VS in fast mode (Default for Debug configuration)
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-USER $APP_UID
+# Copy package files
+COPY webgame.client/package*.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy client source
+COPY webgame.client/ ./
+
+# Build the client
+RUN npm run build
+
+# Stage 2: Build the .NET server
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS server-build
+WORKDIR /app/server
+
+# Copy csproj and restore
+COPY WebGame.Server/*.csproj ./
+RUN dotnet restore
+
+# Copy server source
+COPY WebGame.Server/ ./
+
+# Copy built client files to wwwroot
+COPY --from=client-build /app/client/dist ./wwwroot
+
+# Build the server
+RUN dotnet publish -c Release -o /app/publish
+
+# Stage 3: Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
+
+# Copy published app
+COPY --from=server-build /app/publish .
+
+# Create directory for database
+RUN mkdir -p /app/data
+
+# Set environment variables
+ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_ENVIRONMENT=Production
+
+# Expose port
 EXPOSE 8080
-EXPOSE 8081
 
-# This stage is used to build the service project
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-ARG BUILD_CONFIGURATION=Release
-
-# --- OPRAVA: Instalace Node.js (Nutné pro .esproj / frontend build) ---
-# Používáme Node.js 20 (LTS), což je standard pro moderní .NET/SPA šablony
-RUN apt-get update && \
-    apt-get install -y curl && \
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs
-# -----------------------------------------------------------------------
-
-WORKDIR /src
-COPY ["WebGame.Server/WebGame.Server.csproj", "WebGame.Server/"]
-COPY ["webgame.client/webgame.client.esproj", "webgame.client/"]
-RUN dotnet restore "./WebGame.Server/WebGame.Server.csproj"
-COPY . .
-WORKDIR "/src/WebGame.Server"
-RUN dotnet build "./WebGame.Server.csproj" -c $BUILD_CONFIGURATION -o /app/build
-
-# This stage is used to publish the service project to be copied to the final stage
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./WebGame.Server.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-
-# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
+# Start the application
 ENTRYPOINT ["dotnet", "WebGame.Server.dll"]
