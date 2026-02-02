@@ -81,11 +81,11 @@ namespace WebGame.Server.Data
             List<MapTile> mapTiles = new List<MapTile>();
             // order of csvs represents map layers from bottom to top
             List<string> csvPaths = [
-                Path.Combine(Directory.GetCurrentDirectory(), "Data", "Maps", "1.csv"),
-                Path.Combine(Directory.GetCurrentDirectory(), "Data", "Maps", "2.csv"),
-                Path.Combine(Directory.GetCurrentDirectory(), "Data", "Maps", "3.csv"),
-                Path.Combine(Directory.GetCurrentDirectory(), "Data", "Maps", "4.csv"),
-                Path.Combine(Directory.GetCurrentDirectory(), "Data", "Maps", "5.csv"),
+                Path.Combine("wwwroot", "1.csv"),
+                Path.Combine("wwwroot", "2.csv"),
+                Path.Combine("wwwroot", "3.csv"),
+                Path.Combine("wwwroot", "4.csv"),
+                Path.Combine("wwwroot", "5.csv"),
             ];
 
             for (int layerIndex = 0; layerIndex < csvPaths.Count; layerIndex++)
