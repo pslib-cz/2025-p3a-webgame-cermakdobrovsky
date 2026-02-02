@@ -40,7 +40,10 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transp
   const imageHeight = buildingImage.height * scale;
   return (
     <>
-      {debugMode && <Rect x={building.bottomLeftX * tileSize} y={rectY} width={buildingWidth} height={rectHeight} fill="red" opacity={0.5} />}
+      {debugMode && <>
+      <Rect x={building.bottomLeftX * tileSize} y={rectY} width={buildingWidth} height={rectHeight} fill="blue" opacity={0.5} />
+      <Rect x={building.bottomLeftX * tileSize} y={(building.bottomLeftY - building.building.baseHeight + 1) * tileSize} width={tileSize * building.building.baseWidth} height={tileSize * building.building.baseHeight} fill="green" opacity={0.5} />
+      </>}
       <KonvaImage
         ref={imageRef}
         image={buildingImage}

@@ -17,7 +17,9 @@ export type Building = {
   isTownHall: boolean;
   initialCost: number;
   height: number;
+  baseHeight: number;
   width: number;
+  baseWidth: number;
   levels: BuildingLevel[];
   imageUrl: string;
 };
