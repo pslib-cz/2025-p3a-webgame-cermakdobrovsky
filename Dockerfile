@@ -50,3 +50,18 @@ EXPOSE 8080
 
 # Start the application
 ENTRYPOINT ["dotnet", "WebGame.Server.dll"]
+
+# Stage 3: Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+WORKDIR /app
+
+# Copy published app
+COPY --from=server-build /app/publish .
+
+# OPRAVA: Musíte ručně dokopírovat složku se soubory, 
+# které EF Core hledá během OnModelCreating (Seeding)
+# Předpokládám, že v repozitáři je složka WebGame.Server/Data
+COPY WebGame.Server/Data ./Data 
+
+# Create directory for database (pokud tam ukládáte .db soubor)
+RUN mkdir -p /app/data
