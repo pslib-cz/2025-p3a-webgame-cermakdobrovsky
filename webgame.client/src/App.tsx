@@ -4,6 +4,7 @@ import type { Building, Map, MapBuilding, MapBuildingDTO } from "./../types/mapM
 import MapCanvas from "./map/MapCanvas";
 import "./styles/global.css";
 import { Button, Resource, TownHallLevel, Shop, BuildingMenu } from "./components";
+import { useDebugMode } from "./hooks/useDebugMode";
 
 //Promises
 const groundMapPromise: Promise<Map> = fetch("/api/map/ground").then((res) => res.json());
@@ -42,6 +43,7 @@ const App = () => {
   const [placingBuilding, setPlacingBuilding] = useState<Building | null>(null);
   const [currentBuilding, setCurrentBuilding] = useState<MapBuilding | null>(null);
   const shopButtonRef = useRef<HTMLLIElement>(null);
+  const { debugMode, toggleDebugMode } = useDebugMode();
 
   const addBuilding = async (buildingId: number, bottomLeftX: number, bottomLeftY: number) => {
     const buildingToPlace: MapBuildingDTO = {
@@ -84,71 +86,91 @@ const App = () => {
   };
 
   return (
-    <div className="page">
-      <div className="page__townhall-level">
-        <TownHallLevel currentLevel={6} />
-      </div>
-      <Shop
-        isOpen={isOpenShop}
-        buildings={buildings}
-        onClose={() => setIsOpenShop(false)}
-        onBuildingBuy={(building) => {
-          setPlacingBuilding(building);
-          setIsOpenShop(false);
+    <>
+      <button
+        onClick={toggleDebugMode}
+        style={{
+          position: "fixed",
+          bottom: "10px",
+          left: "10px",
+          zIndex: 9999,
+          padding: "8px 12px",
+          background: debugMode ? "#4CAF50" : "#666",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+          fontSize: "12px",
         }}
-      />
-      <BuildingMenu onDeleteBuilding={deleteBuilding} isOpen={currentBuilding !== null} building={currentBuilding ?? undefined} onClose={() => setCurrentBuilding(null)} />
-      <ul className="page__resources-area">
-        <li>
-          <Resource maxWidth="300px" imgSrc="images/content/sheep.png" color="#9B7260" currentAmount={gameState.sheep} />
-        </li>
-        <li>
-          <Resource maxWidth="250px" imgSrc="images/content/mong.png" color="#4795A7" currentAmount={gameState.population} />
-        </li>
-        <li>
-          <Resource maxWidth="200px" imgSrc="images/content/grass.png" color="#455A4B" currentAmount={20} />
-        </li>
-      </ul>
-      <ul className="page__buttons-area">
-        {placingBuilding ? (
-          <li>
-            <Button onClick={() => setPlacingBuilding(null)} variant="secondary" imgSrc="images/content/house.png">
-              Zrušit
-            </Button>
-          </li>
-        ) : (
-          <>
-            <li>
-              <Button variant="secondary" imgSrc="images/content/warrior.png">
-                Útok
-              </Button>
-            </li>
-            <li ref={shopButtonRef}>
-              <Button onClick={() => setIsOpenShop(true)} variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">
-                Stavět
-              </Button>
-            </li>
-          </>
-        )}
-      </ul>
-      {gameState && (
-        <MapCanvas
-          groundMap={groundMap}
-          buildingsMap={gameState.buildingMap}
-          tileSize={54}
-          placingBuilding={placingBuilding}
-          onMapClick={(x, y) => {
-            if (placingBuilding !== null) {
-              addBuilding(placingBuilding.buildingId, x, y);
-              setPlacingBuilding(null);
-            }
-          }}
-          onBuildingClick={(building) => {
-            if (placingBuilding === null) setCurrentBuilding(building);
+      >
+        Debug: {debugMode ? "ON" : "OFF"}
+      </button>
+      <div className="page">
+        <div className="page__townhall-level">
+          <TownHallLevel currentLevel={6} />
+        </div>
+        <Shop
+          isOpen={isOpenShop}
+          buildings={buildings}
+          onClose={() => setIsOpenShop(false)}
+          onBuildingBuy={(building) => {
+            setPlacingBuilding(building);
+            setIsOpenShop(false);
           }}
         />
-      )}
-    </div>
+        <BuildingMenu onDeleteBuilding={deleteBuilding} isOpen={currentBuilding !== null} building={currentBuilding ?? undefined} onClose={() => setCurrentBuilding(null)} />
+        <ul className="page__resources-area">
+          <li>
+            <Resource maxWidth="300px" imgSrc="images/content/sheep.png" color="#9B7260" currentAmount={gameState.sheep} />
+          </li>
+          <li>
+            <Resource maxWidth="250px" imgSrc="images/content/mong.png" color="#4795A7" currentAmount={gameState.population} />
+          </li>
+          <li>
+            <Resource maxWidth="200px" imgSrc="images/content/grass.png" color="#455A4B" currentAmount={20} />
+          </li>
+        </ul>
+        <ul className="page__buttons-area">
+          {placingBuilding ? (
+            <li>
+              <Button onClick={() => setPlacingBuilding(null)} variant="secondary" imgSrc="images/content/house.png">
+                Zrušit
+              </Button>
+            </li>
+          ) : (
+            <>
+              <li>
+                <Button variant="secondary" imgSrc="images/content/warrior.png">
+                  Útok
+                </Button>
+              </li>
+              <li ref={shopButtonRef}>
+                <Button onClick={() => setIsOpenShop(true)} variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">
+                  Stavět
+                </Button>
+              </li>
+            </>
+          )}
+        </ul>
+        {gameState && (
+          <MapCanvas
+            groundMap={groundMap}
+            buildingsMap={gameState.buildingMap}
+            tileSize={54}
+            placingBuilding={placingBuilding}
+            onMapClick={(x, y) => {
+              if (placingBuilding !== null) {
+                addBuilding(placingBuilding.buildingId, x, y);
+                setPlacingBuilding(null);
+              }
+            }}
+            onBuildingClick={(building) => {
+              if (placingBuilding === null) setCurrentBuilding(building);
+            }}
+          />
+        )}
+      </div>
+    </>
   );
 };
 export default App;

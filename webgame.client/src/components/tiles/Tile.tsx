@@ -1,6 +1,7 @@
 import useImage from "use-image";
 import type { MapTile } from "../../../types/mapModels";
 import { Rect, Text } from "react-konva";
+import { useDebugMode } from "../../hooks/useDebugMode";
 
 type TileProps = {
   tile: MapTile;
@@ -8,7 +9,7 @@ type TileProps = {
 };
 const TileComponent: React.FC<TileProps> = ({ tile, tileSize }) => {
   const [tileImage] = useImage(tile.tile.imageUrl);
-  const debugMode = true;
+  const { debugMode } = useDebugMode();
 
   let scale = 1;
   let offsetX = 0;

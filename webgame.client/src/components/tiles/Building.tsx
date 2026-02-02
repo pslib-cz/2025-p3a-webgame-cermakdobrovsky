@@ -3,6 +3,7 @@ import useImage from "use-image";
 import { Image as KonvaImage, Rect } from "react-konva";
 import { useEffect, useRef, useState } from "react";
 import Konva from "konva";
+import { useDebugMode } from "../../hooks/useDebugMode";
 
 type buildingProps = {
   building: MapBuilding;
@@ -17,6 +18,7 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transp
   const [buildingImage] = useImage(building.building.imageUrl);
   const [isHovered, setIsHovered] = useState(false);
   const imageRef = useRef<Konva.Image>(null);
+  const { debugMode } = useDebugMode();
 
   useEffect(() => {
     if (imageRef.current) {
@@ -38,7 +40,7 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transp
   const imageHeight = buildingImage.height * scale;
   return (
     <>
-      <Rect x={building.bottomLeftX * tileSize} y={rectY} width={buildingWidth} height={rectHeight} fill="red" opacity={0.5} />
+      {debugMode && <Rect x={building.bottomLeftX * tileSize} y={rectY} width={buildingWidth} height={rectHeight} fill="red" opacity={0.5} />}
       <KonvaImage
         ref={imageRef}
         image={buildingImage}
