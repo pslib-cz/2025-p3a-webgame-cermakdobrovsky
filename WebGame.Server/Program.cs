@@ -13,7 +13,7 @@ namespace WebGame.Server
             {
                 options.AddPolicy("AllowFrontend", policy =>
                 {
-                    policy.WithOrigins("http://localhost:5173")
+                    policy.AllowAnyOrigin()
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 });
@@ -24,15 +24,23 @@ namespace WebGame.Server
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
             );
             var app = builder.Build();
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<GameDbContext>();
+                dbContext.Database.Migrate();
+            }
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
                 app.MapScalarApiReference();
             }
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseCors("AllowFrontend");
             app.UseAuthorization();
             app.MapControllers();
+            app.MapFallbackToFile("/index.html");
             app.Run();
         }
     }
