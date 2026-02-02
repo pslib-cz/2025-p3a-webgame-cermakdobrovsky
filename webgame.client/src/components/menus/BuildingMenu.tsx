@@ -1,12 +1,12 @@
 import { Close, Button } from "../../components";
 import { type FC } from "react";
-import { type Building } from "../../../types/mapModels";
+import { type MapBuilding } from "../../../types/mapModels";
 
 type BuildingMenuProps = {
   isOpen: boolean;
-  building?: Building;
+  building?: MapBuilding;
   onClose: () => void;
-  onDeleteBuilding?: () => void;
+  onDeleteBuilding?: (building: MapBuilding) => void;
 };
 const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDeleteBuilding }) => {
   return (
@@ -17,9 +17,9 @@ const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDele
             <div className="building-menu">
               <div className="building-menu__wrapper">
                 <Close className="building-menu__close" onToggle={onClose} />
-                <p className="building-menu__title">{building?.name}</p>
+                <p className="building-menu__title">{building?.building.name}</p>
                 <div className="building-menu__description">
-                  <p className="building-menu__description-text">{building?.description}</p>
+                  <p className="building-menu__description-text">{building?.building.description}</p>
                   <div className="building-menu__description-content">
                     <p className="building-menu__description-content-text">Efektivita:</p>
                     <div className="building-menu__resource">
@@ -45,8 +45,8 @@ const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDele
                     Vylepšit
                   </Button>
                 </div>
-                {!building?.isTownHall && (
-                  <Button className="building-menu__upgrade-button" onClick={() => onDeleteBuilding?.()}>
+                {!building?.building.isTownHall && (
+                  <Button className="building-menu__upgrade-button" onClick={() => building && onDeleteBuilding?.(building)}>
                     Odstranit
                   </Button>
                 )}

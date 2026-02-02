@@ -1,6 +1,6 @@
 import { use, useState, useRef } from "react";
 import type { GameState } from "./../types/gameModels";
-import type { Building, Map, MapBuildingDTO } from "./../types/mapModels";
+import type { Building, Map, MapBuilding, MapBuildingDTO } from "./../types/mapModels";
 import MapCanvas from "./map/MapCanvas";
 import "./styles/global.css";
 import { Button, Resource, TownHallLevel, Shop, BuildingMenu } from "./components";
@@ -40,7 +40,7 @@ const App = () => {
   const buildings: Building[] = use<Building[]>(buildingsPromise);
   const [isOpenShop, setIsOpenShop] = useState<boolean>(false);
   const [placingBuilding, setPlacingBuilding] = useState<Building | null>(null);
-  const [currentBuilding, setCurrentBuilding] = useState<Building | null>(null);
+  const [currentBuilding, setCurrentBuilding] = useState<MapBuilding | null>(null);
   const shopButtonRef = useRef<HTMLLIElement>(null);
 
   const addBuilding = async (buildingId: number, bottomLeftX: number, bottomLeftY: number) => {
@@ -66,6 +66,23 @@ const App = () => {
     setGameState(data);
   };
 
+  const deleteBuilding = async (mapBuilding: MapBuilding) => {
+    const { mapId, bottomLeftX, bottomLeftY } = mapBuilding;
+    const response = await fetch(`/api/map/building/${mapId}/${bottomLeftX}/${bottomLeftY}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      alert(errorMessage);
+      return;
+    }
+    setGameState((prev) => ({
+      ...prev,
+      buildingMap: { ...prev.buildingMap, buildings: prev.buildingMap.buildings.filter((b) => !(b.mapId === mapId && b.bottomLeftX === bottomLeftX && b.bottomLeftY === bottomLeftY)) },
+    }));
+    setCurrentBuilding(null);
+  };
+
   return (
     <div className="page">
       <div className="page__townhall-level">
@@ -80,7 +97,7 @@ const App = () => {
           setIsOpenShop(false);
         }}
       />
-      <BuildingMenu isOpen={currentBuilding !== null} building={currentBuilding ?? undefined} onClose={() => setCurrentBuilding(null)} />
+      <BuildingMenu onDeleteBuilding={deleteBuilding} isOpen={currentBuilding !== null} building={currentBuilding ?? undefined} onClose={() => setCurrentBuilding(null)} />
       <ul className="page__resources-area">
         <li>
           <Resource maxWidth="300px" imgSrc="images/content/sheep.png" color="#9B7260" currentAmount={gameState.sheep} />

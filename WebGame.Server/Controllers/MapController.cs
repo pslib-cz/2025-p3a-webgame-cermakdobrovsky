@@ -91,10 +91,13 @@ namespace WebGame.Server.Controllers
         }
     
         
-        [HttpDelete("building/{id}")]
-        public async Task<IActionResult> DeleteBuilding(int id)
-        {  
-            
+        [HttpDelete("building/{mapId}/{bottomLeftX}/{bottomLeftY}")]
+        public async Task<IActionResult> DeleteBuilding(int mapId, int bottomLeftX, int bottomLeftY)
+        { 
+            MapBuilding? mapBuilding = await _dbc.MapBuildings.FindAsync(mapId, bottomLeftX, bottomLeftY);
+            if (mapBuilding == null) return NotFound("Building not found.");
+            _dbc.MapBuildings.Remove(mapBuilding);
+            await _dbc.SaveChangesAsync();
             return NoContent();
         }
     }

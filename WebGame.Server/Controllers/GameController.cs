@@ -25,8 +25,8 @@ namespace WebGame.Server.Controllers
             var townHall = new MapBuilding
             {
                 BuildingId = 1,
-                BottomLeftX = 18,
-                BottomLeftY = 3
+                BottomLeftX = 17,
+                BottomLeftY = 4
             };
             buildingMap.Buildings.Add(townHall);
 
