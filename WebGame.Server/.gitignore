@@ -24,7 +24,6 @@ project.assets.json
 
 # Publish výstupy
 artifacts/
-wwwroot/
 
 # Logy
 *.log
