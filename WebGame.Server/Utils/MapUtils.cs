@@ -7,12 +7,26 @@ namespace WebGame.Server.Models
     {   
         public static bool CanPlaceBuilding(MapBuilding buildingToPlace, MapBuilding[] buildings, MapTile[] tiles)
         {   
+            // Check for collisions with existing buildings
             foreach (MapBuilding building in buildings)
             {
                 bool overlapX = (buildingToPlace.BottomLeftX + buildingToPlace.Building.BaseWidth >= building.BottomLeftX) && (buildingToPlace.BottomLeftX <= building.BottomLeftX + building.Building.BaseWidth);
                 bool overlapY = (buildingToPlace.BottomLeftY + buildingToPlace.Building.BaseHeight >= building.BottomLeftY) && (buildingToPlace.BottomLeftY <= building.BottomLeftY + building.Building.BaseHeight);
 
                 if (overlapX && overlapY) return false;
+            }
+
+            // Check if all tiles under the building are placeable
+            for (int x = buildingToPlace.BottomLeftX; x < buildingToPlace.BottomLeftX + buildingToPlace.Building.BaseWidth; x++)
+            {
+                for (int y = buildingToPlace.BottomLeftY; y < buildingToPlace.BottomLeftY + buildingToPlace.Building.BaseHeight; y++)
+                {
+                    MapTile? tile = tiles.FirstOrDefault(t => t.X == x && t.Y == y);
+                    if (tile == null || !tile.Tile.IsPlaceable)
+                    {
+                        return false;
+                    }
+                }
             }
 
             return true;
