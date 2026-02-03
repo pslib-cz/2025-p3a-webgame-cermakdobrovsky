@@ -1,8 +1,9 @@
-import React, { useRef, useState, useLayoutEffect } from "react";
-import { Tile, Building as BuildingComponent } from "../components";
+import React, { useRef, useState, useLayoutEffect, useMemo } from "react";
+import { Tile, Building as BuildingComponent, SpriteAnimation } from "../components";
 import { Stage, Layer } from "react-konva";
 import Konva from "konva";
 import type { Map, Building, MapBuilding } from "../../types/mapModels";
+import { getDecorationsForMap } from "../../lib/helpers/mapDecorations";
 
 type MapCanvasProps = {
   groundMap: Map;
@@ -19,6 +20,9 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapCli
   const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
   const [hoverPosition, setHoverPosition] = useState<{ x: number; y: number } | null>(null);
 
+  const decorations = useMemo(() => {
+    return getDecorationsForMap(groundMap, buildingsMap, tileSize);
+  }, [groundMap, buildingsMap, tileSize]);
   const scaleBy = 1.1;
   const handleWheel = (e: Konva.KonvaEventObject<WheelEvent>) => {
     e.evt.preventDefault();
@@ -91,6 +95,22 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapCli
         <Layer>
           {groundMap.tiles.map((tile, index) => (
             <Tile key={`tile-${index}`} tile={tile} tileSize={tileSize} />
+          ))}
+          {decorations.map((deco) => (
+            <SpriteAnimation
+              key={deco.id}
+              src={deco.config.src}
+              frameWidth={deco.config.frameWidth}
+              frameHeight={deco.config.frameHeight}
+              columns={deco.config.columns}
+              rows={deco.config.rows}
+              frameRate={deco.config.frameRate}
+              loop={true}
+              autoplay={true}
+              x={deco.pixelX}
+              y={deco.pixelY}
+              listening={false}
+            />
           ))}
           {buildingsMap.buildings.map((building, index) => (
             <BuildingComponent transparentOnHover={!!placingBuilding} key={`building-${index}`} building={building} tileSize={tileSize} onClick={onBuildingClick} />

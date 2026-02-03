@@ -10,7 +10,6 @@ Používáme moderní stack, který kombinuje backend, frontend i práci s anima
 
 - **ASP.NET** – backendová logika, API, autentizace
 - **React** – frontend, dynamické UI
-- **NoSQL databáze** – ukládání vesnic, hráčů, budov a progresu
 - **Konva.js** – animace jednotek, efektů a objektů
 - **Canvas** – vykreslování mapy a herních prvků
 - **Docker** – snadné nasazení

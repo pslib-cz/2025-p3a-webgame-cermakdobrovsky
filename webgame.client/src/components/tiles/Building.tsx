@@ -4,7 +4,7 @@ import { Image as KonvaImage, Rect } from "react-konva";
 import { useEffect, useRef, useState, useMemo } from "react";
 import Konva from "konva";
 import { useDebugMode } from "../../hooks/useDebugMode";
-import { getBuildingImageUrl } from "../../../helpers/randomImage";
+import { getBuildingImageUrl } from "../../../lib/helpers/randomImage";
 
 type buildingProps = {
   building: MapBuilding;
