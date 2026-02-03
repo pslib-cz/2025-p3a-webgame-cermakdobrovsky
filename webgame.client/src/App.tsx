@@ -127,7 +127,7 @@ const App = () => {
             <Resource maxWidth="250px" imgSrc="images/content/mong.png" color="#4795A7" currentAmount={gameState.population} />
           </li>
           <li>
-            <Resource maxWidth="200px" imgSrc="images/content/grass.png" color="#455A4B" currentAmount={20} />
+            <Resource maxWidth="200px" imgSrc="images/content/grass.png" color="#455A4B" currentAmount={gameState.freeSpace} />
           </li>
         </ul>
         <ul className="page__buttons-area">
