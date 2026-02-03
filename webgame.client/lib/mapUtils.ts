@@ -38,8 +38,6 @@ export const deleteBuilding = async (mapBuilding: MapBuilding, gameState: GameSt
     alert(errorMessage);
     return null;
   }
-  return {
-    ...gameState,
-    buildingMap: { ...gameState.buildingMap, buildings: gameState.buildingMap.buildings.filter((b) => !(b.mapId === mapId && b.bottomLeftX === bottomLeftX && b.bottomLeftY === bottomLeftY)) },
-  };
+  const data: GameState = await response.json();
+  return data;
 };

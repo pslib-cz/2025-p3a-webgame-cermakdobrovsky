@@ -97,11 +97,32 @@ namespace WebGame.Server.Controllers
         [HttpDelete("building/{mapId}/{bottomLeftX}/{bottomLeftY}")]
         public async Task<IActionResult> DeleteBuilding(int mapId, int bottomLeftX, int bottomLeftY)
         { 
-            MapBuilding? mapBuilding = await _dbc.MapBuildings.FindAsync(mapId, bottomLeftX, bottomLeftY);
+            MapBuilding? mapBuilding = await _dbc.MapBuildings
+                .Include(mb => mb.Building)
+                .FirstOrDefaultAsync(mb => mb.MapId == mapId && mb.BottomLeftX == bottomLeftX && mb.BottomLeftY == bottomLeftY);
             if (mapBuilding == null) return NotFound("Building not found.");
+
+            // Restore free space
+            GameState? gameState = await _dbc.GameStates.FirstOrDefaultAsync(gs => gs.BuildingMapId == mapId);
+            if (gameState != null)
+            {
+                gameState.FreeSpace += mapBuilding.Building.BaseWidth * mapBuilding.Building.BaseHeight;
+                
+                _dbc.GameStates.Update(gameState);
+            }
+
             _dbc.MapBuildings.Remove(mapBuilding);
             await _dbc.SaveChangesAsync();
-            return NoContent();
+            GameState? UpdatedGameState = await _dbc.GameStates
+                .AsNoTracking()
+                .Include(gs => gs.BuildingMap)
+                .ThenInclude(m => m.Buildings)
+                .ThenInclude(mb => mb.Building)
+                .Include(gs => gs.BuildingMap)
+                .ThenInclude(m => m.Tiles)
+                .ThenInclude(mt => mt.Tile)
+                .FirstOrDefaultAsync(gs => gs.PlayerId == gameState.PlayerId);
+            return Ok(UpdatedGameState);
         }
     }
 }
