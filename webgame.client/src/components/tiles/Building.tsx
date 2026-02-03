@@ -1,9 +1,10 @@
 import type { MapBuilding } from "../../../types/mapModels";
 import useImage from "use-image";
 import { Image as KonvaImage, Rect } from "react-konva";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import Konva from "konva";
 import { useDebugMode } from "../../hooks/useDebugMode";
+import { getBuildingImageUrl } from "../../../helpers/randomImage";
 
 type buildingProps = {
   building: MapBuilding;
@@ -15,7 +16,10 @@ type buildingProps = {
 };
 const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transparentOnHover = false, opacity, listening = true, onClick }) => {
   //Hooks
-  const [buildingImage] = useImage(building.building.imageUrl);
+  const finalIds = useMemo(() => {
+    return getBuildingImageUrl(building.building.imageUrl, building.bottomLeftX, building.bottomLeftY);
+  }, [building.building.imageUrl, building.bottomLeftX, building.bottomLeftY]);
+  const [buildingImage] = useImage(finalIds);
   const [isHovered, setIsHovered] = useState(false);
   const imageRef = useRef<Konva.Image>(null);
   const { debugMode } = useDebugMode();
@@ -41,8 +45,8 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transp
   return (
     <>
       {debugMode && <>
-      <Rect x={building.bottomLeftX * tileSize} y={rectY} width={buildingWidth} height={rectHeight} fill="blue" opacity={0.5} />
-      <Rect x={building.bottomLeftX * tileSize} y={(building.bottomLeftY - building.building.baseHeight + 1) * tileSize} width={tileSize * building.building.baseWidth} height={tileSize * building.building.baseHeight} fill="green" opacity={0.5} />
+        <Rect x={building.bottomLeftX * tileSize} y={rectY} width={buildingWidth} height={rectHeight} fill="blue" opacity={0.5} />
+        <Rect x={building.bottomLeftX * tileSize} y={(building.bottomLeftY - building.building.baseHeight + 1) * tileSize} width={tileSize * building.building.baseWidth} height={tileSize * building.building.baseHeight} fill="green" opacity={0.5} />
       </>}
       <KonvaImage
         ref={imageRef}

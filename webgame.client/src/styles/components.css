@@ -15,8 +15,7 @@
 }
 
 .button--primary {
-  color: var(--white, #ffffff);
-  background-image: url("../../images/content/button-red.png");
+  color: var(--white, #FFFFFF);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -27,7 +26,7 @@
   transition: transform var(--transition, 0.25s ease-in-out);
 }
 
-.button--primary__span {
+.button--primary span {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -37,6 +36,14 @@
 
 .button--primary:hover {
   transform: scale(1.05);
+}
+
+.button--primary--red {
+  background-image: url("../../images/content/button-red.png");
+}
+
+.button--primary--blue {
+  background-image: url("../../images/content/button-blue-small.png");
 }
 
 /*button--secondary*/
@@ -54,8 +61,8 @@
   transition: transform var(--transition, 0.25s ease-in-out);
 }
 
-.button--secondary--brown__span,
-.button--secondary--blue__span {
+.button--secondary--brown span,
+.button--secondary--blue span {
   position: absolute;
   left: 50%;
   top: 57.5%;
@@ -106,7 +113,7 @@
   font-size: var(--text-sub, 1.5625rem);
   margin: 0;
   color: var(--white, #ffffff);
-  margin-left: 2rem;
+  margin-left: .75rem;
 }
 
 .resource figure {
@@ -432,8 +439,14 @@
 
 .building-menu__upgrade-section {
   display: flex;
-  align-items: end;
+  align-items: center;
   gap: 5rem;
+}
+
+.building-menu__upgrade-section-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
 }
 
 .building-menu__upgrade-title {

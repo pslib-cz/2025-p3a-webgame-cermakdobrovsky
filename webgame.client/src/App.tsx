@@ -7,6 +7,7 @@ import { Button, Resource, TownHallLevel, Shop, BuildingMenu } from "./component
 import { useDebugMode } from "./hooks/useDebugMode";
 import { groundMapPromise, buildingsPromise, addBuilding, deleteBuilding } from "../lib/mapUtils";
 import { gameStatePromise } from "../lib/gameUtlis";
+import { getBuildingImageUrl, setFixedImageForBuilding } from "../helpers/randomImage";
 
 const App = () => {
   //Hooks
@@ -45,7 +46,6 @@ const App = () => {
     if (data) setGameState(data);
     setCurrentBuilding(null);
   };
-
   return (
     <>
       <button
@@ -75,7 +75,9 @@ const App = () => {
           buildings={buildings}
           onClose={() => setIsOpenShop(false)}
           onBuildingBuy={(building) => {
-            setPlacingBuilding(building);
+            const selectedUrl = getBuildingImageUrl(building.imageUrl);
+            const modifiedBuilding = { ...building, imageUrl: selectedUrl };
+            setPlacingBuilding(modifiedBuilding);
             setIsOpenShop(false);
           }}
         />
@@ -122,6 +124,7 @@ const App = () => {
             onMapClick={(x, y) => {
               if (placingBuilding !== null) {
                 handleAddBuilding(placingBuilding.buildingId, x, y);
+                setFixedImageForBuilding(x, y, placingBuilding.imageUrl);
                 setPlacingBuilding(null);
               }
             }}

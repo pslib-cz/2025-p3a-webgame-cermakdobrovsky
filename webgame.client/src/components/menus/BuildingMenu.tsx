@@ -41,15 +41,17 @@ const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDele
                       </figure>
                     </div>
                   </div>
-                  <Button className="building-menu__upgrade-button" onClick={onClose}>
-                    Vylepšit
-                  </Button>
+                  <div className="building-menu__upgrade-section-buttons">
+                    <Button bgColor="button--primary--blue" onClick={onClose}>
+                      Vylepšit
+                    </Button>
+                    {!building?.building.isTownHall && (
+                      <Button bgColor="button--primary--red" onClick={() => building && onDeleteBuilding?.(building)}>
+                        Odstranit
+                      </Button>
+                    )}
+                  </div>
                 </div>
-                {!building?.building.isTownHall && (
-                  <Button className="building-menu__upgrade-button" onClick={() => building && onDeleteBuilding?.(building)}>
-                    Odstranit
-                  </Button>
-                )}
               </div>
             </div>
           </div>
