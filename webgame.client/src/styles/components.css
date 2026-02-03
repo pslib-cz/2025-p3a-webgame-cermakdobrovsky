@@ -106,14 +106,17 @@
   border: 5px solid var(--black, #000000);
   background-color: #bfbfbf;
   border-radius: 0.25rem;
-  height: fit-content;
+  height: 1.75rem;
 }
 
 .resource__amount {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: var(--text-sub, 1.5625rem);
   margin: 0;
-  color: var(--white, #ffffff);
-  margin-left: .75rem;
+  color: var(--white, #FFFFFF);
 }
 
 .resource figure {
