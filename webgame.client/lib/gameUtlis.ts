@@ -1,5 +1,6 @@
 import type { GameState } from "../types/gameModels";
 
+//Promises
 export const playerIdPromise: Promise<string> = (async () => {
   const storedId = localStorage.getItem("playerId");
   if (storedId) return storedId;

@@ -1,10 +1,12 @@
 import type { Building, Map, MapBuilding, MapBuildingDTO } from "./../types/mapModels";
 import type { GameState } from "./../types/gameModels";
 
+//Promises
 export const groundMapPromise: Promise<Map> = fetch("/api/map/ground").then((res) => res.json());
 
 export const buildingsPromise: Promise<Building[]> = fetch("/api/map/buildings").then((res) => res.json());
 
+//Functions
 export const addBuilding = async (buildingId: number, bottomLeftX: number, bottomLeftY: number, playerId: string): Promise<GameState | null> => {
   const buildingToPlace: MapBuildingDTO = {
     playerId: playerId,
@@ -27,8 +29,7 @@ export const addBuilding = async (buildingId: number, bottomLeftX: number, botto
   const data: GameState = await response.json();
   return data;
 };
-
-export const deleteBuilding = async (mapBuilding: MapBuilding, gameState: GameState): Promise<GameState | null> => {
+export const deleteBuilding = async (mapBuilding: MapBuilding): Promise<GameState | null> => {
   const { mapId, bottomLeftX, bottomLeftY } = mapBuilding;
   const response = await fetch(`/api/map/building/${mapId}/${bottomLeftX}/${bottomLeftY}`, {
     method: "DELETE",

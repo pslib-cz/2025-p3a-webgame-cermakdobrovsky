@@ -98,6 +98,7 @@ const SpriteAnimation: React.FC<SpriteAnimationProps> = ({
             onClick={onClick}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
+            zIndex={10}
         />
     );
 };

@@ -112,6 +112,45 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapCli
               listening={false}
             />
           ))}
+          <SpriteAnimation
+            src="/images/sprite-animations/rock-1.png"
+            frameWidth={128}
+            frameHeight={128}
+            columns={8}
+            rows={1}
+            frameRate={8}
+            loop={true}
+            autoplay={true}
+            x={1300}
+            y={1350}
+            listening={false}
+          />
+          <SpriteAnimation
+            src="/images/sprite-animations/rock-1.png"
+            frameWidth={128}
+            frameHeight={128}
+            columns={8}
+            rows={1}
+            frameRate={8}
+            loop={true}
+            autoplay={true}
+            x={2000}
+            y={1475}
+            listening={false}
+          />
+          <SpriteAnimation
+            src="/images/sprite-animations/rock-2.png"
+            frameWidth={128}
+            frameHeight={128}
+            columns={8}
+            rows={1}
+            frameRate={8}
+            loop={true}
+            autoplay={true}
+            x={2100}
+            y={1200}
+            listening={false}
+          />
           {buildingsMap.buildings.map((building, index) => (
             <BuildingComponent transparentOnHover={!!placingBuilding} key={`building-${index}`} building={building} tileSize={tileSize} onClick={onBuildingClick} />
           ))}
