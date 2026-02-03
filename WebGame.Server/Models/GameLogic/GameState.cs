@@ -10,6 +10,7 @@ namespace WebGame.Server.Models
         public int Sheep { get; set; }
         public int Population { get; set; }
         public int FreeSpace { get; set; }
+        public int MaxPopulation { get; set; }
         public DateTime LastUpdated { get; set; }
 
         public int BuildingMapId { get; set; }

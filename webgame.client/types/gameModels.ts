@@ -5,6 +5,7 @@ export type GameState = {
   sheep: number;
   population: number;
   freeSpace: number;
+  maxPopulation: number;
   lastUpdated: string;
   buildingMapId: number;
   buildingMap: Map;
