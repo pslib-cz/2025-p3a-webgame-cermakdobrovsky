@@ -2,7 +2,7 @@ import { type FC } from "react";
 
 type ButtonProps = {
   variant?: "primary" | "secondary",
-  bgColor?: "button--secondary--brown" | "button--secondary--blue",
+  bgColor?: "button--primary--blue" | "button--primary--red" | "button--secondary--brown" | "button--secondary--blue",
   imgSrc?: string,
   className?: string,
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void,
@@ -11,12 +11,12 @@ type ButtonProps = {
 const Button: FC<ButtonProps> = ({ variant = "primary", bgColor = "button--secondary--brown", imgSrc, className, onClick, children }) => {
   const baseStyles: string = "button";
   const variantStyles: Record<"primary" | "secondary", string> = {
-    primary: "button--primary",
+    primary: `button--primary ${bgColor}`,
     secondary: `button--secondary ${bgColor}`,
   };
   return (
     <>
-      <button className={`${baseStyles} ${variantStyles[variant]} ${className}`} onClick={onClick}>{imgSrc && variant === "secondary" && <figure><img src={imgSrc} alt="Obrázek tlačítka"/></figure>}<span className={`${variantStyles[variant]}__span`}>{children}</span></button>
+      <button className={`${baseStyles} ${variantStyles[variant]} ${className}`} onClick={onClick}>{imgSrc && variant === "secondary" && <figure><img src={imgSrc} alt="Obrázek tlačítka"/></figure>}<span>{children}</span></button>
       </>
     )
 }
