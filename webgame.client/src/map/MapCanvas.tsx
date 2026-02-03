@@ -3,7 +3,7 @@ import { Tile, Building as BuildingComponent, SpriteAnimation } from "../compone
 import { Stage, Layer } from "react-konva";
 import Konva from "konva";
 import type { Map, Building, MapBuilding } from "../../types/mapModels";
-import { getDecorationsForMap } from "../helpers/mapDecorations";
+import { getDecorationsForMap } from "../../lib/helpers/mapDecorations";
 
 type MapCanvasProps = {
   groundMap: Map;

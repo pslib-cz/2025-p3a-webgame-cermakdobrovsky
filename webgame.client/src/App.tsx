@@ -7,7 +7,7 @@ import { Button, Resource, TownHallLevel, Shop, BuildingMenu } from "./component
 import { useDebugMode } from "./hooks/useDebugMode";
 import { groundMapPromise, buildingsPromise, addBuilding, deleteBuilding } from "../lib/mapUtils";
 import { gameStatePromise } from "../lib/gameUtlis";
-import { getBuildingImageUrl, setFixedImageForBuilding } from "../helpers/randomImage";
+import { getBuildingImageUrl, setFixedImageForBuilding } from "../lib/helpers/randomImage";
 
 const App = () => {
   //Hooks
