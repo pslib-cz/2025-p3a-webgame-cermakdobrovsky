@@ -86,5 +86,28 @@ namespace WebGame.Server.Controllers
             }
             return Ok(gameState);
         }
+    
+        [HttpGet("advance/{playerId}")]
+        public async Task<IActionResult> AdvanceGame(string playerId)
+        {
+            if (string.IsNullOrEmpty(playerId)) return BadRequest("No player ID provided.");
+
+            GameState gameState = await _dbc.GameStates
+                .Include(gs => gs.BuildingMap)
+                .ThenInclude(m => m.Buildings)
+                .ThenInclude(mb => mb.Building)
+                .Include(gs => gs.BuildingMap)
+                .ThenInclude(m => m.Tiles)
+                .ThenInclude(mt => mt.Tile)
+                .FirstOrDefaultAsync(gs => gs.PlayerId == playerId);
+
+            if (gameState == null) return NotFound("Game state not found for the given player ID.");
+
+            // calculate new values
+            if (gameState.Sheep < gameState.FreeSpace) gameState.Sheep = (int)(gameState.Sheep * 1.1);
+
+            await _dbc.SaveChangesAsync();
+            return Ok(gameState);
+        }
     }
 }
