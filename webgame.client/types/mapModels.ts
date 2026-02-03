@@ -44,6 +44,7 @@ export type MapBuilding = {
   mapId: number;
   bottomLeftX: number;
   bottomLeftY: number;
+  level: number;
 };
 
 export type MapBuildingDTO = {

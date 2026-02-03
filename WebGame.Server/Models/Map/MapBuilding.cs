@@ -12,5 +12,6 @@ namespace WebGame.Server.Models
         public int MapId { get; set; }
         public int BottomLeftX { get; set; }
         public int BottomLeftY { get; set; }
+        public int Level { get; set; } = 1; 
     }
 }

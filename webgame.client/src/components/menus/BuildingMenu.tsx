@@ -21,14 +21,13 @@ const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDele
                 <div className="building-menu__description">
                   <p className="building-menu__description-text">{building?.building.description}</p>
                   <div className="building-menu__description-content">
-                    <p className="building-menu__description-content-text">Efektivita:</p>
+                    <p className="building-menu__description-content-text">Kapacita:</p>
                     <div className="building-menu__resource">
-                      <p className="building-menu__resource-amount">10</p>
+                      <p className="building-menu__resource-amount">{building?.building.levels.find((level) => level.level === building.level)?.capacity}</p>
                       <figure className="building-menu__resource-figure">
-                        <img className="img-responsive" src="images/content/sheep.png" alt="Obrázek ovce" loading="lazy" />
+                        <img className="img-responsive" src="images/content/mong.png" alt="Obrázek populace" loading="lazy" />
                       </figure>
                     </div>
-                    <p className="building-menu__description-content-time">/ 30s</p>
                   </div>
                 </div>
                 <div className="building-menu__upgrade-section">
