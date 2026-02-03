@@ -92,7 +92,7 @@ namespace WebGame.Server.Controllers
         {
             if (string.IsNullOrEmpty(playerId)) return BadRequest("No player ID provided.");
 
-            GameState gameState = await _dbc.GameStates
+            GameState? gameState = await _dbc.GameStates
                 .Include(gs => gs.BuildingMap)
                 .ThenInclude(m => m.Buildings)
                 .ThenInclude(mb => mb.Building)

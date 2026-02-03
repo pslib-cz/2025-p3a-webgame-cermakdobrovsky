@@ -75,6 +75,7 @@ namespace WebGame.Server.Controllers
             // deduct resources
             gameState.Sheep -= buildingType.InitialCost;
             gameState.FreeSpace -= buildingType.BaseHeight * buildingType.BaseWidth;
+            if (gameState.Sheep > gameState.FreeSpace) gameState.Sheep = gameState.FreeSpace;
             _dbc.GameStates.Update(gameState);
 
             await _dbc.SaveChangesAsync();

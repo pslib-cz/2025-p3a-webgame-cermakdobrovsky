@@ -1,37 +1,12 @@
 import { use, useState, useRef, useEffect } from "react";
 import type { GameState } from "./../types/gameModels";
-import type { Building, Map, MapBuilding, MapBuildingDTO } from "./../types/mapModels";
+import type { Building, Map, MapBuilding } from "./../types/mapModels";
 import MapCanvas from "./map/MapCanvas";
 import "./styles/global.css";
 import { Button, Resource, TownHallLevel, Shop, BuildingMenu } from "./components";
 import { useDebugMode } from "./hooks/useDebugMode";
-
-//Promises
-const groundMapPromise: Promise<Map> = fetch("/api/map/ground").then((res) => res.json());
-
-const buildingsPromise: Promise<Building[]> = fetch("/api/map/buildings").then((res) => res.json());
-
-const playerIdPromise: Promise<string> = (async () => {
-  const storedId = localStorage.getItem("playerId");
-  if (storedId) return storedId;
-  const res = await fetch("/api/game/create");
-  if (!res.ok) {
-    throw new Error("Failed to create player ID");
-  }
-  const newId = await res.text();
-  localStorage.setItem("playerId", newId);
-  return newId;
-})();
-
-const gameStatePromise: Promise<GameState> = playerIdPromise.then(async (playerId) => {
-  let res = await fetch(`/api/game/state/${playerId}`);
-  if (!res.ok) {
-    await fetch(`/api/game/create/?playerId=${playerId}`);
-    res = await fetch(`/api/game/state/${playerId}`);
-  }
-  const data = await res.json();
-  return data;
-});
+import { groundMapPromise, buildingsPromise, addBuilding, deleteBuilding } from "../lib/mapUtils";
+import { gameStatePromise } from "../lib/gameUtlis";
 
 const App = () => {
   //Hooks
@@ -45,7 +20,7 @@ const App = () => {
   const shopButtonRef = useRef<HTMLLIElement>(null);
   const { debugMode, toggleDebugMode } = useDebugMode();
 
-  // Advance game every 10 seconds
+  // Advance game every 5 seconds
   useEffect(() => {
     const interval = setInterval(async () => {
       if (gameState?.playerId) {
@@ -60,43 +35,14 @@ const App = () => {
     return () => clearInterval(interval);
   }, [gameState?.playerId]);
 
-  const addBuilding = async (buildingId: number, bottomLeftX: number, bottomLeftY: number) => {
-    const buildingToPlace: MapBuildingDTO = {
-      playerId: gameState.playerId,
-      buildingId: buildingId,
-      bottomLeftX: bottomLeftX,
-      bottomLeftY: bottomLeftY,
-    };
-    const response = await fetch("/api/map/building", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(buildingToPlace),
-    });
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      alert(errorMessage);
-      return;
-    }
-    const data = await response.json();
-    setGameState(data);
+  const handleAddBuilding = async (buildingId: number, bottomLeftX: number, bottomLeftY: number) => {
+    const data = await addBuilding(buildingId, bottomLeftX, bottomLeftY, gameState.playerId);
+    if (data) setGameState(data);
   };
 
-  const deleteBuilding = async (mapBuilding: MapBuilding) => {
-    const { mapId, bottomLeftX, bottomLeftY } = mapBuilding;
-    const response = await fetch(`/api/map/building/${mapId}/${bottomLeftX}/${bottomLeftY}`, {
-      method: "DELETE",
-    });
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      alert(errorMessage);
-      return;
-    }
-    setGameState((prev) => ({
-      ...prev,
-      buildingMap: { ...prev.buildingMap, buildings: prev.buildingMap.buildings.filter((b) => !(b.mapId === mapId && b.bottomLeftX === bottomLeftX && b.bottomLeftY === bottomLeftY)) },
-    }));
+  const handleDeleteBuilding = async (mapBuilding: MapBuilding) => {
+    const data = await deleteBuilding(mapBuilding, gameState);
+    if (data) setGameState(data);
     setCurrentBuilding(null);
   };
 
@@ -133,7 +79,7 @@ const App = () => {
             setIsOpenShop(false);
           }}
         />
-        <BuildingMenu onDeleteBuilding={deleteBuilding} isOpen={currentBuilding !== null} building={currentBuilding ?? undefined} onClose={() => setCurrentBuilding(null)} />
+        <BuildingMenu onDeleteBuilding={handleDeleteBuilding} isOpen={currentBuilding !== null} building={currentBuilding ?? undefined} onClose={() => setCurrentBuilding(null)} />
         <ul className="page__resources-area">
           <li>
             <Resource maxWidth="300px" imgSrc="images/content/sheep.png" color="#9B7260" currentAmount={gameState.sheep} />
@@ -175,7 +121,7 @@ const App = () => {
             placingBuilding={placingBuilding}
             onMapClick={(x, y) => {
               if (placingBuilding !== null) {
-                addBuilding(placingBuilding.buildingId, x, y);
+                handleAddBuilding(placingBuilding.buildingId, x, y);
                 setPlacingBuilding(null);
               }
             }}
