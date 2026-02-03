@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using WebGame.Server.Data;
 using WebGame.Server.Models;
 
@@ -30,11 +31,35 @@ namespace WebGame.Server.Controllers
             };
             buildingMap.Buildings.Add(townHall);
 
+            // calculate free space
+            int freeSpace = 0;
+            Map? defaultGroundMap = _dbc.Maps
+                .Include(m => m.Tiles)
+                .ThenInclude(mt => mt.Tile)
+                .FirstOrDefault(m => m.MapId == 1);
+            if (defaultGroundMap != null)
+            {
+                foreach (MapTile tile in defaultGroundMap.Tiles)
+                {
+                    if (tile.Tile.IsPlaceable)
+                    {
+                        freeSpace++;
+                    }
+                }
+            }
+            Building? townHallBuilding = _dbc.Buildings.FirstOrDefault(b => b.BuildingId == 1);
+            if (townHallBuilding != null)
+            {
+                freeSpace -= townHallBuilding.BaseWidth * townHallBuilding.BaseHeight;
+            }
+
+            // create game state
             GameState newGameState = new GameState
             {
                 PlayerId = readableWord,
                 Sheep = 100,
                 Population = 10,
+                FreeSpace = freeSpace,
                 LastUpdated = DateTime.UtcNow,
                 BuildingMap = buildingMap
             };

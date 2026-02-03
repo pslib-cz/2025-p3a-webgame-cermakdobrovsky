@@ -9,6 +9,7 @@ namespace WebGame.Server.Models
         public string PlayerId { get; set; }
         public int Sheep { get; set; }
         public int Population { get; set; }
+        public int FreeSpace { get; set; }
         public DateTime LastUpdated { get; set; }
 
         public int BuildingMapId { get; set; }
