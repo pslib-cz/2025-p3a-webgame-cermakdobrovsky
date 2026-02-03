@@ -1,4 +1,4 @@
-import { use, useState, useRef } from "react";
+import { use, useState, useRef, useEffect } from "react";
 import type { GameState } from "./../types/gameModels";
 import type { Building, Map, MapBuilding, MapBuildingDTO } from "./../types/mapModels";
 import MapCanvas from "./map/MapCanvas";
@@ -44,6 +44,21 @@ const App = () => {
   const [currentBuilding, setCurrentBuilding] = useState<MapBuilding | null>(null);
   const shopButtonRef = useRef<HTMLLIElement>(null);
   const { debugMode, toggleDebugMode } = useDebugMode();
+
+  // Advance game every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (gameState?.playerId) {
+        const response = await fetch(`/api/game/advance/${gameState.playerId}`);
+        if (response.ok) {
+          const updatedState = await response.json();
+          setGameState(updatedState);
+        }
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [gameState?.playerId]);
 
   const addBuilding = async (buildingId: number, bottomLeftX: number, bottomLeftY: number) => {
     const buildingToPlace: MapBuildingDTO = {

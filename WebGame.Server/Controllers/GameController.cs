@@ -57,7 +57,7 @@ namespace WebGame.Server.Controllers
             GameState newGameState = new GameState
             {
                 PlayerId = readableWord,
-                Sheep = 100,
+                Sheep = freeSpace / 2,
                 Population = 10,
                 FreeSpace = freeSpace,
                 LastUpdated = DateTime.UtcNow,
