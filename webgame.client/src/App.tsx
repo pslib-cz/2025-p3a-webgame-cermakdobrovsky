@@ -84,13 +84,13 @@ const App = () => {
         <BuildingMenu onDeleteBuilding={handleDeleteBuilding} isOpen={currentBuilding !== null} building={currentBuilding ?? undefined} onClose={() => setCurrentBuilding(null)} />
         <ul className="page__resources-area">
           <li>
-            <Resource maxWidth="300px" imgSrc="images/content/sheep.png" color="#9B7260" currentAmount={gameState.sheep} />
+            <Resource maxWidth="300px" imgSrc="images/content/sheep.png" color="#9B7260" maxAmount={gameState.freeSpace} currentAmount={gameState.sheep} />
           </li>
           <li>
             <Resource maxWidth="250px" imgSrc="images/content/mong.png" color="#4795A7" currentAmount={gameState.population} />
           </li>
           <li>
-            <Resource maxWidth="200px" imgSrc="images/content/grass.png" color="#455A4B" currentAmount={gameState.freeSpace} />
+            <Resource maxWidth="200px" imgSrc="images/content/grass.png" color="#455A4B" maxAmount={1513} currentAmount={gameState.freeSpace} />
           </li>
         </ul>
         <ul className="page__buttons-area">
