@@ -5,6 +5,7 @@ import MapCanvas from "./map/MapCanvas";
 import "./styles/global.css";
 import { Button, Resource, TownHallLevel, Shop, BuildingMenu } from "./components";
 import { useDebugMode } from "./hooks/useDebugMode";
+import { getBuildingImageUrl, setFixedImageForBuilding } from "../helpers/randomImage";
 
 //Promises
 const groundMapPromise: Promise<Map> = fetch("/api/map/ground").then((res) => res.json());
@@ -67,7 +68,6 @@ const App = () => {
     const data = await response.json();
     setGameState(data);
   };
-
   const deleteBuilding = async (mapBuilding: MapBuilding) => {
     const { mapId, bottomLeftX, bottomLeftY } = mapBuilding;
     const response = await fetch(`/api/map/building/${mapId}/${bottomLeftX}/${bottomLeftY}`, {
@@ -84,7 +84,6 @@ const App = () => {
     }));
     setCurrentBuilding(null);
   };
-
   return (
     <>
       <button
@@ -114,7 +113,9 @@ const App = () => {
           buildings={buildings}
           onClose={() => setIsOpenShop(false)}
           onBuildingBuy={(building) => {
-            setPlacingBuilding(building);
+            const selectedUrl = getBuildingImageUrl(building.imageUrl);
+            const modifiedBuilding = { ...building, imageUrl: selectedUrl };
+            setPlacingBuilding(modifiedBuilding);
             setIsOpenShop(false);
           }}
         />
@@ -160,6 +161,7 @@ const App = () => {
             placingBuilding={placingBuilding}
             onMapClick={(x, y) => {
               if (placingBuilding !== null) {
+                setFixedImageForBuilding(x, y, placingBuilding.imageUrl);
                 addBuilding(placingBuilding.buildingId, x, y);
                 setPlacingBuilding(null);
               }
