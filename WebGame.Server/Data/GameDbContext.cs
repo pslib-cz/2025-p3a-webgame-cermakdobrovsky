@@ -27,14 +27,32 @@ namespace WebGame.Server.Data
         }
         private void SeedBuildings(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Building>().HasData(
+            Building[] buildings = [
                 new Building { BuildingId = 1, Name = "Radnice", Description = "Popis radnice", IsTownHall = true, Width = 10, Height = 7, ResourceId = 2, BaseHeight=6, BaseWidth=10},
                 new Building { BuildingId = 2, Name = "Domek", Description = "Popis domu", Width = 4, Height = 6, InitialCost = 90, ResourceId = 2, BaseHeight=4, BaseWidth=4 },
                 new Building { BuildingId = 3, Name = "Kostel", Description = "Popis kostelu", Width = 6, Height = 9, InitialCost = 100, ResourceId = 2, BaseHeight=6, BaseWidth=6 },
                 new Building { BuildingId = 4, Name = "Střelnice", Description = "Popis střelnice", Width = 6, Height = 7, InitialCost = 110, ResourceId = 3, BaseHeight=5, BaseWidth=6 },
                 new Building { BuildingId = 5, Name = "Zbrojírna", Description = "Popis zbrojírny", Width = 6, Height = 7, InitialCost = 120, ResourceId = 3, BaseHeight=6, BaseWidth=6 },
                 new Building { BuildingId = 6, Name = "Věž", Description = "Popis věže", Width = 4, Height = 7, InitialCost = 130, ResourceId = 3, BaseHeight=5, BaseWidth=4 }
-            );
+            ];
+            modelBuilder.Entity<Building>().HasData(buildings);
+
+            // Generate building levels from buildings array
+            List<BuildingLevel> levels = new List<BuildingLevel>();
+            foreach (var building in buildings)
+            {
+                for (int level = 1; level <= 10; level++)
+                {
+                    levels.Add(new BuildingLevel
+                    {
+                        BuildingId = building.BuildingId,
+                        Level = level,
+                        UpgradeCost = level * 100,
+                        Capacity = ((building.BaseWidth * building.BaseHeight) / 2) + (level * 2)
+                    });
+                }
+            }
+            modelBuilder.Entity<BuildingLevel>().HasData(levels);
         }
         private void SeedTiles(ModelBuilder modelBuilder)
         {
@@ -62,25 +80,6 @@ namespace WebGame.Server.Data
                 });
             }
             modelBuilder.Entity<Tile>().HasData(tiles);
-        }
-        private void SeedBuildingLevels(ModelBuilder modelBuilder)
-        {
-            List<BuildingLevel> levels = new List<BuildingLevel>();
-            for (int bId = 1; bId <= 6; bId++)
-            {
-                for (int level = 1; level <= 10; level++)
-                {
-                    levels.Add(new BuildingLevel
-                    {
-                        BuildingId = bId,
-                        Level = level,
-                        UpgradeCost = level * 100,
-                        ResourceGain = level * 10,
-                        GainIntervalSeconds = 30
-                    });
-                }
-            }
-            modelBuilder.Entity<BuildingLevel>().HasData(levels);
         }
         private void SeedDefaultMaps(ModelBuilder modelBuilder)
         {
@@ -126,7 +125,6 @@ namespace WebGame.Server.Data
         {
             SeedResources(modelBuilder);
             SeedBuildings(modelBuilder);
-            SeedBuildingLevels(modelBuilder);
             SeedTiles(modelBuilder);
             SeedDefaultMaps(modelBuilder);
         }

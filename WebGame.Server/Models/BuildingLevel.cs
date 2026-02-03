@@ -8,7 +8,6 @@ namespace WebGame.Server.Models
         public int BuildingId { get; set; }
         public int Level { get; set; }
         public int UpgradeCost { get; set; }
-        public int ResourceGain { get; set; }
-        public int GainIntervalSeconds { get; set; } = 30;
+        public int Capacity { get; set; }
     }
 }

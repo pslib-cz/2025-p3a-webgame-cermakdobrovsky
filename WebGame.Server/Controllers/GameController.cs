@@ -105,7 +105,7 @@ namespace WebGame.Server.Controllers
 
             // calculate new values
             if (gameState.Sheep < gameState.FreeSpace) gameState.Sheep = (int)(gameState.Sheep * 1.1);
-            else gameState.Sheep = gameState.FreeSpace;
+            if (gameState.Sheep > gameState.FreeSpace) gameState.Sheep = gameState.FreeSpace;
 
             await _dbc.SaveChangesAsync();
             return Ok(gameState);

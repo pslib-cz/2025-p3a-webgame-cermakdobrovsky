@@ -28,8 +28,8 @@ export type BuildingLevel = {
   buildingLevelId: number;
   buildingId: number;
   level: number;
-  productionRate: number;
   upgradeCost: number;
+  capacity: number;
 };
 
 export type Resource = {
