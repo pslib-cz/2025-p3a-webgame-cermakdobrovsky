@@ -21,11 +21,16 @@
 
         /*Font-sizes*/
 
-        --text-body: 1rem; /*16px*/
-        --text-sub: 1.5625rem; /*25px*/
-        --text-title: 2.4375rem; /*39px*/
-        --text-heading: 3.8125rem; /*61px*/
-        --text-display: 4.6875rem; /*75px*/
+        --text-body: 1rem;
+        /*16px*/
+        --text-sub: 1.5625rem;
+        /*25px*/
+        --text-title: 2.4375rem;
+        /*39px*/
+        --text-heading: 3.8125rem;
+        /*61px*/
+        --text-display: 4.6875rem;
+        /*75px*/
 
         /*Settings*/
 
@@ -35,7 +40,7 @@
     }
 
     html {
-        font-family: 'Pixelify Sans', sans-serif;
+        font-family: 'Patrick Hand', cursive;
         font-weight: 400;
         font-size: var(--text-body, 1rem);
         color: var(--black, #000000);
@@ -56,12 +61,13 @@
     }
 }
 
-@layer init {   
+@layer init {
     /*presets*/
 
     /*img / iframe - responsive*/
 
-    .img-responsive, .iframe-responsive {
+    .img-responsive,
+    .iframe-responsive {
         display: block;
         width: 100%;
         height: 100%;

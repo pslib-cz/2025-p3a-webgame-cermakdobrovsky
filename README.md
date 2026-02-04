@@ -4,6 +4,10 @@ Naše hra je jednoduché **budovatelské RPG** v prohlížeči. Hráč si buduje
 
 ---
 
+[🚀 Otevřít hru](https://id-117.pslib.cloud/)
+
+---
+
 ## ⚙️ Technologie
 
 Používáme moderní stack, který kombinuje backend, frontend i práci s animacemi:
