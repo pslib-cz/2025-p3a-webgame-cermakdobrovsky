@@ -3,7 +3,11 @@
 "ServerUrl": "http://localhost:5173",
 "RedirectUrl": "",
 "LaunchCommand": "npm run dev",
+<<<<<<< HEAD
 "WorkingDirectory": "/Users/vitekdobrovsky/coding/school/2025-p3a-webgame-cermakdobrovsky/WebGame.Server/../webgame.client",
+=======
+"WorkingDirectory": "C:\\Users\\bohus\\Desktop\\projects\\games\\2025-p3a-webgame-cermakdobrovsky\\WebGame.Server\\..\\webgame.client",
+>>>>>>> bob
 "MaxTimeoutInSeconds": "120",
 "KeepRunning": "false"
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebGame.Server.Data;
 
@@ -10,9 +11,11 @@ using WebGame.Server.Data;
 namespace WebGame.Server.Migrations
 {
     [DbContext(typeof(GameDbContext))]
-    partial class GameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260204092618_UpdateMapV3")]
+    partial class UpdateMapV3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.11");
@@ -27,6 +30,9 @@ namespace WebGame.Server.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("BaseWidth")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CurrentLevel")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
@@ -64,6 +70,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 1,
                             BaseHeight = 6,
                             BaseWidth = 10,
+                            CurrentLevel = 1,
                             Description = "Popis radnice",
                             Height = 7,
                             InitialCost = 0,
@@ -77,6 +84,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 2,
                             BaseHeight = 4,
                             BaseWidth = 4,
+                            CurrentLevel = 1,
                             Description = "Popis domu",
                             Height = 6,
                             InitialCost = 90,
@@ -90,6 +98,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 3,
                             BaseHeight = 6,
                             BaseWidth = 6,
+                            CurrentLevel = 1,
                             Description = "Popis kostelu",
                             Height = 9,
                             InitialCost = 100,
@@ -103,6 +112,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 4,
                             BaseHeight = 5,
                             BaseWidth = 6,
+                            CurrentLevel = 1,
                             Description = "Popis střelnice",
                             Height = 7,
                             InitialCost = 110,
@@ -116,6 +126,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 5,
                             BaseHeight = 6,
                             BaseWidth = 6,
+                            CurrentLevel = 1,
                             Description = "Popis zbrojírny",
                             Height = 7,
                             InitialCost = 120,
@@ -129,6 +140,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 6,
                             BaseHeight = 5,
                             BaseWidth = 4,
+                            CurrentLevel = 1,
                             Description = "Popis věže",
                             Height = 7,
                             InitialCost = 130,

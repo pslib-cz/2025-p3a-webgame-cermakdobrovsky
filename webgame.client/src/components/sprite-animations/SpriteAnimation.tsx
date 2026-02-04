@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { type FC, useEffect, useRef, useState, useMemo } from 'react';
 import { Sprite } from 'react-konva';
 import useImage from 'use-image';
 import Konva from 'konva';
@@ -24,11 +24,12 @@ export type SpriteAnimationProps = {
     rotation?: number;
     opacity?: number;
     listening?: boolean;
+    delay?: number;
     onClick?: () => void;
     onMouseEnter?: () => void;
     onMouseLeave?: () => void;
 };
-const SpriteAnimation: React.FC<SpriteAnimationProps> = ({
+const SpriteAnimation: FC<SpriteAnimationProps> = ({
     src,
     animations,
     animation,
@@ -46,6 +47,7 @@ const SpriteAnimation: React.FC<SpriteAnimationProps> = ({
     rotation = 0,
     opacity = 1,
     listening = true,
+    delay = 0,
     onClick,
     onMouseEnter,
     onMouseLeave
@@ -70,11 +72,21 @@ const SpriteAnimation: React.FC<SpriteAnimationProps> = ({
     useEffect(() => {
         if (image && spriteRef.current && autoplay) {
             if (!isRunning) {
-                spriteRef.current.start();
-                setIsRunning(true);
+                if (delay > 0) {
+                    const timer = setTimeout(() => {
+                        if (spriteRef.current) {
+                            spriteRef.current.start();
+                            setIsRunning(true);
+                        }
+                    }, delay);
+                    return () => clearTimeout(timer);
+                } else {
+                    spriteRef.current.start();
+                    setIsRunning(true);
+                }
             }
         }
-    }, [image, isRunning, autoplay]);
+    }, [image, isRunning, autoplay, delay]);
     useEffect(() => {
         if (spriteRef.current && currentAnimation) spriteRef.current.animation(currentAnimation);
     }, [currentAnimation]);

@@ -143,6 +143,12 @@ export const getDecorationsForMap = (groundMap: Map, buildingsMap: Map, tileSize
         [
             { type: 'bush-2', dx: 0, dy: 0 },
             { type: 'tree-1', dx: 1, dy: 1 },
+        ],
+        [
+            { type: 'bush-1', dx: 0, dy: 0 },
+        ],
+        [
+            { type: 'bush-2', dx: 0, dy: 0 },
         ]
     ];
     const SECTORS_X = 3;
@@ -166,7 +172,6 @@ export const getDecorationsForMap = (groundMap: Map, buildingsMap: Map, tileSize
                 const group = GROUPS[grpIdx];
                 let canPlace = true;
                 for (const item of group) {
-                    // Check 3x3 area around the item (1-tile buffer)
                     for (let dx = -1; dx <= 1; dx++) {
                         for (let dy = -1; dy <= 1; dy++) {
                             if (!isAvailable(tx + item.dx + dx, ty + item.dy + dy)) {
