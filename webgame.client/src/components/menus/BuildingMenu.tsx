@@ -25,7 +25,7 @@ const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDele
                     <div className="building-menu__resource">
                       <p className="building-menu__resource-amount">{building?.building.levels.find((level) => level.level === building.level)?.capacity}</p>
                       <figure className="building-menu__resource-figure">
-                        <img className="img-responsive" src="images/content/mong.png" alt="Obrázek populace" loading="lazy" />
+                        <img className="img-responsive" src="images/content/monk.png" alt="Obrázek populace" loading="lazy" />
                       </figure>
                     </div>
                   </div>
