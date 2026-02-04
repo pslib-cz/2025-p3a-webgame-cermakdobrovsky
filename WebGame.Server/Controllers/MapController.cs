@@ -112,6 +112,7 @@ namespace WebGame.Server.Controllers
             {
                 gameState.FreeSpace += mapBuilding.Building.BaseWidth * mapBuilding.Building.BaseHeight;
                 gameState.MaxPopulation -= mapBuilding.Building.Levels.FirstOrDefault(l => l.Level == mapBuilding.Level)?.Capacity ?? 0;
+                if (gameState.Population > gameState.MaxPopulation) gameState.Population = gameState.MaxPopulation;
                 _dbc.GameStates.Update(gameState);
             }
 

@@ -109,6 +109,10 @@ namespace WebGame.Server.Controllers
             // calculate new values
             if (gameState.Sheep < gameState.FreeSpace) gameState.Sheep = (int)(gameState.Sheep * 1.1);
             if (gameState.Sheep > gameState.FreeSpace) gameState.Sheep = gameState.FreeSpace;
+            if (gameState.Population < gameState.MaxPopulation) gameState.Population = (int)(gameState.Population * 1.1);
+            if (gameState.Population > gameState.MaxPopulation) gameState.Population = gameState.MaxPopulation;
+
+            gameState.LastUpdated = DateTime.UtcNow;
 
             await _dbc.SaveChangesAsync();
             return Ok(gameState);
