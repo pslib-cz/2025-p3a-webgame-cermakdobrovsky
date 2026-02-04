@@ -21,7 +21,7 @@ const Resource: FC<ReasourceProps> = ({ currentAmount, maxAmount, maxWidth, imgS
       <figure>
         <img className="img-responsive" src={imgSrc} alt="Obrázek zdroje" loading='lazy' />
       </figure>
-      <p className="resource__amount">{currentAmount}</p>
+      <p className="resource__amount">{currentAmount}/{maxAmount}</p>
     </div>
   )
 }

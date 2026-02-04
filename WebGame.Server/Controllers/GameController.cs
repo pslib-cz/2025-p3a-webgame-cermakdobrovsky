@@ -47,7 +47,7 @@ namespace WebGame.Server.Controllers
                     }
                 }
             }
-            Building? townHallBuilding = _dbc.Buildings.FirstOrDefault(b => b.BuildingId == 1);
+            Building? townHallBuilding = _dbc.Buildings.Include(b => b.Levels).FirstOrDefault(b => b.BuildingId == 1);
             if (townHallBuilding != null)
             {
                 freeSpace -= townHallBuilding.BaseWidth * townHallBuilding.BaseHeight;
@@ -60,6 +60,7 @@ namespace WebGame.Server.Controllers
                 Sheep = freeSpace / 2,
                 Population = 10,
                 FreeSpace = freeSpace,
+                MaxPopulation = townHallBuilding.Levels.FirstOrDefault(l => l.Level == 1)?.Capacity ?? 32,
                 LastUpdated = DateTime.UtcNow,
                 BuildingMap = buildingMap
             };

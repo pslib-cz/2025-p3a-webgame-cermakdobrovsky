@@ -43,7 +43,7 @@ namespace WebGame.Server.Controllers
                 .ThenInclude(mt => mt.Tile)
                 .FirstOrDefaultAsync(gs => gs.PlayerId == request.PlayerId);
 
-            Building? buildingType = await _dbc.Buildings.AsNoTracking().FirstOrDefaultAsync(b => b.BuildingId == request.BuildingId);
+            Building? buildingType = await _dbc.Buildings.AsNoTracking().Include(b => b.Levels).FirstOrDefaultAsync(b => b.BuildingId == request.BuildingId);
             Map? map = await _dbc.Maps.AsNoTracking().Include(t => t.Tiles).ThenInclude(mt => mt.Tile).FirstOrDefaultAsync(m => m.MapId == 1);
 
             if (gameState == null) return NotFound("Game state not found for the given player ID.");
@@ -76,6 +76,7 @@ namespace WebGame.Server.Controllers
             // deduct resources
             gameState.Sheep -= buildingType.InitialCost;
             gameState.FreeSpace -= buildingType.BaseHeight * buildingType.BaseWidth;
+            gameState.MaxPopulation += buildingType.Levels.FirstOrDefault(l => l.Level == 1)?.Capacity ?? 0;
             if (gameState.Sheep > gameState.FreeSpace) gameState.Sheep = gameState.FreeSpace;
             _dbc.GameStates.Update(gameState);
 
@@ -101,6 +102,7 @@ namespace WebGame.Server.Controllers
         { 
             MapBuilding? mapBuilding = await _dbc.MapBuildings
                 .Include(mb => mb.Building)
+                .ThenInclude(b => b.Levels)
                 .FirstOrDefaultAsync(mb => mb.MapId == mapId && mb.BottomLeftX == bottomLeftX && mb.BottomLeftY == bottomLeftY);
             if (mapBuilding == null) return NotFound("Building not found.");
 
@@ -109,7 +111,7 @@ namespace WebGame.Server.Controllers
             if (gameState != null)
             {
                 gameState.FreeSpace += mapBuilding.Building.BaseWidth * mapBuilding.Building.BaseHeight;
-                
+                gameState.MaxPopulation -= mapBuilding.Building.Levels.FirstOrDefault(l => l.Level == mapBuilding.Level)?.Capacity ?? 0;
                 _dbc.GameStates.Update(gameState);
             }
 
