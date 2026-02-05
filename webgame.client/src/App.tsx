@@ -21,7 +21,7 @@ const App = () => {
   const shopButtonRef = useRef<HTMLLIElement>(null);
   const { debugMode, toggleDebugMode } = useDebugMode();
 
-  // Advance game every 5 seconds
+  //Advance game every 5 seconds
   useEffect(() => {
     const interval = setInterval(async () => {
       if (gameState?.playerId) {
