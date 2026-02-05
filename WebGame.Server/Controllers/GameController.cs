@@ -114,7 +114,7 @@ namespace WebGame.Server.Controllers
             if (gameState.Sheep > gameState.FreeSpace) gameState.Sheep = gameState.FreeSpace;
             if (gameState.Population < gameState.MaxPopulation) gameState.Population = (int)(gameState.Population * POPULATION_MULTIPLIER);
             if (gameState.Population > gameState.MaxPopulation) gameState.Population = gameState.MaxPopulation;
-            if (gameState.Population > 0 && gameState.Population < gameState.Sheep) gameState.Population = (int)(gameState.Population * POPULATION_DEATH_RATE);
+            if (gameState.Population > 0 && gameState.Population > gameState.Sheep) gameState.Population = (int)(gameState.Population * POPULATION_DEATH_RATE);
 
             gameState.LastUpdated = DateTime.UtcNow;
 
