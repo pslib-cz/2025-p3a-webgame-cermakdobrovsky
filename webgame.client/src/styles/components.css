@@ -349,12 +349,12 @@
   width: 40px;
   height: 40px;
   background-color: transparent;
-  color: var(--dark-brown, #6b4742);
-  transition: color var(--transition, 0.25s ease-in-out);
+  color: var(--white, #ffffff);
+  transition: transform var(--transition, 0.25s ease-in-out);
 }
 
 .swiper-primary__buttons button:hover .swiper-primary__button {
-  color: var(--white, #ffffff);
+  transform: scale(1.05);
 }
 
 /*Building Menu*/

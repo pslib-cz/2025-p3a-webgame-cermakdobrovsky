@@ -121,10 +121,6 @@ export const getDecorationsForMap = (groundMap: Map, buildingsMap: Map, tileSize
     if (minX === Infinity) return [];
     const mapWidth = maxX - minX + 1;
     const mapHeight = maxY - minY + 1;
-    const isAvailable = (x: number, y: number) => {
-        const key = `${x},${y}`;
-        return validPlaceableTiles.has(key) && !occupiedTiles.has(key);
-    };
     const GROUPS = [
         [
             { type: 'bush-1', dx: 0, dy: 0 },
@@ -170,20 +166,46 @@ export const getDecorationsForMap = (groundMap: Map, buildingsMap: Map, tileSize
                 if (!validPlaceableTiles.has(`${tx},${ty}`)) continue;
                 const grpIdx = Math.floor(hash(tx, ty, 333) * GROUPS.length);
                 const group = GROUPS[grpIdx];
-                let canPlace = true;
+                let terrainValid = true;
+                let buildingCollision = false;
                 for (const item of group) {
                     for (let dx = -1; dx <= 1; dx++) {
                         for (let dy = -1; dy <= 1; dy++) {
-                            if (!isAvailable(tx + item.dx + dx, ty + item.dy + dy)) {
-                                canPlace = false;
+                            const px = tx + item.dx + dx;
+                            const py = ty + item.dy + dy;
+                            const key = `${px},${py}`;
+                            if (!validPlaceableTiles.has(key)) {
+                                terrainValid = false;
                                 break;
                             }
                         }
-                        if (!canPlace) break;
+                        if (!terrainValid) break;
                     }
-                    if (!canPlace) break;
+                    if (!terrainValid) break;
                 }
-                if (canPlace) {
+                if (!terrainValid) {
+                    continue;
+                }
+                for (const item of group) {
+                    for (let dx = -1; dx <= 1; dx++) {
+                        for (let dy = -1; dy <= 1; dy++) {
+                            const px = tx + item.dx + dx;
+                            const py = ty + item.dy + dy;
+                            const key = `${px},${py}`;
+                            if (occupiedTiles.has(key)) {
+                                buildingCollision = true;
+                                break;
+                            }
+                        }
+                        if (buildingCollision) break;
+                    }
+                    if (buildingCollision) break;
+                }
+                if (buildingCollision) {
+                    placed = true;
+                    break;
+                }
+                if (true) {
                     for (const item of group) {
                         const config = getConfig(item.type);
                         if (!config) continue;

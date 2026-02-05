@@ -28,6 +28,7 @@ export type SpriteAnimationProps = {
     onClick?: () => void;
     onMouseEnter?: () => void;
     onMouseLeave?: () => void;
+    zIndex?: number;
 };
 const SpriteAnimation: FC<SpriteAnimationProps> = ({
     src,
@@ -50,7 +51,8 @@ const SpriteAnimation: FC<SpriteAnimationProps> = ({
     delay = 0,
     onClick,
     onMouseEnter,
-    onMouseLeave
+    onMouseLeave,
+    zIndex
 }) => {
     const [image] = useImage(src);
     const spriteRef = useRef<Konva.Sprite>(null);
@@ -89,7 +91,10 @@ const SpriteAnimation: FC<SpriteAnimationProps> = ({
     }, [image, isRunning, autoplay, delay]);
     useEffect(() => {
         if (spriteRef.current && currentAnimation) spriteRef.current.animation(currentAnimation);
-    }, [currentAnimation]);
+        if (spriteRef.current && zIndex !== undefined) {
+            spriteRef.current.zIndex(zIndex);
+        }
+    }, [currentAnimation, zIndex]);
     if (!image) return null;
     return (
         <Sprite
@@ -110,7 +115,6 @@ const SpriteAnimation: FC<SpriteAnimationProps> = ({
             onClick={onClick}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            zIndex={10}
         />
     );
 };
