@@ -107,10 +107,14 @@ namespace WebGame.Server.Controllers
             if (gameState == null) return NotFound("Game state not found for the given player ID.");
 
             // calculate new values
-            if (gameState.Sheep < gameState.FreeSpace) gameState.Sheep = (int)(gameState.Sheep * 1.1);
+            double SHEEP_MULTIPLIER = 1.1;
+            double POPULATION_MULTIPLIER = 1.1;
+            double POPULATION_DEATH_RATE = 0.9;
+            if (gameState.Sheep < gameState.FreeSpace) gameState.Sheep = (int)(gameState.Sheep * SHEEP_MULTIPLIER);
             if (gameState.Sheep > gameState.FreeSpace) gameState.Sheep = gameState.FreeSpace;
-            if (gameState.Population < gameState.MaxPopulation) gameState.Population = (int)(gameState.Population * 1.1);
+            if (gameState.Population < gameState.MaxPopulation) gameState.Population = (int)(gameState.Population * POPULATION_MULTIPLIER);
             if (gameState.Population > gameState.MaxPopulation) gameState.Population = gameState.MaxPopulation;
+            if (gameState.Population > 0 && gameState.Population < gameState.Sheep) gameState.Population = (int)(gameState.Population * POPULATION_DEATH_RATE);
 
             gameState.LastUpdated = DateTime.UtcNow;
 
