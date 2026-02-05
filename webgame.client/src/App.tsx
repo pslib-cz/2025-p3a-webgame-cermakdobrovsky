@@ -31,7 +31,7 @@ const App = () => {
           setGameState(updatedState);
         }
       }
-    }, 5000);
+    }, 2500);
     return () => clearInterval(interval);
   }, [gameState?.playerId]);
   const handleAddBuilding = async (buildingId: number, bottomLeftX: number, bottomLeftY: number) => {
@@ -87,7 +87,7 @@ const App = () => {
             <Resource maxWidth="250px" imgSrc="images/content/monk.png" color="#4795A7" maxAmount={gameState.maxPopulation} currentAmount={gameState.population} />
           </li>
           <li>
-            <Resource maxWidth="200px" imgSrc="images/content/grass.png" color="#455A4B" maxAmount={1513} currentAmount={gameState.freeSpace} />
+            <Resource maxWidth="200px" imgSrc="images/content/grass.png" color="#455A4B" maxAmount={100} currentAmount={Math.floor((gameState.freeSpace / 1513) * 100)} />
           </li>
         </ul>
         <ul className="page__buttons-area">
