@@ -77,7 +77,7 @@ namespace WebGame.Server.Controllers
             gameState.Sheep -= buildingType.InitialCost;
             gameState.FreeSpace -= buildingType.BaseHeight * buildingType.BaseWidth;
             gameState.MaxPopulation += buildingType.Levels.FirstOrDefault(l => l.Level == 1)?.Capacity ?? 0;
-            if (gameState.Sheep > gameState.FreeSpace) gameState.Sheep = gameState.FreeSpace;
+            if (gameState.Sheep > gameState.MaxSheep) gameState.Sheep = gameState.MaxSheep;
             _dbc.GameStates.Update(gameState);
 
             await _dbc.SaveChangesAsync();

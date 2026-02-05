@@ -57,7 +57,7 @@ namespace WebGame.Server.Controllers
             GameState newGameState = new GameState
             {
                 PlayerId = readableWord,
-                Sheep = freeSpace / 2,
+                Sheep = 20,
                 Population = 10,
                 FreeSpace = freeSpace,
                 MaxPopulation = townHallBuilding.Levels.FirstOrDefault(l => l.Level == 1)?.Capacity ?? 32,
@@ -110,8 +110,8 @@ namespace WebGame.Server.Controllers
             double SHEEP_MULTIPLIER = 1.1;
             double POPULATION_MULTIPLIER = 1.1;
             double POPULATION_DEATH_RATE = 0.9;
-            if (gameState.Sheep < gameState.FreeSpace) gameState.Sheep = (int)(gameState.Sheep * SHEEP_MULTIPLIER);
-            if (gameState.Sheep > gameState.FreeSpace) gameState.Sheep = gameState.FreeSpace;
+            if (gameState.Sheep < gameState.MaxSheep) gameState.Sheep = (int)(gameState.Sheep * SHEEP_MULTIPLIER);
+            if (gameState.Sheep > gameState.MaxSheep) gameState.Sheep = gameState.MaxSheep;
             if (gameState.Population < gameState.MaxPopulation) gameState.Population = (int)(gameState.Population * POPULATION_MULTIPLIER);
             if (gameState.Population > gameState.MaxPopulation) gameState.Population = gameState.MaxPopulation;
             if (gameState.Population > 0 && gameState.Population > gameState.Sheep) gameState.Population = (int)(gameState.Population * POPULATION_DEATH_RATE);
