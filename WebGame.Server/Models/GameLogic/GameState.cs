@@ -12,7 +12,7 @@ namespace WebGame.Server.Models
         public int FreeSpace { get; set; }
         public int MaxPopulation { get; set; }
         public DateTime LastUpdated { get; set; }
-
+        public int Level { get; set; } = 1;
         public int BuildingMapId { get; set; }
         [ForeignKey(nameof(BuildingMapId))]
         public Map BuildingMap { get; set; }

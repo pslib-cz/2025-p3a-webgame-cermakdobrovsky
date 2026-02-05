@@ -60,6 +60,12 @@ Radnice slouží jako technologický uzel. Její vylepšení je podmíněno dosa
 
 - _Strategický prvek:_ Hráč musí často postavit více domů, než kolik dokáže jeho půda dlouhodobě uživit, jen aby "protnul" hranici pro upgrade radnice.
 
+#### 4. Efektivita ovcí
+
+S vyšší úrovní hráče roste efektivita produkce ovcí na jednotku volné půdy. Čím vyšší level, tím více ovcí dokáže stejná plocha uživit.
+
+- _Důsledek:_ Progrese se vyplácí – upgrade radnice zlepšuje ekonomickou výkonnost celé vesnice.
+
 ---
 
 ### 🔄 Herní smyčka (Game Loop)
