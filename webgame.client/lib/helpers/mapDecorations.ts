@@ -27,7 +27,7 @@ export const DECORATIONS: DecorationConfig[] = [
     },
     {
         type: 'bush-1',
-        src: '/images/sprite-animations/bushe-1.png',
+        src: '/images/sprite-animations/bush-1.png',
         frameWidth: 128,
         frameHeight: 128,
         columns: 8,
@@ -39,7 +39,7 @@ export const DECORATIONS: DecorationConfig[] = [
     },
     {
         type: 'bush-2',
-        src: '/images/sprite-animations/bushe-2.png',
+        src: '/images/sprite-animations/bush-2.png',
         frameWidth: 128,
         frameHeight: 128,
         columns: 8,
@@ -139,12 +139,6 @@ export const getDecorationsForMap = (groundMap: Map, buildingsMap: Map, tileSize
         [
             { type: 'bush-2', dx: 0, dy: 0 },
             { type: 'tree-1', dx: 1, dy: 1 },
-        ],
-        [
-            { type: 'bush-1', dx: 0, dy: 0 },
-        ],
-        [
-            { type: 'bush-2', dx: 0, dy: 0 },
         ]
     ];
     const SECTORS_X = 3;

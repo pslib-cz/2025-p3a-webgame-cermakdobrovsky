@@ -62,28 +62,40 @@ const SpriteAnimation: FC<SpriteAnimationProps> = ({
     const finalAnimations = useMemo(() => {
         if (animations) return animations;
         if (frameWidth && frameHeight && columns && rows) {
+            let validColumns = columns;
+            let validRows = rows;
+            let effectiveFrameWidth = frameWidth;
+            let effectiveFrameHeight = frameHeight;
+            if (image) {
+                if (image.width < frameWidth) effectiveFrameWidth = image.width;
+                if (image.height < frameHeight) effectiveFrameHeight = image.height;
+                const imgCols = Math.floor(image.width / effectiveFrameWidth);
+                const imgRows = Math.floor(image.height / effectiveFrameHeight);
+                if (imgCols < columns) validColumns = imgCols;
+                if (imgRows < rows) validRows = imgRows;
+                if (validColumns === 0) validColumns = 1;
+                if (validRows === 0) validRows = 1;
+            }
             const frames = [];
-            for (let r = 0; r < rows; r++) {
-                for (let c = 0; c < columns; c++) {
-                    frames.push(c * frameWidth, r * frameHeight, frameWidth, frameHeight);
+            for (let r = 0; r < validRows; r++) {
+                for (let c = 0; c < validColumns; c++) {
+                    frames.push(c * effectiveFrameWidth, r * effectiveFrameHeight, effectiveFrameWidth, effectiveFrameHeight);
                 }
             }
             return { 'default': frames };
         }
         return {};
-    }, [animations, frameWidth, frameHeight, columns, rows]);
-    const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+    }, [animations, frameWidth, frameHeight, columns, rows, image]);
+    const [imageLoaded, setImageLoaded] = useState(false);
     useEffect(() => {
         if (image) {
             const expectedWidth = (columns || 1) * (frameWidth || 0);
             const expectedHeight = (rows || 1) * (frameHeight || 0);
             if (frameWidth && columns && image.width < expectedWidth) {
-                console.warn(`[SpriteAnimation] Image ${src} is too small (${image.width}px) for the defined frames (needs ${expectedWidth}px). This would cause an IndexSizeError.`);
-                return;
+                console.warn(`[SpriteAnimation] Image ${src} is too small (${image.width}px) for defined frames (${expectedWidth}px). Clamping to fit.`);
             }
             if (frameHeight && rows && image.height < expectedHeight) {
-                console.warn(`[SpriteAnimation] Image ${src} is too small (${image.height}px) for the defined frames (needs ${expectedHeight}px). This would cause an IndexSizeError.`);
-                return;
+                console.warn(`[SpriteAnimation] Image ${src} is too small (${image.height}px) for defined frames (${expectedHeight}px). Clamping to fit.`);
             }
             setImageLoaded(true);
         }
