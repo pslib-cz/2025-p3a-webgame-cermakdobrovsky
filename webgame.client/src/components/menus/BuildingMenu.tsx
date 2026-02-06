@@ -18,7 +18,9 @@ const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDele
             <div className="building-menu">
               <div className="building-menu__wrapper">
                 <Close className="building-menu__close" onToggle={onClose} />
-                <p className="building-menu__title">{building?.building.name} - {building?.level} lvl</p>
+                <p className="building-menu__title">
+                  {building?.building.name} - {building?.level} lvl
+                </p>
                 <div className="building-menu__description">
                   <p className="building-menu__description-text">{building?.building.description}</p>
                   <div className="building-menu__description-content">
@@ -35,11 +37,18 @@ const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDele
                   <div>
                     <p className="building-menu__upgrade-title">Vylepšení:</p>
                     <div className="building-menu__amount">
-                      <p className="building-menu__amount-text">{building?.building.levels.find((level) => level.level === building.level)?.upgradeCost}</p>
+                      <p className="building-menu__amount-text">Cena: {building?.building.levels.find((level) => level.level === building.level)?.upgradeCost}</p>
                       <figure className="building-menu__amount-figure">
                         <img className="img-responsive" src="images/content/sheep.png" alt="Obrázek ovce" loading="lazy" />
                       </figure>
                     </div>
+                    {building?.building.isTownHall && (
+                      <div>
+                        <p>Benefity:</p>
+                        <p>Rychlost množení ovcí: +5%</p>
+                        <p>Rychlost růstu populace: +5%</p>
+                      </div>
+                    )}
                   </div>
                   <div className="building-menu__upgrade-section-buttons">
                     <Button bgColor="button--primary--blue" onClick={() => building && onBuildingUpgrade?.(building)}>
