@@ -84,7 +84,7 @@ const App = () => {
             <Resource maxWidth="300px" imgSrc="images/content/sheep.png" color="#9B7260" maxAmount={gameState.maxSheep} currentAmount={gameState.sheep} />
           </li>
           <li>
-            <Resource maxWidth="250px" imgSrc="images/content/monk.png" color="#4795A7" maxAmount={gameState.maxPopulation} currentAmount={gameState.population} />
+            <Resource maxWidth="300px" imgSrc="images/content/monk.png" color="#4795A7" maxAmount={gameState.maxPopulation} currentAmount={gameState.population} />
           </li>
           <li>
             <Resource maxWidth="200px" imgSrc="images/content/grass.png" color="#455A4B" maxAmount={100} currentAmount={Math.floor((gameState.freeSpace / 1513) * 100)} />
