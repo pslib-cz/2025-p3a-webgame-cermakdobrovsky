@@ -42,3 +42,17 @@ export const deleteBuilding = async (mapBuilding: MapBuilding): Promise<GameStat
   const data: GameState = await response.json();
   return data;
 };
+
+export const upgradeBuilding = async (mapBuilding: MapBuilding): Promise<GameState | null> => {
+  const { mapId, bottomLeftX, bottomLeftY } = mapBuilding;
+  const response = await fetch(`/api/map/building/upgrade/${mapId}/${bottomLeftX}/${bottomLeftY}`, {
+    method: "PUT",
+  });
+  if (!response.ok) {
+    const errorMessage = await response.text();
+    alert(errorMessage);
+    return null;
+  }
+  const data: GameState = await response.json();
+  return data;
+};

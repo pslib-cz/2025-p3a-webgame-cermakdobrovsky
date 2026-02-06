@@ -97,6 +97,63 @@ namespace WebGame.Server.Controllers
         }
     
         
+        [HttpPut("building/upgrade/{mapId}/{bottomLeftX}/{bottomLeftY}")]
+        public async Task<IActionResult> UpgradeBuilding(int mapId, int bottomLeftX, int bottomLeftY)
+        {
+            MapBuilding? mapBuilding = await _dbc.MapBuildings
+                .Include(mb => mb.Building)
+                .ThenInclude(b => b.Levels)
+                .FirstOrDefaultAsync(mb => mb.MapId == mapId && mb.BottomLeftX == bottomLeftX && mb.BottomLeftY == bottomLeftY);
+
+            if (mapBuilding == null) return NotFound("Building not found.");
+
+            GameState? gameState = await _dbc.GameStates.FirstOrDefaultAsync(gs => gs.BuildingMapId == mapId);
+            if (gameState == null) return NotFound("Game state not found.");
+
+            int currentLevel = mapBuilding.Level;
+            int nextLevel = currentLevel + 1;
+
+            BuildingLevel? currentLevelData = mapBuilding.Building.Levels.FirstOrDefault(l => l.Level == currentLevel);
+            BuildingLevel? nextLevelData = mapBuilding.Building.Levels.FirstOrDefault(l => l.Level == nextLevel);
+
+            if (nextLevelData == null) return BadRequest("Building is already at max level.");
+            if (gameState.Sheep < nextLevelData.UpgradeCost) return BadRequest("Not enough resources to upgrade this building.");
+
+            // deduct upgrade cost
+            gameState.Sheep -= nextLevelData.UpgradeCost;
+
+            // update MaxPopulation
+            int oldCapacity = currentLevelData?.Capacity ?? 0;
+            int newCapacity = nextLevelData.Capacity;
+            gameState.MaxPopulation = gameState.MaxPopulation - oldCapacity + newCapacity;
+
+            // update game state level
+            if (mapBuilding.Building.IsTownHall)
+            {
+                gameState.Level = nextLevel;
+            }
+
+            // update building level
+            mapBuilding.Level = nextLevel;
+
+            _dbc.GameStates.Update(gameState);
+            _dbc.MapBuildings.Update(mapBuilding);
+            await _dbc.SaveChangesAsync();
+
+            GameState? updatedGameState = await _dbc.GameStates
+                .AsNoTracking()
+                .Include(gs => gs.BuildingMap)
+                .ThenInclude(m => m.Buildings)
+                .ThenInclude(mb => mb.Building)
+                .ThenInclude(b => b.Levels)
+                .Include(gs => gs.BuildingMap)
+                .ThenInclude(m => m.Tiles)
+                .ThenInclude(mt => mt.Tile)
+                .FirstOrDefaultAsync(gs => gs.PlayerId == gameState.PlayerId);
+
+            return Ok(updatedGameState);
+        }
+
         [HttpDelete("building/{mapId}/{bottomLeftX}/{bottomLeftY}")]
         public async Task<IActionResult> DeleteBuilding(int mapId, int bottomLeftX, int bottomLeftY)
         { 

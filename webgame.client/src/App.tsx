@@ -5,7 +5,7 @@ import MapCanvas from "./map/MapCanvas";
 import "./styles/global.css";
 import { Button, Resource, TownHallLevel, Shop, BuildingMenu } from "./components";
 import { useDebugMode } from "./hooks/useDebugMode";
-import { groundMapPromise, buildingsPromise, addBuilding, deleteBuilding } from "../lib/mapUtils";
+import { groundMapPromise, buildingsPromise, addBuilding, deleteBuilding, upgradeBuilding } from "../lib/mapUtils";
 import { gameStatePromise } from "../lib/gameUtlis";
 import { getBuildingImageUrl, setFixedImageForBuilding } from "../lib/helpers/randomImage";
 
@@ -34,6 +34,16 @@ const App = () => {
     }, 2500);
     return () => clearInterval(interval);
   }, [gameState?.playerId]);
+
+  const handleUpgradeBuilding = async (mapBuilding: MapBuilding) => {
+    const data = await upgradeBuilding(mapBuilding);
+    if (data) {
+      setGameState(data);
+      const updatedBuilding = data.buildingMap.buildings.find((b) => b.mapId === mapBuilding.mapId && b.bottomLeftX === mapBuilding.bottomLeftX && b.bottomLeftY === mapBuilding.bottomLeftY);
+      if (updatedBuilding) setCurrentBuilding(updatedBuilding);
+    }
+  };
+
   const handleAddBuilding = async (buildingId: number, bottomLeftX: number, bottomLeftY: number) => {
     const data = await addBuilding(buildingId, bottomLeftX, bottomLeftY, gameState.playerId);
     if (data) setGameState(data);
@@ -78,7 +88,13 @@ const App = () => {
             setIsOpenShop(false);
           }}
         />
-        <BuildingMenu onDeleteBuilding={handleDeleteBuilding} isOpen={currentBuilding !== null} building={currentBuilding ?? undefined} onClose={() => setCurrentBuilding(null)} />
+        <BuildingMenu
+          onBuildingUpgrade={handleUpgradeBuilding}
+          onDeleteBuilding={handleDeleteBuilding}
+          isOpen={currentBuilding !== null}
+          building={currentBuilding ?? undefined}
+          onClose={() => setCurrentBuilding(null)}
+        />
         <ul className="page__resources-area">
           <li>
             <Resource maxWidth="300px" imgSrc="images/content/sheep.png" color="#9B7260" maxAmount={gameState.maxSheep} currentAmount={gameState.sheep} />
