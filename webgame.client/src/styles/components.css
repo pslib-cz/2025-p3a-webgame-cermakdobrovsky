@@ -253,7 +253,7 @@
   position: absolute;
   top: 0;
   left: 50%;
-  transform: translate(-80%, 80%);
+  transform: translate(-120%, 80%);
 }
 
 .shop__title {
@@ -388,8 +388,8 @@
 
 .building-menu__close {
   position: absolute;
-  top: 9rem;
-  right: 0rem;
+  top: 11rem;
+  right: -5rem;
 }
 
 .building-menu__title {
@@ -400,7 +400,6 @@
   padding-right: 2rem;
 }
 
-/* Description section */
 .building-menu__description {
   display: flex;
   flex-direction: column;
@@ -489,24 +488,22 @@
   width: 22px;
 }
 
-/* Benefits section styling */
-.building-menu__upgrade-section > div > div {
+.building-menu__upgrade-section>div>div {
   margin-top: 0.75rem;
 }
 
-.building-menu__upgrade-section > div > div p {
+.building-menu__upgrade-section>div>div p {
   margin: 0;
   font-size: 1rem;
   color: var(--gray-brown, #9b7260);
   line-height: 1.4;
 }
 
-.building-menu__upgrade-section > div > div p:first-child {
+.building-menu__upgrade-section>div>div p:first-child {
   font-weight: 600;
   color: var(--dark-brown, #6b4742);
 }
 
-/* container */
 .menu-container {
   position: fixed;
   top: 0;
@@ -516,34 +513,50 @@
   z-index: 1000;
 }
 
-/* Starvation Alert */
 
-.starvation-alert__border {
+/*Starvation Alert*/
+
+.starvation-alert {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  border: 8px solid #dc2626;
-  border-top: none;
+  z-index: 100;
   pointer-events: none;
-  z-index: 9997;
-  animation: pulse 1.5s ease-in-out infinite;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  animation: pulse 2s ease-in-out infinite;
 }
 
-.starvation-alert__banner {
-  position: fixed;
+.starvation-alert__border {
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
+  bottom: 0;
+  border: 1rem solid #dc2626;
+  box-shadow: inset 0 0 60px rgba(220, 38, 38, 0.6);
+}
+
+.starvation-alert__banner {
+  position: relative;
   background-color: #dc2626;
   color: var(--white, #ffffff);
-  padding: 12px 20px;
+  padding: 1.5rem 3rem;
   text-align: center;
-  z-index: 9998;
-  font-weight: normal;
+  font-weight: bold;
   letter-spacing: 1px;
-  font-size: var(--text-body, 1rem);
-  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
-  animation: pulse 1.5s ease-in-out infinite;
+  font-size: 1.25rem;
+  border-bottom-left-radius: 1.25rem;
+  border-bottom-right-radius: 1.25rem;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+  text-transform: uppercase;
+  z-index: 101;
+  margin: 0;
+}
+
+.starvation-alert__banner strong {
+  color: yellow;
 }

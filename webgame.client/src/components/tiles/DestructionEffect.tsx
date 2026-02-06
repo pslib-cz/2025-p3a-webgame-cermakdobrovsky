@@ -2,6 +2,7 @@ import { type FC, useEffect, useState } from "react";
 import { Building as BuildingComponent } from "../../components";
 import SpriteAnimation from "../sprite-animations/SpriteAnimation";
 import { type MapBuilding } from "../../../types/mapModels";
+import { Group } from "react-konva";
 
 type DestructionEffectProps = {
     building: MapBuilding;
@@ -53,7 +54,7 @@ const DestructionEffect: FC<DestructionEffectProps> = ({ building, tileSize, onC
         { x: 0, y: 0, scale: 1.2 },
     ];
     return (
-        <>
+        <Group>
             <BuildingComponent
                 building={building}
                 tileSize={tileSize}
@@ -67,7 +68,7 @@ const DestructionEffect: FC<DestructionEffectProps> = ({ building, tileSize, onC
                 const explY = centerY + config.y - (192 / 2);
                 return (
                     <SpriteAnimation
-                        key={`expl-${stageId}`}
+                        key={`inner-expl-${stageId}`}
                         src="/images/sprite-animations/explosion-1.png"
                         frameWidth={192}
                         frameHeight={192}
@@ -83,7 +84,7 @@ const DestructionEffect: FC<DestructionEffectProps> = ({ building, tileSize, onC
                     />
                 );
             })}
-        </>
+        </Group>
     );
 };
 export default DestructionEffect;
