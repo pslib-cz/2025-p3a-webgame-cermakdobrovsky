@@ -117,6 +117,7 @@ namespace WebGame.Server.Controllers
             BuildingLevel? currentLevelData = mapBuilding.Building.Levels.FirstOrDefault(l => l.Level == currentLevel);
             BuildingLevel? nextLevelData = mapBuilding.Building.Levels.FirstOrDefault(l => l.Level == nextLevel);
 
+            if (gameState.Population < currentLevelData?.PopulationCost) return BadRequest("Not enough population to upgrade this building.");
             if (nextLevel > gameState.Level && !mapBuilding.Building.IsTownHall) return BadRequest("You need to upgrade your town hall first.");
             if (nextLevelData == null) return BadRequest("Building is already at max level.");
             if (gameState.Sheep < nextLevelData.UpgradeCost) return BadRequest("Not enough resources to upgrade this building.");

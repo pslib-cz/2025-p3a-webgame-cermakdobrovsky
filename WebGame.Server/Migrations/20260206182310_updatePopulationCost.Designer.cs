@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebGame.Server.Data;
 
@@ -10,9 +11,11 @@ using WebGame.Server.Data;
 namespace WebGame.Server.Migrations
 {
     [DbContext(typeof(GameDbContext))]
-    partial class GameDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260206182310_updatePopulationCost")]
+    partial class updatePopulationCost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.11");
@@ -166,7 +169,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 1,
                             Level = 1,
                             Capacity = 17,
-                            PopulationCost = 75,
+                            PopulationCost = 100,
                             UpgradeCost = 8
                         },
                         new
@@ -174,7 +177,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 1,
                             Level = 2,
                             Capacity = 19,
-                            PopulationCost = 150,
+                            PopulationCost = 200,
                             UpgradeCost = 11
                         },
                         new
@@ -182,7 +185,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 1,
                             Level = 3,
                             Capacity = 21,
-                            PopulationCost = 225,
+                            PopulationCost = 300,
                             UpgradeCost = 14
                         },
                         new
@@ -190,7 +193,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 1,
                             Level = 4,
                             Capacity = 23,
-                            PopulationCost = 300,
+                            PopulationCost = 400,
                             UpgradeCost = 17
                         },
                         new
@@ -198,7 +201,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 1,
                             Level = 5,
                             Capacity = 25,
-                            PopulationCost = 375,
+                            PopulationCost = 500,
                             UpgradeCost = 20
                         },
                         new
@@ -206,7 +209,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 1,
                             Level = 6,
                             Capacity = 27,
-                            PopulationCost = 450,
+                            PopulationCost = 600,
                             UpgradeCost = 23
                         },
                         new
@@ -214,7 +217,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 1,
                             Level = 7,
                             Capacity = 29,
-                            PopulationCost = 525,
+                            PopulationCost = 700,
                             UpgradeCost = 26
                         },
                         new
@@ -222,7 +225,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 1,
                             Level = 8,
                             Capacity = 31,
-                            PopulationCost = 600,
+                            PopulationCost = 800,
                             UpgradeCost = 29
                         },
                         new
@@ -230,7 +233,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 1,
                             Level = 9,
                             Capacity = 33,
-                            PopulationCost = 675,
+                            PopulationCost = 900,
                             UpgradeCost = 32
                         },
                         new
@@ -238,7 +241,7 @@ namespace WebGame.Server.Migrations
                             BuildingId = 1,
                             Level = 10,
                             Capacity = 35,
-                            PopulationCost = 750,
+                            PopulationCost = 1000,
                             UpgradeCost = 35
                         },
                         new

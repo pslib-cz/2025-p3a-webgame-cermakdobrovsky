@@ -9,5 +9,6 @@ namespace WebGame.Server.Models
         public int Level { get; set; }
         public int UpgradeCost { get; set; }
         public int Capacity { get; set; }
+        public int PopulationCost { get; set; }
     }
 }

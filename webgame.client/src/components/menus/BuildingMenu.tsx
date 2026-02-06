@@ -42,6 +42,12 @@ const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDele
                         <img className="img-responsive" src="images/content/sheep.png" alt="Obrázek ovce" loading="lazy" />
                       </figure>
                     </div>
+                    <div className="building-menu__amount">
+                      <p className="building-menu__amount-text">Potřebná populace: {building?.building.levels.find((level) => level.level === building.level)?.populationCost}</p>
+                      <figure className="building-menu__amount-figure">
+                        <img className="img-responsive" src="images/content/monk.png" alt="Obrázek populace" loading="lazy" />
+                      </figure>
+                    </div>
                     {building?.building.isTownHall && (
                       <div>
                         <p>Benefity:</p>
