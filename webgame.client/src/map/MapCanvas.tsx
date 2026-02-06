@@ -25,24 +25,31 @@ const MapCanvas: FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, ti
     }, [groundMap, buildingsMap, tileSize]);
     const foamPositions = useMemo(() => {
         const tileSet = new Set(groundMap.tiles.map(t => `${t.x},${t.y}`));
-        const foam: { id: string, pixelX: number, pixelY: number, sortY: number }[] = [];
+        const foamMap = new Map<string, { id: string, pixelX: number, pixelY: number, sortY: number }>();
+
         groundMap.tiles.forEach(tile => {
+            const tileKey = `${tile.x},${tile.y}`;
+            if (foamMap.has(tileKey)) return;
+
             const hasWest = tileSet.has(`${tile.x - 1},${tile.y}`);
             const hasEast = tileSet.has(`${tile.x + 1},${tile.y}`);
             const hasNorth = tileSet.has(`${tile.x},${tile.y - 1}`);
             const hasSouth = tileSet.has(`${tile.x},${tile.y + 1}`);
             const isCoastal = !hasWest || !hasEast || !hasNorth || !hasSouth;
+
             if (isCoastal) {
                 const foamX = tile.x * tileSize;
                 const foamY = tile.y * tileSize;
                 let offsetX = 0;
                 let offsetY = 0;
                 const shift = 7.5;
+
                 if (!hasWest) offsetX -= shift;
                 if (!hasEast) offsetX += shift;
                 if (!hasNorth) offsetY -= shift;
                 if (!hasSouth) offsetY += shift;
-                foam.push({
+
+                foamMap.set(tileKey, {
                     id: `foam-${tile.x}-${tile.y}`,
                     pixelX: foamX + (tileSize / 2) - (192 / 2) - offsetX,
                     pixelY: foamY + (tileSize / 2) - (192 / 2) - offsetY,
@@ -50,7 +57,7 @@ const MapCanvas: FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, ti
                 });
             }
         });
-        return foam;
+        return Array.from(foamMap.values());
     }, [groundMap, tileSize]);
     const armyGroups: { src: string, frameWidth: number, frameHeight: number, columns: number, rows: number, frameRate: number, loop: boolean, autoplay: boolean, x: number, y: number, delay?: number }[][] = [
         [
@@ -173,7 +180,7 @@ const MapCanvas: FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, ti
                 }}
             >
                 <Layer>
-                    {foamPositions.map(foam => (
+                    {foamPositions.map((foam) => (
                         <SpriteAnimation
                             key={foam.id}
                             src="/images/sprite-animations/water-foam.png"

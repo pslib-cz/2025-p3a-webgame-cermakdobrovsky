@@ -7,6 +7,7 @@ export type AnimationMap = {
     [key: string]: number[];
 };
 export type SpriteAnimationProps = {
+    id?: string;
     src: string;
     animations?: AnimationMap;
     animation?: string;
@@ -52,11 +53,12 @@ const SpriteAnimation: FC<SpriteAnimationProps> = ({
     onClick,
     onMouseEnter,
     onMouseLeave,
-    zIndex
+    zIndex,
+    ...rest
 }) => {
     const [image] = useImage(src);
     const spriteRef = useRef<Konva.Sprite>(null);
-    const [isRunning, setIsRunning] = useState(false);
+    const [isRunning, setIsRunning] = useState<boolean>(false);
     const finalAnimations = useMemo(() => {
         if (animations) return animations;
         if (frameWidth && frameHeight && columns && rows) {
@@ -70,9 +72,25 @@ const SpriteAnimation: FC<SpriteAnimationProps> = ({
         }
         return {};
     }, [animations, frameWidth, frameHeight, columns, rows]);
+    const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+    useEffect(() => {
+        if (image) {
+            const expectedWidth = (columns || 1) * (frameWidth || 0);
+            const expectedHeight = (rows || 1) * (frameHeight || 0);
+            if (frameWidth && columns && image.width < expectedWidth) {
+                console.warn(`[SpriteAnimation] Image ${src} is too small (${image.width}px) for the defined frames (needs ${expectedWidth}px). This would cause an IndexSizeError.`);
+                return;
+            }
+            if (frameHeight && rows && image.height < expectedHeight) {
+                console.warn(`[SpriteAnimation] Image ${src} is too small (${image.height}px) for the defined frames (needs ${expectedHeight}px). This would cause an IndexSizeError.`);
+                return;
+            }
+            setImageLoaded(true);
+        }
+    }, [image, frameWidth, frameHeight, columns, rows, src]);
     const currentAnimation = animation || 'default';
     useEffect(() => {
-        if (image && spriteRef.current && autoplay) {
+        if (image && spriteRef.current && autoplay && imageLoaded) {
             if (!isRunning) {
                 if (delay > 0) {
                     const timer = setTimeout(() => {
@@ -88,16 +106,17 @@ const SpriteAnimation: FC<SpriteAnimationProps> = ({
                 }
             }
         }
-    }, [image, isRunning, autoplay, delay]);
+    }, [image, isRunning, autoplay, delay, imageLoaded]);
     useEffect(() => {
         if (spriteRef.current && currentAnimation) spriteRef.current.animation(currentAnimation);
         if (spriteRef.current && zIndex !== undefined) {
             spriteRef.current.zIndex(zIndex);
         }
     }, [currentAnimation, zIndex]);
-    if (!image) return null;
+    if (!image || !imageLoaded) return null;
     return (
         <Sprite
+            id={rest.id}
             ref={spriteRef}
             x={x}
             y={y}
