@@ -30,10 +30,8 @@ const App = () => {
         if (response.ok) {
           const updatedState = await response.json();
           setGameState(updatedState);
-          console.log(updatedState.sheep, updatedState.population);
           if (updatedState.sheep < updatedState.population) {
             setInStarvation(true);
-            console.log("Hladomor!");
           } else {
             setInStarvation(false);
           }

@@ -119,6 +119,11 @@
   color: var(--white, #ffffff);
 }
 
+.resource__amount__max {
+  margin-left: 0.25rem;
+  font-size: 1rem; 
+}
+
 .resource figure {
   margin: 0;
   padding: 0;
