@@ -112,7 +112,6 @@ namespace WebGame.Server.Controllers
 
             // game over
             bool gameOver = gameState.Sheep <= 0;
-            if (gameState.Sheep < 0) gameState.Sheep = 0;
 
             // kill sheeps if population is too high
             bool isStarving = gameState.Population > gameState.Sheep;
@@ -126,6 +125,7 @@ namespace WebGame.Server.Controllers
             if (gameState.Population < gameState.MaxPopulation && !isStarving) gameState.Population = (int)(gameState.Population * POPULATION_MULTIPLIER);
             if (gameState.Population > gameState.MaxPopulation) gameState.Population = gameState.MaxPopulation;
 
+            if (gameState.Sheep < 0) gameState.Sheep = 0;
             gameState.LastUpdated = DateTime.UtcNow;
 
             await _dbc.SaveChangesAsync();
