@@ -75,7 +75,7 @@ const App = () => {
       </button>
       <div className="page">
         <div className="page__townhall-level">
-          <TownHallLevel currentLevel={6} />
+          <TownHallLevel currentLevel={gameState.level} />
         </div>
         <Shop
           isOpen={isOpenShop}

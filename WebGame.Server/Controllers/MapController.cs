@@ -110,12 +110,14 @@ namespace WebGame.Server.Controllers
             GameState? gameState = await _dbc.GameStates.FirstOrDefaultAsync(gs => gs.BuildingMapId == mapId);
             if (gameState == null) return NotFound("Game state not found.");
 
+
             int currentLevel = mapBuilding.Level;
             int nextLevel = currentLevel + 1;
 
             BuildingLevel? currentLevelData = mapBuilding.Building.Levels.FirstOrDefault(l => l.Level == currentLevel);
             BuildingLevel? nextLevelData = mapBuilding.Building.Levels.FirstOrDefault(l => l.Level == nextLevel);
 
+            if (nextLevel > gameState.Level && !mapBuilding.Building.IsTownHall) return BadRequest("You need to upgrade your town hall first.");
             if (nextLevelData == null) return BadRequest("Building is already at max level.");
             if (gameState.Sheep < nextLevelData.UpgradeCost) return BadRequest("Not enough resources to upgrade this building.");
 

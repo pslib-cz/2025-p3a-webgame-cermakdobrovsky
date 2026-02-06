@@ -10,4 +10,5 @@ export type GameState = {
   lastUpdated: string;
   buildingMapId: number;
   buildingMap: Map;
+  level: number;
 };
