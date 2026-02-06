@@ -20,6 +20,7 @@ const App = () => {
   const [currentBuilding, setCurrentBuilding] = useState<MapBuilding | null>(null);
   const shopButtonRef = useRef<HTMLLIElement>(null);
   const { debugMode, toggleDebugMode } = useDebugMode();
+  const [inStarvation, setInStarvation] = useState<boolean>(false);
 
   //Advance game every 5 seconds
   useEffect(() => {
@@ -29,6 +30,13 @@ const App = () => {
         if (response.ok) {
           const updatedState = await response.json();
           setGameState(updatedState);
+          console.log(updatedState.sheep, updatedState.population);
+          if (updatedState.sheep < updatedState.population) {
+            setInStarvation(true);
+            console.log("Hladomor!");
+          } else {
+            setInStarvation(false);
+          }
         }
       }
     }, 2500);
@@ -74,6 +82,12 @@ const App = () => {
         Debug: {debugMode ? "ON" : "OFF"}
       </button>
       <div className="page">
+        {inStarvation && (
+          <>
+            <div className="starvation-alert__border" />
+            <div className="starvation-alert__banner">⚠️ Hladomor! Populace hladoví. Uvolni místo, aby se mohlo pást více ovcí! ⚠️</div>
+          </>
+        )}
         <div className="page__townhall-level">
           <TownHallLevel currentLevel={gameState.level} />
         </div>
