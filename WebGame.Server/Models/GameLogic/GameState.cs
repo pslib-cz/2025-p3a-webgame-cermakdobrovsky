@@ -7,7 +7,7 @@ namespace WebGame.Server.Models
     {  
         [Key]
         public string PlayerId { get; set; }
-        public int MaxSheep => FreeSpace / 30 + Level * 2;
+        public int MaxSheep => FreeSpace / 15 + Level * 2;
         public int Sheep { get; set; }
         public int Population { get; set; }
         public int FreeSpace { get; set; }
