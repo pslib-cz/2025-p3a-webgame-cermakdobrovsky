@@ -109,13 +109,21 @@ namespace WebGame.Server.Controllers
             // calculate new values
             double SHEEP_MULTIPLIER = 1.05 + (gameState.Level * 0.1);
             double POPULATION_MULTIPLIER = 1.05 + (gameState.Level * 0.1);
-            double POPULATION_DEATH_RATE = 0.9;
 
-            if (gameState.Sheep < gameState.MaxSheep) gameState.Sheep = (int)(gameState.Sheep * SHEEP_MULTIPLIER);
+            // game over
+            bool gameOver = gameState.Sheep <= 0;
+            if (gameState.Sheep < 0) gameState.Sheep = 0;
+
+            // kill sheeps if population is too high
+            bool isStarving = gameState.Population > gameState.Sheep;
+            if (isStarving && !gameOver) gameState.Sheep -= 5;
+
+            // sheeps
+            if (gameState.Sheep < gameState.MaxSheep && !isStarving) gameState.Sheep = (int)(gameState.Sheep * SHEEP_MULTIPLIER);
             if (gameState.Sheep > gameState.MaxSheep) gameState.Sheep = gameState.MaxSheep;
-            if (gameState.Population < gameState.MaxPopulation) gameState.Population = (int)(gameState.Population * POPULATION_MULTIPLIER);
-            if (gameState.Population > gameState.MaxPopulation) gameState.Population = gameState.MaxPopulation;
-            if (gameState.Population > 0 && gameState.Population > gameState.MaxSheep) gameState.Population = (int)(gameState.Population * POPULATION_DEATH_RATE);
+            
+            // population
+            if (gameState.Population < gameState.MaxPopulation && !isStarving) gameState.Population = (int)(gameState.Population * POPULATION_MULTIPLIER);
             if (gameState.Population > gameState.MaxPopulation) gameState.Population = gameState.MaxPopulation;
 
             gameState.LastUpdated = DateTime.UtcNow;

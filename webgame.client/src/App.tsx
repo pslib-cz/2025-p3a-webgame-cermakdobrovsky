@@ -28,8 +28,10 @@ const App = () => {
       if (gameState?.playerId) {
         const response = await fetch(`/api/game/advance/${gameState.playerId}`);
         if (response.ok) {
+
           const updatedState = await response.json();
           setGameState(updatedState);
+
           if (updatedState.sheep < updatedState.population) {
             setInStarvation(true);
           } else {
@@ -54,11 +56,13 @@ const App = () => {
     const data = await addBuilding(buildingId, bottomLeftX, bottomLeftY, gameState.playerId);
     if (data) setGameState(data);
   };
+
   const handleDeleteBuilding = async (mapBuilding: MapBuilding) => {
     const data = await deleteBuilding(mapBuilding);
     if (data) setGameState(data);
     setCurrentBuilding(null);
   };
+
   return (
     <>
       <button
@@ -83,7 +87,7 @@ const App = () => {
         {inStarvation && (
           <>
             <div className="starvation-alert__border" />
-            <div className="starvation-alert__banner">⚠️ Hladomor! Populace hladoví. Uvolni místo, aby se mohlo pást více ovcí! ⚠️</div>
+            <div className="starvation-alert__banner">⚠️ Kritický nedostatek ovcí! Populace požírá chovné stádo. Zbourej budovy a zmenší populaci, než snědí i poslední ovci!</div>
           </>
         )}
         <div className="page__townhall-level">

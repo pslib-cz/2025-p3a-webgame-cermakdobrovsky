@@ -515,7 +515,8 @@
   padding: 12px 20px;
   text-align: center;
   z-index: 9998;
-  font-weight: bold;
+  font-weight: normal;
+  letter-spacing: 1px;
   font-size: var(--text-body, 1rem);
   box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
   animation: pulse 1.5s ease-in-out infinite;
