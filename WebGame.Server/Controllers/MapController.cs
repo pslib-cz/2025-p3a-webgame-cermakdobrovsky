@@ -61,7 +61,7 @@ namespace WebGame.Server.Controllers
                 gameState.BuildingMap.Buildings.ToArray(),
                 map.Tiles.ToArray()
             );
-            if (isColiding) return BadRequest("Building placement collides with existing buildings.");
+            if (isColiding) return BadRequest("Umístění budovy koliduje se stávající stavbou.");
 
             MapBuilding mapBuilding = new MapBuilding
             {
@@ -117,10 +117,10 @@ namespace WebGame.Server.Controllers
             BuildingLevel? currentLevelData = mapBuilding.Building.Levels.FirstOrDefault(l => l.Level == currentLevel);
             BuildingLevel? nextLevelData = mapBuilding.Building.Levels.FirstOrDefault(l => l.Level == nextLevel);
 
-            if (gameState.Population < currentLevelData?.PopulationCost) return BadRequest("Not enough population to upgrade this building.");
-            if (nextLevel > gameState.Level && !mapBuilding.Building.IsTownHall) return BadRequest("You need to upgrade your town hall first.");
-            if (nextLevelData == null) return BadRequest("Building is already at max level.");
-            if (gameState.Sheep < nextLevelData.UpgradeCost) return BadRequest("Not enough resources to upgrade this building.");
+            if (gameState.Population < currentLevelData?.PopulationCost) return BadRequest("Není dostatek obyvatel na vylepšení této budovy.");
+            if (nextLevel > gameState.Level && !mapBuilding.Building.IsTownHall) return BadRequest("Nejprve musíte vylepšit radnici.");
+            if (nextLevelData == null) return BadRequest("Budova je již na maximální úrovni.");
+            if (gameState.Sheep < nextLevelData.UpgradeCost) return BadRequest("Není dostatek prostředků na vylepšení této budovy.");
 
             // deduct upgrade cost
             gameState.Sheep -= nextLevelData.UpgradeCost;

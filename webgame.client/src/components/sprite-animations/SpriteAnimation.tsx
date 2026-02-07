@@ -1,4 +1,4 @@
-import { type FC, useEffect, useRef, useState, useMemo } from 'react';
+import { type FC, useEffect, useRef, useState, useMemo, memo } from 'react';
 import { Sprite } from 'react-konva';
 import useImage from 'use-image';
 import Konva from 'konva';
@@ -31,7 +31,7 @@ export type SpriteAnimationProps = {
     onMouseLeave?: () => void;
     zIndex?: number;
 };
-const SpriteAnimation: FC<SpriteAnimationProps> = ({
+const SpriteAnimation: FC<SpriteAnimationProps> = memo(({
     src,
     animations,
     animation,
@@ -148,5 +148,5 @@ const SpriteAnimation: FC<SpriteAnimationProps> = ({
             onMouseLeave={onMouseLeave}
         />
     );
-};
+});
 export default SpriteAnimation;

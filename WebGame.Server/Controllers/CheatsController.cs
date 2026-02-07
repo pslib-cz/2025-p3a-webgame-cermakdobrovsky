@@ -22,7 +22,7 @@ namespace WebGame.Server.Controllers
             var gameState = await _dbc.GameStates.FirstOrDefaultAsync(gs => gs.PlayerId == playerId);
             if (gameState == null)
             {
-                return NotFound("Game state not found for the given player ID.");
+                return NotFound("Nebyl nalezen žádný herní stav pro dané ID hráče.");
             }
 
             gameState.Sheep += amount;

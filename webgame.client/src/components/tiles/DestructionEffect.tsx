@@ -1,4 +1,4 @@
-import { type FC, useEffect, useState } from "react";
+import { type FC, useEffect, useState, useRef } from "react";
 import { Building as BuildingComponent } from "../../components";
 import SpriteAnimation from "../sprite-animations/SpriteAnimation";
 import { type MapBuilding } from "../../../types/mapModels";
@@ -13,6 +13,10 @@ const DestructionEffect: FC<DestructionEffectProps> = ({ building, tileSize, onC
     //Hooks
     const [explosionStages, setExplosionStages] = useState<number[]>([]);
     const [opacity, setOpacity] = useState<number>(1);
+    const onCompleteRef = useRef(onComplete);
+    useEffect(() => {
+        onCompleteRef.current = onComplete;
+    }, [onComplete]);
 
     useEffect(() => {
         const fadeDuration = 750;
@@ -35,14 +39,14 @@ const DestructionEffect: FC<DestructionEffectProps> = ({ building, tileSize, onC
             timers.push(t);
         });
         const cleanup = setTimeout(() => {
-            onComplete();
+            onCompleteRef.current();
         }, 750);
         return () => {
             clearInterval(fadeInterval);
             timers.forEach(clearTimeout);
             clearTimeout(cleanup);
         };
-    }, [onComplete]);
+    }, []);
     const baseX = building.bottomLeftX * tileSize;
     const baseY = (building.bottomLeftY - building.building.baseHeight + 1) * tileSize;
     const centerX = baseX + (building.building.baseWidth * tileSize) / 2;

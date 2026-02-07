@@ -7,14 +7,23 @@ export const useMapDecorations = (groundMap: Map, buildingsMap: Map, tileSize: n
         return getDecorationsForMap(groundMap, buildingsMap, tileSize);
     }, [groundMap, buildingsMap, tileSize]);
     const foamPositions = useMemo(() => {
-        const tileSet = new Set(groundMap.tiles.map((t) => `${t.x},${t.y}`));
+        const tileSet = new Set<number>();
+        groundMap.tiles.forEach(t => {
+            tileSet.add((t.y & 0xFFFF) << 16 | (t.x & 0xFFFF));
+        });
         const foam: { id: string; pixelX: number; pixelY: number; sortY: number }[] = [];
         let foamIndex = 0;
         groundMap.tiles.forEach((tile) => {
-            const hasWest = tileSet.has(`${tile.x - 1},${tile.y}`);
-            const hasEast = tileSet.has(`${tile.x + 1},${tile.y}`);
-            const hasNorth = tileSet.has(`${tile.x},${tile.y - 1}`);
-            const hasSouth = tileSet.has(`${tile.x},${tile.y + 1}`);
+            const up = (tile.y - 1) & 0xFFFF;
+            const down = (tile.y + 1) & 0xFFFF;
+            const left = (tile.x - 1) & 0xFFFF;
+            const right = (tile.x + 1) & 0xFFFF;
+            const y = tile.y & 0xFFFF;
+            const x = tile.x & 0xFFFF;
+            const hasWest = tileSet.has((y << 16) | left);
+            const hasEast = tileSet.has((y << 16) | right);
+            const hasNorth = tileSet.has((up << 16) | x);
+            const hasSouth = tileSet.has((down << 16) | x);
             const isCoastal = !hasWest || !hasEast || !hasNorth || !hasSouth;
             if (isCoastal) {
                 const foamX = tile.x * tileSize;

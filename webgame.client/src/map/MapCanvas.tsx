@@ -5,6 +5,7 @@ import type { Map, Building, MapBuilding } from "../../types/mapModels";
 import { useArmyLogic } from "../hooks/useArmyLogic";
 import { useMapDecorations } from "../hooks/useMapDecorations";
 import { useMapStage } from "../hooks/useMapStage";
+import { useSheep } from "../hooks/useSheep";
 
 type MapCanvasProps = {
     groundMap: Map;
@@ -13,13 +14,14 @@ type MapCanvasProps = {
     placingBuilding?: Building | null;
     onMapClick?: (x: number, y: number) => void;
     onBuildingClick?: (building: MapBuilding) => void;
+    inStarvation: boolean;
 };
-const MapCanvas: FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, tileSize = 64, placingBuilding = null, onBuildingClick }) => {
+const MapCanvas: FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, tileSize = 64, placingBuilding = null, onBuildingClick, inStarvation }) => {
     // Hooks
     const { stageRef, containerRef, stageSize, hoverPosition, handleWheel, handleMouseMove, handleStageClick } = useMapStage(tileSize, placingBuilding, onMapClick);
     const { decorations, foamPositions } = useMapDecorations(groundMap, buildingsMap, tileSize);
     const { armyGroups } = useArmyLogic(buildingsMap, groundMap, tileSize);
-
+    const { sheepList } = useSheep(groundMap, buildingsMap, tileSize, inStarvation);
     const rocks: { id: number; src: string; x: number; y: number }[] = [
         { id: 1, src: "/images/sprite-animations/rock-1.png", x: 1300, y: 1350 },
         { id: 2, src: "/images/sprite-animations/rock-1.png", x: 2000, y: 1475 },
@@ -27,6 +29,7 @@ const MapCanvas: FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, ti
     ];
     const prevBuildingsRef = useRef<MapBuilding[]>(buildingsMap.buildings);
     const [explosions, setExplosions] = useState<{ id: string; building: MapBuilding }[]>([]);
+
     useLayoutEffect(() => {
         const prevBuildings = prevBuildingsRef.current;
         const currentBuildings = buildingsMap.buildings;
@@ -54,7 +57,7 @@ const MapCanvas: FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, ti
             node: React.ReactNode;
         };
         const list: Renderable[] = [];
-        decorations.forEach((deco, i) => {
+        decorations.forEach((deco: { config: { frameHeight: number; rows: number; src: string; frameWidth: number; columns: number; frameRate: number; }; pixelY: number; pixelX: number; }, i: number) => {
             const height = deco.config.frameHeight / deco.config.rows;
             list.push({
                 id: `deco-${i}`,
@@ -80,9 +83,10 @@ const MapCanvas: FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, ti
         armyGroups.forEach((group, groupIdx) => {
             group.forEach((sprite, i) => {
                 const height = sprite.frameHeight / sprite.rows;
+                const unitTileY = Math.floor((sprite.y + height / 2) / tileSize);
                 list.push({
                     id: `army-${groupIdx}-${i}`,
-                    sortY: sprite.y + height,
+                    sortY: (unitTileY + 1) * tileSize - 1,
                     node: (
                         <SpriteAnimation
                             key={`army-${groupIdx}-${i}`}
@@ -100,6 +104,30 @@ const MapCanvas: FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, ti
                         />
                     ),
                 });
+            });
+        });
+        sheepList.forEach((sheep) => {
+            if (sheep.opacity <= 0) return;
+            list.push({
+                id: sheep.id,
+                sortY: sheep.sortY,
+                node: (
+                    <SpriteAnimation
+                        key={sheep.id}
+                        src="/images/sprite-animations/sheep.png"
+                        frameWidth={128}
+                        frameHeight={128}
+                        columns={12}
+                        rows={1}
+                        frameRate={8}
+                        loop={true}
+                        autoplay={true}
+                        x={sheep.pixelX}
+                        y={sheep.pixelY}
+                        opacity={sheep.opacity}
+                        listening={false}
+                    />
+                ),
             });
         });
         rocks.forEach((rock) => {
@@ -185,6 +213,7 @@ const MapCanvas: FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, ti
         tileSize,
         placingBuilding,
         onBuildingClick,
+        sheepList
     ]);
     return (
         <div ref={containerRef} style={{ width: "100svw", height: "100svh", overflow: "hidden" }}>
