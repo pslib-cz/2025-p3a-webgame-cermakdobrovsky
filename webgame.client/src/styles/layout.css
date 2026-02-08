@@ -47,4 +47,16 @@
     z-index: 1;
     margin-left: 2.5rem;
     margin-top: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.page__home-button {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    z-index: 1;
+    margin-left: 2.5rem;
+    transform: translateY(-50%);
 }

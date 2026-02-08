@@ -6,7 +6,7 @@ import { DebugProvider } from "./hooks/useDebugMode";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <DebugProvider>
-      <App />
+      <App/>
     </DebugProvider>
   </StrictMode>,
 );

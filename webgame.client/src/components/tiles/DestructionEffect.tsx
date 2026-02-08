@@ -1,7 +1,8 @@
-import { type FC, useEffect, useState } from "react";
+import { type FC, useEffect, useState, useRef } from "react";
 import { Building as BuildingComponent } from "../../components";
 import SpriteAnimation from "../sprite-animations/SpriteAnimation";
 import { type MapBuilding } from "../../../types/mapModels";
+import { Group } from "react-konva";
 
 type DestructionEffectProps = {
     building: MapBuilding;
@@ -12,6 +13,10 @@ const DestructionEffect: FC<DestructionEffectProps> = ({ building, tileSize, onC
     //Hooks
     const [explosionStages, setExplosionStages] = useState<number[]>([]);
     const [opacity, setOpacity] = useState<number>(1);
+    const onCompleteRef = useRef(onComplete);
+    useEffect(() => {
+        onCompleteRef.current = onComplete;
+    }, [onComplete]);
 
     useEffect(() => {
         const fadeDuration = 750;
@@ -34,14 +39,14 @@ const DestructionEffect: FC<DestructionEffectProps> = ({ building, tileSize, onC
             timers.push(t);
         });
         const cleanup = setTimeout(() => {
-            onComplete();
+            onCompleteRef.current();
         }, 750);
         return () => {
             clearInterval(fadeInterval);
             timers.forEach(clearTimeout);
             clearTimeout(cleanup);
         };
-    }, [onComplete]);
+    }, []);
     const baseX = building.bottomLeftX * tileSize;
     const baseY = (building.bottomLeftY - building.building.baseHeight + 1) * tileSize;
     const centerX = baseX + (building.building.baseWidth * tileSize) / 2;
@@ -53,7 +58,7 @@ const DestructionEffect: FC<DestructionEffectProps> = ({ building, tileSize, onC
         { x: 0, y: 0, scale: 1.2 },
     ];
     return (
-        <>
+        <Group>
             <BuildingComponent
                 building={building}
                 tileSize={tileSize}
@@ -67,7 +72,7 @@ const DestructionEffect: FC<DestructionEffectProps> = ({ building, tileSize, onC
                 const explY = centerY + config.y - (192 / 2);
                 return (
                     <SpriteAnimation
-                        key={`expl-${stageId}`}
+                        key={`inner-expl-${stageId}`}
                         src="/images/sprite-animations/explosion-1.png"
                         frameWidth={192}
                         frameHeight={192}
@@ -83,7 +88,7 @@ const DestructionEffect: FC<DestructionEffectProps> = ({ building, tileSize, onC
                     />
                 );
             })}
-        </>
+        </Group>
     );
 };
 export default DestructionEffect;

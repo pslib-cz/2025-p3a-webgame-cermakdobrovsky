@@ -1,169 +1,36 @@
-import { use, useState, useRef, useEffect } from "react";
-import type { GameState } from "./../types/gameModels";
-import type { Building, Map, MapBuilding } from "./../types/mapModels";
-import MapCanvas from "./map/MapCanvas";
+import { Suspense, useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
+import Menu from './pages/Menu';
+import Game from './pages/Game';
+import Intro from './pages/Intro';
 import "./styles/global.css";
-import { Button, Resource, TownHallLevel, Shop, BuildingMenu } from "./components";
-import { useDebugMode } from "./hooks/useDebugMode";
-import { groundMapPromise, buildingsPromise, addBuilding, deleteBuilding, upgradeBuilding } from "../lib/mapUtils";
-import { gameStatePromise } from "../lib/gameUtlis";
-import { getBuildingImageUrl, setFixedImageForBuilding } from "../lib/helpers/randomImage";
+import { Button } from './components';
+import { groundMapPromise, buildingsPromise } from "../lib/mapUtils";
+import { createGamePromises, playerIdPromise, existingGameStatePromise, gameStatePromise } from "../lib/gameUtils";
+import AudioProvider from './context/AudioContext';
 
 const App = () => {
   //Hooks
-  const groundMap: Map = use<Map>(groundMapPromise);
-  const initialGameState: GameState = use<GameState>(gameStatePromise);
-  const [gameState, setGameState] = useState<GameState>(initialGameState);
-  const buildings: Building[] = use<Building[]>(buildingsPromise);
-  const [isOpenShop, setIsOpenShop] = useState<boolean>(false);
-  const [placingBuilding, setPlacingBuilding] = useState<Building | null>(null);
-  const [currentBuilding, setCurrentBuilding] = useState<MapBuilding | null>(null);
-  const shopButtonRef = useRef<HTMLLIElement>(null);
-  const { debugMode, toggleDebugMode } = useDebugMode();
-  const [inStarvation, setInStarvation] = useState<boolean>(false);
+  const [gamePromises, setGamePromises] = useState({ playerIdPromise, existingGameStatePromise, gameStatePromise });
 
-  //Advance game every 5 seconds
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      if (gameState?.playerId) {
-        const response = await fetch(`/api/game/advance/${gameState.playerId}`);
-        if (response.ok) {
-
-          const updatedState = await response.json();
-          setGameState(updatedState);
-
-          if (updatedState.sheep < updatedState.population) {
-            setInStarvation(true);
-          } else {
-            setInStarvation(false);
-          }
-        }
-      }
-    }, 2500);
-    return () => clearInterval(interval);
-  }, [gameState?.playerId]);
-
-  const handleUpgradeBuilding = async (mapBuilding: MapBuilding) => {
-    const data = await upgradeBuilding(mapBuilding);
-    if (data) {
-      setGameState(data);
-      const updatedBuilding = data.buildingMap.buildings.find((b) => b.mapId === mapBuilding.mapId && b.bottomLeftX === mapBuilding.bottomLeftX && b.bottomLeftY === mapBuilding.bottomLeftY);
-      if (updatedBuilding) setCurrentBuilding(updatedBuilding);
-    }
+  const handlePlayerIdChange = (newId: string): void => {
+    setGamePromises(createGamePromises(newId));
   };
-
-  const handleAddBuilding = async (buildingId: number, bottomLeftX: number, bottomLeftY: number) => {
-    const data = await addBuilding(buildingId, bottomLeftX, bottomLeftY, gameState.playerId);
-    if (data) setGameState(data);
-  };
-
-  const handleDeleteBuilding = async (mapBuilding: MapBuilding) => {
-    const data = await deleteBuilding(mapBuilding);
-    if (data) setGameState(data);
-    setCurrentBuilding(null);
-  };
-
   return (
-    <>
-      <button
-        onClick={toggleDebugMode}
-        style={{
-          position: "fixed",
-          bottom: "10px",
-          left: "10px",
-          zIndex: 9999,
-          padding: "8px 12px",
-          background: debugMode ? "#4CAF50" : "#666",
-          color: "white",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-          fontSize: "12px",
-        }}
-      >
-        Debug: {debugMode ? "ON" : "OFF"}
-      </button>
-      <div className="page">
-        {inStarvation && (
-          <>
-            <div className="starvation-alert__border" />
-            <div className="starvation-alert__banner">⚠️ Kritický nedostatek ovcí! Populace požírá chovné stádo. Zbourej budovy a zmenší populaci, než snědí i poslední ovci!</div>
-          </>
-        )}
-        <div className="page__townhall-level">
-          <TownHallLevel currentLevel={gameState.level} />
-        </div>
-        <Shop
-          isOpen={isOpenShop}
-          buildings={buildings}
-          onClose={() => setIsOpenShop(false)}
-          onBuildingBuy={(building) => {
-            const selectedUrl = getBuildingImageUrl(building.imageUrl);
-            const modifiedBuilding = { ...building, imageUrl: selectedUrl };
-            setPlacingBuilding(modifiedBuilding);
-            setIsOpenShop(false);
-          }}
-        />
-        <BuildingMenu
-          onBuildingUpgrade={handleUpgradeBuilding}
-          onDeleteBuilding={handleDeleteBuilding}
-          isOpen={currentBuilding !== null}
-          building={currentBuilding ?? undefined}
-          onClose={() => setCurrentBuilding(null)}
-        />
-        <ul className="page__resources-area">
-          <li>
-            <Resource maxWidth="300px" imgSrc="images/content/sheep.png" color="#9B7260" maxAmount={gameState.maxSheep} currentAmount={gameState.sheep} />
-          </li>
-          <li>
-            <Resource maxWidth="300px" imgSrc="images/content/monk.png" color="#4795A7" maxAmount={gameState.maxPopulation} currentAmount={gameState.population} />
-          </li>
-          <li>
-            <Resource maxWidth="200px" imgSrc="images/content/grass.png" color="#455A4B" maxAmount={100} currentAmount={Math.floor((gameState.freeSpace / 1513) * 100)} />
-          </li>
-        </ul>
-        <ul className="page__buttons-area">
-          {placingBuilding ? (
-            <li>
-              <Button onClick={() => setPlacingBuilding(null)} variant="secondary" imgSrc="images/content/house.png">
-                Zrušit
-              </Button>
-            </li>
-          ) : (
-            <>
-              <li>
-                <Button variant="secondary" imgSrc="images/content/warrior.png">
-                  Útok
-                </Button>
-              </li>
-              <li ref={shopButtonRef}>
-                <Button onClick={() => setIsOpenShop(true)} variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">
-                  Stavět
-                </Button>
-              </li>
-            </>
-          )}
-        </ul>
-        {gameState && (
-          <MapCanvas
-            groundMap={groundMap}
-            buildingsMap={gameState.buildingMap}
-            tileSize={54}
-            placingBuilding={placingBuilding}
-            onMapClick={(x, y) => {
-              if (placingBuilding !== null) {
-                handleAddBuilding(placingBuilding.buildingId, x, y);
-                setFixedImageForBuilding(x, y, placingBuilding.imageUrl);
-                setPlacingBuilding(null);
-              }
-            }}
-            onBuildingClick={(building) => {
-              if (placingBuilding === null) setCurrentBuilding(building);
-            }}
-          />
-        )}
-      </div>
-    </>
+    <BrowserRouter>
+      <ErrorBoundary fallback={<div className="error-fallback"><p className="error-fallback__banner">❌ Hra se nenačetla. ❌</p><div className="error-fallback__buttons"><Button bgColor="button--primary--blue" onClick={() => window.location.href = "/menu"} className="error-fallback__button">Domů</Button><Button bgColor="button--primary--red" onClick={() => window.location.reload()} className="error-fallback__button">Znovu</Button></div></div>}>
+        <AudioProvider>
+          <Suspense fallback={<p className="loading">Načítání...</p>}>
+            <Routes>
+              <Route path="/" element={<Intro/>} />
+              <Route path="/menu" element={<Menu gameStatePromise={gamePromises.existingGameStatePromise} playerIdPromise={gamePromises.playerIdPromise} onPlayerIdChange={handlePlayerIdChange}/>}/>
+              <Route path="/game" element={<Game groundMapPromise={groundMapPromise} buildingsPromise={buildingsPromise} gameStatePromise={gamePromises.gameStatePromise}/>}/>
+            </Routes>
+          </Suspense>
+        </AudioProvider>
+      </ErrorBoundary>
+    </BrowserRouter>
   );
 };
 export default App;

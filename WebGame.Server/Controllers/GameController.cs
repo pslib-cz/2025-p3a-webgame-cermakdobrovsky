@@ -92,7 +92,7 @@ namespace WebGame.Server.Controllers
         [HttpGet("advance/{playerId}")]
         public async Task<IActionResult> AdvanceGame(string playerId)
         {
-            if (string.IsNullOrEmpty(playerId)) return BadRequest("No player ID provided.");
+            if (string.IsNullOrEmpty(playerId)) return BadRequest("Nebyl zadán žádný ID hráče.");
 
             GameState? gameState = await _dbc.GameStates
                 .Include(gs => gs.BuildingMap)
