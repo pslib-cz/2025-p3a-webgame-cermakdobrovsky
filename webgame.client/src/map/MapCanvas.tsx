@@ -227,7 +227,7 @@ const MapCanvas: FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, ti
                 onClick={handleStageClick}
             >
                 <Layer>
-                    {foamPositions.map((foam) => (
+                    {useMemo(() => foamPositions.map((foam) => (
                         <SpriteAnimation
                             key={foam.id}
                             src="/images/sprite-animations/water-foam.png"
@@ -242,10 +242,10 @@ const MapCanvas: FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, ti
                             y={foam.pixelY}
                             listening={false}
                         />
-                    ))}
-                    {groundMap.tiles.map((tile) => (
+                    )), [foamPositions])}
+                    {useMemo(() => groundMap.tiles.map((tile) => (
                         <Tile key={`tile-${tile.mapTileId}-${tile.x}-${tile.y}`} tile={tile} tileSize={tileSize} />
-                    ))}
+                    )), [groundMap.tiles, tileSize])}
                     {renderables}
                     {placingBuilding && hoverPosition && (
                         <>

@@ -159,12 +159,16 @@ namespace WebGame.Server.Controllers
 
         [HttpDelete("building/{mapId}/{bottomLeftX}/{bottomLeftY}")]
         public async Task<IActionResult> DeleteBuilding(int mapId, int bottomLeftX, int bottomLeftY)
-        { 
-            MapBuilding? mapBuilding = await _dbc.MapBuildings
-                .Include(mb => mb.Building)
-                .ThenInclude(b => b.Levels)
-                .FirstOrDefaultAsync(mb => mb.MapId == mapId && mb.BottomLeftX == bottomLeftX && mb.BottomLeftY == bottomLeftY);
+        {
+            MapBuilding? mapBuilding = await _dbc.MapBuildings.FindAsync(mapId, bottomLeftX, bottomLeftY);
+            
             if (mapBuilding == null) return NotFound("Building not found.");
+
+            await _dbc.Entry(mapBuilding).Reference(mb => mb.Building).LoadAsync();
+            if (mapBuilding.Building != null)
+            {
+                await _dbc.Entry(mapBuilding.Building).Collection(b => b.Levels).LoadAsync();
+            }
 
             // Restore free space
             GameState? gameState = await _dbc.GameStates.FirstOrDefaultAsync(gs => gs.BuildingMapId == mapId);
@@ -178,6 +182,7 @@ namespace WebGame.Server.Controllers
 
             _dbc.MapBuildings.Remove(mapBuilding);
             await _dbc.SaveChangesAsync();
+            _dbc.ChangeTracker.Clear();
             GameState? UpdatedGameState = await _dbc.GameStates
                 .AsNoTracking()
                 .Include(gs => gs.BuildingMap)

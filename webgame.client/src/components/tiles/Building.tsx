@@ -1,10 +1,9 @@
+import React, { useState, useEffect, useRef } from "react";
 import type { MapBuilding } from "../../../types/mapModels";
 import useImage from "use-image";
 import { Image as KonvaImage, Rect } from "react-konva";
-import { useEffect, useRef, useState, useMemo } from "react";
 import Konva from "konva";
 import { useDebugMode } from "../../hooks/useDebugMode";
-import { getBuildingImageUrl } from "../../../lib/helpers/randomImage";
 
 type buildingProps = {
   building: MapBuilding;
@@ -16,9 +15,7 @@ type buildingProps = {
 };
 const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transparentOnHover = false, opacity, listening = true, onClick }) => {
   //Hooks
-  const finalIds = useMemo(() => {
-    return getBuildingImageUrl(building.building.imageUrl, building.bottomLeftX, building.bottomLeftY);
-  }, [building.building.imageUrl, building.bottomLeftX, building.bottomLeftY]);
+  const finalIds = building.building.imageUrl;
   const [buildingImage] = useImage(finalIds);
   const [isHovered, setIsHovered] = useState(false);
   const imageRef = useRef<Konva.Image>(null);
@@ -63,4 +60,4 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transp
     </>
   );
 };
-export default BuildingComponent;
+export default React.memo(BuildingComponent);

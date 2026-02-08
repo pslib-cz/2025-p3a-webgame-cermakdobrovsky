@@ -2,13 +2,11 @@ import { type FC, use, useState, useRef, useEffect } from "react";
 import type { GameState } from "./../../types/gameModels";
 import type { Building, Map, MapBuilding } from "./../../types/mapModels";
 import MapCanvas from "./../map/MapCanvas";
-import { Button, Resource, TownHallLevel, Shop, BuildingMenu } from "./../components";
+import { Button, Resource, TownHallLevel, Shop, BuildingMenu, GameOver, MusicButton } from "./../components";
 import { useDebugMode } from "./../hooks/useDebugMode";
 import { useAudio } from "../hooks/useAudio";
-import { getBuildingImageUrl, setFixedImageForBuilding } from "../../lib/helpers/randomImage";
 import { addBuilding, deleteBuilding, upgradeBuilding } from "../../lib/mapUtils";
 import { Link, useNavigate } from "react-router-dom";
-import { GameOver } from "../components";
 
 type GameProps = {
     groundMapPromise: Promise<Map>;
@@ -88,7 +86,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
                 const response = await fetch(`/api/game/advance/${gameState.playerId}`);
                 if (response.ok) {
                     const updatedState = await response.json();
-                    setGameState(updatedState);
+
                     if (updatedState.sheep < updatedState.population) {
                         setInStarvation(true);
                     } else {
@@ -113,7 +111,13 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
         if (data) setGameState(data);
     };
     const handleDeleteBuilding = async (mapBuilding: MapBuilding) => {
-        const data = await deleteBuilding(mapBuilding, setIsDeleteBuildingError);
+        // Ensure mapId is correct using gameState if available
+        const buildingToDelete = { ...mapBuilding };
+        if ((!buildingToDelete.mapId || buildingToDelete.mapId <= 0) && gameState?.buildingMap?.mapId) {
+            buildingToDelete.mapId = gameState.buildingMap.mapId;
+        }
+
+        const data = await deleteBuilding(buildingToDelete, setIsDeleteBuildingError);
         if (data) setGameState(data);
         setCurrentBuilding(null);
     };
@@ -133,7 +137,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
     return (
         <div className="game">
             {gameState.sheep <= 0 && (
-                <GameOver onRestart={handleRestart} onHome={() => navigate("/menu")}/>
+                <GameOver onRestart={handleRestart} onHome={() => navigate("/menu")} />
             )}
             <button
                 onClick={toggleDebugMode}
@@ -169,14 +173,15 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
                     <TownHallLevel currentLevel={gameState.level} />
                     <p className="user-id">id: <span>{gameState.playerId}</span></p>
                 </div>
+                <div className="music-position">
+                    <MusicButton />
+                </div>
                 <Shop
                     isOpen={isOpenShop}
                     buildings={buildings}
                     onClose={() => setIsOpenShop(false)}
                     onBuildingBuy={(building) => {
-                        const selectedUrl = getBuildingImageUrl(building.imageUrl);
-                        const modifiedBuilding = { ...building, imageUrl: selectedUrl };
-                        setPlacingBuilding(modifiedBuilding);
+                        setPlacingBuilding(building);
                         setIsOpenShop(false);
                     }}
                 />
@@ -201,7 +206,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
                 <ul className="page__buttons-area">
                     {placingBuilding ? (
                         <li>
-                            <Button onClick={() => setPlacingBuilding(null)} variant="secondary" imgSrc="images/content/house.png">
+                            <Button onClick={() => { setPlacingBuilding(null); }} variant="secondary" imgSrc="images/content/house.png">
                                 Zrušit
                             </Button>
                         </li>
@@ -236,7 +241,6 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
                         onMapClick={(x, y) => {
                             if (placingBuilding !== null) {
                                 handleAddBuilding(placingBuilding.buildingId, x, y);
-                                setFixedImageForBuilding(x, y, placingBuilding.imageUrl);
                                 setPlacingBuilding(null);
                             }
                         }}

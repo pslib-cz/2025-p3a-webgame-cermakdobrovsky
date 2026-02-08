@@ -2,6 +2,7 @@ import useImage from "use-image";
 import type { MapTile } from "../../../types/mapModels";
 import { Image, Text } from "react-konva";
 import { useDebugMode } from "../../hooks/useDebugMode";
+import React from "react";
 
 type TileProps = {
   tile: MapTile;
@@ -34,4 +35,4 @@ const TileComponent: React.FC<TileProps> = ({ tile, tileSize }) => {
     </>
   );
 };
-export default TileComponent;
+export default React.memo(TileComponent);
