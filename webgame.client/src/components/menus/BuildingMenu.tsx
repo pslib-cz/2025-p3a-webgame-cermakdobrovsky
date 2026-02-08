@@ -22,7 +22,6 @@ const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDele
                   {building?.building.name} - {building?.level} lvl
                 </p>
                 <div className="building-menu__description">
-                  <p className="building-menu__description-text">{building?.building.description}</p>
                   <div className="building-menu__description-content">
                     <p className="building-menu__description-content-text">Kapacita:</p>
                     <div className="building-menu__resource">
@@ -42,12 +41,14 @@ const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDele
                         <img className="img-responsive" src="images/content/sheep.png" alt="Obrázek ovce" loading="lazy" />
                       </figure>
                     </div>
-                    <div className="building-menu__amount">
-                      <p className="building-menu__amount-text">Potřebná populace: {building?.building.levels.find((level) => level.level === building.level)?.populationCost}</p>
-                      <figure className="building-menu__amount-figure">
-                        <img className="img-responsive" src="images/content/monk.png" alt="Obrázek populace" loading="lazy" />
-                      </figure>
-                    </div>
+                    {building?.building.levels.find((level) => level.level === building.level)?.populationCost !== 0 && (
+                      <div className="building-menu__amount">
+                        <p className="building-menu__amount-text">Potřebná populace: {building?.building.levels.find((level) => level.level === building.level)?.populationCost}</p>
+                        <figure className="building-menu__amount-figure">
+                          <img className="img-responsive" src="images/content/monk.png" alt="Obrázek populace" loading="lazy" />
+                        </figure>
+                      </div>
+                    )}
                     {building?.building.isTownHall && (
                       <div>
                         <p>Benefity:</p>
@@ -55,6 +56,18 @@ const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDele
                         <p>Rychlost růstu populace: +5%</p>
                       </div>
                     )}
+                    <div>
+                      <p>Benefity:</p>
+                      <div className="building-menu__description-content">
+                        <p className="building-menu__description-content-text">Kapacita po vylepšení:</p>
+                        <div className="building-menu__resource">
+                          <p className="building-menu__resource-amount">{building?.building.levels.find((level) => level.level === building.level + 1)?.capacity}</p>
+                          <figure className="building-menu__resource-figure">
+                            <img className="img-responsive" src="images/content/monk.png" alt="Obrázek populace" loading="lazy" />
+                          </figure>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <div className="building-menu__upgrade-section-buttons">
                     <Button bgColor="button--primary--blue" onClick={() => building && onBuildingUpgrade?.(building)}>
