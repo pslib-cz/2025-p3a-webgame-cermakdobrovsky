@@ -4,9 +4,11 @@ import type { Building, Map, MapBuilding } from "./../../types/mapModels";
 import MapCanvas from "./../map/MapCanvas";
 import { Button, Resource, TownHallLevel, Shop, BuildingMenu } from "./../components";
 import { useDebugMode } from "./../hooks/useDebugMode";
+import { useAudio } from "../hooks/useAudio";
 import { getBuildingImageUrl, setFixedImageForBuilding } from "../../lib/helpers/randomImage";
 import { addBuilding, deleteBuilding, upgradeBuilding } from "../../lib/mapUtils";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { GameOver } from "../components";
 
 type GameProps = {
     groundMapPromise: Promise<Map>;
@@ -15,6 +17,7 @@ type GameProps = {
 }
 const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStatePromise }) => {
     //Hooks
+    const navigate = useNavigate();
     const groundMap: Map = use<Map>(groundMapPromise);
     const initialGameState: GameState = use<GameState>(gameStatePromise);
     const [gameState, setGameState] = useState<GameState>(initialGameState);
@@ -38,7 +41,21 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
         error: false,
         message: ""
     });
+    const { playBackgroundMusic } = useAudio();
 
+    useEffect(() => {
+        const musicSrc = "/audios/game-soundtrack.mp3";
+        playBackgroundMusic(musicSrc);
+        const handleInteraction = () => {
+            playBackgroundMusic(musicSrc);
+        };
+        window.addEventListener('click', handleInteraction, { once: true });
+        window.addEventListener('keydown', handleInteraction, { once: true });
+        return () => {
+            window.removeEventListener('click', handleInteraction);
+            window.removeEventListener('keydown', handleInteraction);
+        };
+    }, [playBackgroundMusic]);
     useEffect(() => {
         if (isAddBuildingError.error) setDisplayError(isAddBuildingError.message);
     }, [isAddBuildingError]);
@@ -100,8 +117,24 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
         if (data) setGameState(data);
         setCurrentBuilding(null);
     };
+    const handleRestart = async () => {
+        try {
+            const res = await fetch("/api/game/create");
+            if (res.ok) {
+                const newId = await res.text();
+                localStorage.setItem("playerId", newId);
+                sessionStorage.setItem(`hasPlayed_${newId}`, "true");
+                window.location.reload();
+            }
+        } catch (e) {
+            console.error("Restart failed", e);
+        }
+    };
     return (
-        <>
+        <div className="game">
+            {gameState.sheep <= 0 && (
+                <GameOver onRestart={handleRestart} onHome={() => navigate("/menu")}/>
+            )}
             <button
                 onClick={toggleDebugMode}
                 style={{
@@ -121,7 +154,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
                 Debug: {debugMode ? "ON" : "OFF"}
             </button>
             <div className="page">
-                {inStarvation && (
+                {inStarvation && gameState.sheep > 0 && (
                     <div className="starvation-alert">
                         <div className="starvation-alert__border" />
                         <p className="starvation-alert__banner">⚠️ Kritický nedostatek ovcí! Populace požírá chovné stádo. Zbourej budovy a zmenší populaci, než snědí i <strong>poslední ovci</strong>!</p>
@@ -188,7 +221,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
                     )}
                 </ul>
                 <div className="page__home-button">
-                    <Link to="/">
+                    <Link to="/menu">
                         <Button variant="secondary" bgColor="button--secondary--blue" smallerImg={true} imgSrc="images/content/arrow.png">
                             Domů
                         </Button>
@@ -214,7 +247,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
                     />
                 )}
             </div>
-        </>
+        </div>
     );
 };
 export default Game;

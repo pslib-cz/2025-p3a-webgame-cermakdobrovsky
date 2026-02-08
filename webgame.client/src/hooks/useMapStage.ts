@@ -1,11 +1,12 @@
 import { useState, useRef, useLayoutEffect } from "react";
 import Konva from "konva";
-import type { Building } from "../../types/mapModels";
+import type { Building, Map } from "../../types/mapModels";
 
 export const useMapStage = (
     tileSize: number,
     placingBuilding: Building | null,
-    onMapClick: ((x: number, y: number) => void) | undefined
+    onMapClick: ((x: number, y: number) => void) | undefined,
+    groundMap: Map
 ) => {
     //Hooks
     const stageRef = useRef<Konva.Stage>(null);
@@ -16,16 +17,32 @@ export const useMapStage = (
     useLayoutEffect(() => {
         const handleResize = () => {
             if (containerRef.current) {
-                setStageSize({
-                    width: containerRef.current.offsetWidth,
-                    height: containerRef.current.offsetHeight,
-                });
+                const width = containerRef.current.offsetWidth;
+                const height = containerRef.current.offsetHeight;
+                setStageSize({ width, height });
+                if (stageRef.current && groundMap.tiles.length > 0) {
+                    const maxX = Math.max(...groundMap.tiles.map(t => t.x));
+                    const maxY = Math.max(...groundMap.tiles.map(t => t.y));
+                    const mapWidth = (maxX + 1) * tileSize;
+                    const mapHeight = (maxY + 1) * tileSize;
+                    const scaleX = width / mapWidth;
+                    const scaleY = height / mapHeight;
+                    const scale = Math.min(scaleX, scaleY) * 0.75;
+                    const rescaledMapWidth = mapWidth * scale;
+                    const rescaledMapHeight = mapHeight * scale;
+                    const x = (width - rescaledMapWidth) / 2;
+                    const y = (height - rescaledMapHeight) / 2;
+                    stageRef.current.width(width);
+                    stageRef.current.height(height);
+                    stageRef.current.scale({ x: scale, y: scale });
+                    stageRef.current.position({ x, y });
+                }
             }
         };
         window.addEventListener("resize", handleResize);
         handleResize();
         return () => window.removeEventListener("resize", handleResize);
-    }, []);
+    }, [groundMap, tileSize]);
     const scaleBy = 1.1;
     const handleWheel = (e: Konva.KonvaEventObject<WheelEvent>) => {
         e.evt.preventDefault();

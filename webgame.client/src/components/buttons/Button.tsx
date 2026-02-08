@@ -1,4 +1,5 @@
 import { type FC } from "react";
+import { useAudio } from "../../hooks/useAudio";
 
 type ButtonProps = {
   variant?: "primary" | "secondary",
@@ -10,6 +11,10 @@ type ButtonProps = {
   children: React.ReactNode
 }
 const Button: FC<ButtonProps> = ({ variant = "primary", bgColor = "button--secondary--brown", imgSrc, smallerImg = false, className, onClick, children }) => {
+  //Hooks
+  const { playSFX } = useAudio();
+  
+  //Styles
   const baseStyles: string = "button";
   const variantStyles: Record<"primary" | "secondary", string> = {
     primary: `button--primary ${bgColor}`,
@@ -17,7 +22,7 @@ const Button: FC<ButtonProps> = ({ variant = "primary", bgColor = "button--secon
   };
   return (
     <>
-      <button className={`${baseStyles} ${variantStyles[variant]} ${className}`} onClick={onClick}>{imgSrc && variant === "secondary" && <figure><img src={imgSrc} alt="Obrázek tlačítka"/></figure>}<span>{children}</span></button>
+      <button className={`${baseStyles} ${variantStyles[variant]} ${className}`} onClick={(e) => { playSFX("/audios/button-click.mp3"); onClick?.(e); }}>{imgSrc && variant === "secondary" && <figure><img src={imgSrc} alt="Obrázek tlačítka"/></figure>}<span>{children}</span></button>
       </>
     )
 }

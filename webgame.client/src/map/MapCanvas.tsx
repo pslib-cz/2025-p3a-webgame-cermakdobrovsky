@@ -18,7 +18,7 @@ type MapCanvasProps = {
 };
 const MapCanvas: FC<MapCanvasProps> = ({ groundMap, buildingsMap, onMapClick, tileSize = 64, placingBuilding = null, onBuildingClick, inStarvation }) => {
     // Hooks
-    const { stageRef, containerRef, stageSize, hoverPosition, handleWheel, handleMouseMove, handleStageClick } = useMapStage(tileSize, placingBuilding, onMapClick);
+    const { stageRef, containerRef, stageSize, hoverPosition, handleWheel, handleMouseMove, handleStageClick } = useMapStage(tileSize, placingBuilding, onMapClick, groundMap);
     const { decorations, foamPositions } = useMapDecorations(groundMap, buildingsMap, tileSize);
     const { armyGroups } = useArmyLogic(buildingsMap, groundMap, tileSize);
     const { sheepList } = useSheep(groundMap, buildingsMap, tileSize, inStarvation);

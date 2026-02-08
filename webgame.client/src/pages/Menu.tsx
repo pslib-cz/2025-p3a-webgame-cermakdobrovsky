@@ -1,9 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { type FC, use, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { type FC, use, useState, useEffect } from 'react';
 import type { GameState } from "./../../types/gameModels";
 import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
+import { useAudio } from '../hooks/useAudio';
 
 type MenuProps = {
     gameStatePromise: Promise<GameState | null>;
@@ -11,14 +12,19 @@ type MenuProps = {
     onPlayerIdChange: (newId: string) => void;
 }
 const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChange }) => {
-    //Hooks
+    //Promises
     const initialGameState: GameState | null = use<GameState | null>(gameStatePromise);
     const playerId: string = use<string>(playerIdPromise);
+    //Hooks
+    const { playBackgroundMusic, playSFX } = useAudio();
     const navigate = useNavigate();
     const [showCredits, setShowCredits] = useState<boolean>(false);
     const [showEnterId, setShowEnterId] = useState<boolean>(false);
     const [enteredId, setEnteredId] = useState<string>("");
     const [loadError, setLoadError] = useState<string | null>(null);
+    const [hasPlayed, setHasPlayed] = useState<boolean>(() => {
+        return false;
+    });
     const containerRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLDivElement>(null);
     const idRef = useRef<HTMLDivElement>(null);
@@ -34,6 +40,7 @@ const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChan
         try {
             const res = await fetch(`/api/game/state/${enteredId}`);
             if (res.ok) {
+                sessionStorage.setItem(`hasPlayed_${enteredId}`, "true");
                 onPlayerIdChange(enteredId);
                 navigate("/game");
             } else {
@@ -45,18 +52,32 @@ const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChan
     };
     const handleNewGame = async (): Promise<void> => {
         try {
-            const res = await fetch("/api/game/create");
-            if (res.ok) {
-                const newId = await res.text();
-                onPlayerIdChange(newId);
+            if ((!initialGameState || !hasPlayed) && playerId) {
+                sessionStorage.setItem(`hasPlayed_${playerId}`, "true");
+                setHasPlayed(true);
+                onPlayerIdChange(playerId);
                 navigate("/game");
             } else {
-                console.error("Failed to create new game");
+                const res = await fetch("/api/game/create");
+                if (res.ok) {
+                    const newId = await res.text();
+                    sessionStorage.setItem(`hasPlayed_${newId}`, "true");
+                    onPlayerIdChange(newId);
+                    navigate("/game");
+                } else {
+                    console.error("Failed to create new game");
+                }
             }
         } catch (e) {
             console.error("Error creating new game:", e);
         }
     };
+    useEffect(() => {
+        if (playerId) {
+            const stored = sessionStorage.getItem(`hasPlayed_${playerId}`);
+            setHasPlayed(stored === "true");
+        }
+    }, [playerId]);
     useGSAP(() => {
         const tl = gsap.timeline();
         tl.from(".menu__cloud", {
@@ -95,22 +116,27 @@ const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChan
             }
         }
     }, { dependencies: [showCredits, showEnterId], scope: containerRef });
-    useGSAP(() => {
-        if (showCredits && creditsRef.current) {
-            gsap.fromTo(creditsRef.current.children,
-                { y: 30, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.75, stagger: 0.1, ease: "power2.easeInOut" }
-            );
-        }
-    }, { dependencies: [showCredits], scope: containerRef });
-    useGSAP(() => {
-        if (showEnterId && enterIdRef.current) {
-            gsap.fromTo(enterIdRef.current.children,
-                { y: 30, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.75, stagger: 0.1, ease: "power2.easeInOut" }
-            );
-        }
-    }, { dependencies: [showEnterId], scope: containerRef });
+    useEffect(() => {
+        const handleUserInteraction = () => {
+            playBackgroundMusic("/audios/menu-soundtrack.mp3");
+        };
+        window.addEventListener("click", handleUserInteraction);
+        return () => window.removeEventListener("click", handleUserInteraction);
+    }, [playBackgroundMusic]);
+    useEffect(() => {
+        const musicSrc = "/audios/menu-soundtrack.mp3";
+        const musicOptions = { loop: true };
+        playBackgroundMusic(musicSrc, musicOptions);
+        const handleInteraction = () => {
+            playBackgroundMusic(musicSrc, musicOptions);
+        };
+        window.addEventListener('click', handleInteraction, { once: true });
+        window.addEventListener('keydown', handleInteraction, { once: true });
+        return () => {
+            window.removeEventListener('click', handleInteraction);
+            window.removeEventListener('keydown', handleInteraction);
+        };
+    }, [playBackgroundMusic]);
     return (
         <div className="menu" ref={containerRef}>
             <div className="menu__container">
@@ -131,27 +157,22 @@ const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChan
                         <nav className="menu__container-nav">
                             <menu className="menu__container-nav-menu" ref={buttonsRef}>
                                 <li className="menu__container-nav-menu-item">
-                                    <Link className="menu__container-nav-menu-item-link" to="/game" style={!initialGameState ? { opacity: 0.5, pointerEvents: 'none' } : {}}>
+                                    <button className="menu__container-nav-menu-item-button"
+                                        onClick={() => {
+                                            playSFX("/audios/button-click.mp3");
+                                            setTimeout(() => navigate("/game"), 250);
+                                        }}
+                                        style={(!initialGameState || !hasPlayed) ? { opacity: 0.5, pointerEvents: 'none' } : {}}
+                                    >
                                         Pokračovat
-                                    </Link>
+                                    </button>
                                 </li>
-                                <li className="menu__container-nav-menu-item"><button className="menu__container-nav-menu-item-button" onClick={handleNewGame}>Nová hra</button></li>
-                                <li className="menu__container-nav-menu-item"><button className="menu__container-nav-menu-item-button" onClick={() => setShowEnterId(true)}>Načíst hru</button></li>
-                                <li className="menu__container-nav-menu-item"><button className="menu__container-nav-menu-item-button" onClick={() => { setShowCredits(true) }}>Titulky</button></li>
+                                <li className="menu__container-nav-menu-item"><button className="menu__container-nav-menu-item-button" onClick={() => { handleNewGame(); playSFX("/audios/button-click.mp3") }}>Nová hra</button></li>
+                                <li className="menu__container-nav-menu-item"><button className="menu__container-nav-menu-item-button" onClick={() => { setShowEnterId(true); playSFX("/audios/button-click.mp3") }}>Načíst hru</button></li>
+                                <li className="menu__container-nav-menu-item"><button className="menu__container-nav-menu-item-button" onClick={() => { setShowCredits(true); playSFX("/audios/button-click.mp3") }}>Titulky</button></li>
                             </menu>
                         </nav>
                     </>
-                )}
-                {showCredits && (
-                    <div ref={creditsRef} style={{ display: 'contents' }}>
-                        <div className="menu__container-credits">
-                            <h2 className="menu__container-credits-title">Vytvořili:</h2>
-                            <p className="menu__container-credits-text">Bob Čermák a Víťa Dobrovský</p>
-                        </div>
-                        <div className="menu__container-back-credits">
-                            <button className="menu__container-back-button" onClick={() => { setShowCredits(false) }}>Zpět</button>
-                        </div>
-                    </div>
                 )}
                 {showEnterId && (
                     <div ref={enterIdRef} style={{ display: 'contents' }}>
@@ -171,13 +192,26 @@ const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChan
                         <nav className="menu__container-nav">
                             <menu className="menu__container-nav-menu">
                                 <li className="menu__container-nav-menu-item">
-                                    <button className="menu__container-nav-menu-item-button" onClick={handleLoadGame}>
+                                    <button className="menu__container-nav-menu-item-button" onClick={() => { playSFX("/audios/button-click.mp3"); handleLoadGame() }}>
                                         Pokračovat
                                     </button>
                                 </li>
-                                <li className="menu__container-nav-menu-item"><button className="menu__container-nav-menu-item-button" onClick={() => setShowEnterId(false)}>Zpět</button></li>
+                                <li className="menu__container-nav-menu-item"><button className="menu__container-nav-menu-item-button" onClick={() => { setShowEnterId(false); playSFX("/audios/button-click.mp3") }}>Zpět</button></li>
                             </menu>
                         </nav>
+                    </div>
+                )}
+                {showCredits && (
+                    <div ref={creditsRef} style={{ display: 'contents' }}>
+                        <div className="menu__container-credits">
+                            <h2 className="menu__container-credits-title">Vytvořili:</h2>
+                            <p className="menu__container-credits-text">Bob Čermák a Víťa Dobrovský</p>
+                            <h2 className="menu__container-credits-title menu__container-credits-title-sound">Hudba:</h2>
+                            <p className="menu__container-credits-text menu__container-credits-text-sound">alkakrab a Creator Assets</p>
+                        </div>
+                        <div className="menu__container-back-credits">
+                            <button className="menu__container-back-button" onClick={() => { setShowCredits(false); playSFX("/audios/button-click.mp3") }}>Zpět</button>
+                        </div>
                     </div>
                 )}
             </div>
