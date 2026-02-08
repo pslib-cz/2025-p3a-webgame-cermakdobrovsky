@@ -61,7 +61,7 @@ namespace WebGame.Server.Controllers
                 gameState.BuildingMap.Buildings.ToArray(),
                 map.Tiles.ToArray()
             );
-            if (isColiding) return BadRequest("Umístění budovy koliduje se stávající stavbou.");
+            if (isColiding) return BadRequest("Zde budova nejde postavit");
 
             MapBuilding mapBuilding = new MapBuilding
             {
