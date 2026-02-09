@@ -77,17 +77,21 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
         if (response.ok) {
           const updatedState = await response.json();
 
-          if (updatedState.sheep < updatedState.population) {
-            setInStarvation(true);
-          } else {
-            setInStarvation(false);
-          }
           setGameState(updatedState);
         }
       }
     }, 2500);
     return () => clearInterval(interval);
   }, [gameState?.playerId]);
+
+  useEffect(() => {
+    if (gameState.sheep < gameState.population) {
+      setInStarvation(true);
+    } else {
+      setInStarvation(false);
+    }
+  }, [gameState.sheep, gameState.population]);
+
   const handleUpgradeBuilding = async (mapBuilding: MapBuilding) => {
     const data = await upgradeBuilding(mapBuilding, setIsUpgradeBuildingError);
     if (data) {
