@@ -80,7 +80,6 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
         const response = await fetch(`/api/game/advance/${gameState.playerId}`);
         if (response.ok) {
           const updatedState = await response.json();
-
           setGameState(updatedState);
         }
       }

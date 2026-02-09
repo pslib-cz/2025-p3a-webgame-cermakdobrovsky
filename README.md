@@ -1,22 +1,37 @@
-# 🏰 Webová hra | WEB + MPA | ClashOfBrynza
+# 🏰 ClashOfBrynza | Buduj. Krm. Vládni.
 
-Naše hra je jednoduché **budovatelské RPG** v prohlížeči. Hráč si buduje vlastní vesnici, rozvíjí ji, sbírá suroviny (ovce 🐑) a postupně odemyká nové možnosti.
+> **Webová hra | Budovatelské RPG | WEB + MPA**
+> Vybuduj vesnici, spravuj stáda ovcí a balancuj na hraně hladomoru.
 
 ---
 
-[🚀 Otevřít hru](https://id-117.pslib.cloud/)
+<p align="center">
+  <img src="/webgame.client/public/images/content/game-menu.png" width="30%" alt="Ukázka ze hry 1">
+  <img src="/webgame.client/public/images/content/game-game.png" width="30%" alt="Ukázka ze hry 2">
+  <img src="/webgame.client/public/images/content/game-levelup.png" width="30%" alt="Ukázka ze hry 3">
+</p>
+
+---
+
+## 🎮 O Hře
+
+Naše hra je jednoduché **budovatelské RPG** v prohlížeči. Hráč si buduje vlastní vesnici, rozvíjí ji, sbírá suroviny (ovce 🐑) a postupně odemyká nové možnosti.
+
+[🚀 **Otevřít hru**](https://id-117.pslib.cloud/)
 
 ---
 
 ## ⚙️ Technologie
 
-Používáme moderní stack, který kombinuje backend, frontend i práci s animacemi:
+Používáme moderní stack, který kombinuje backend, frontend i práci s animacemi.
 
-- **ASP.NET** – backendová logika, API, autentizace
-- **React** – frontend, dynamické UI
-- **Konva.js** – animace jednotek, efektů a objektů
-- **Canvas** – vykreslování mapy a herních prvků
-- **Docker** – snadné nasazení
+| Technologie | Popis |
+| :--- | :--- |
+| ![ASP.NET](https://img.shields.io/badge/ASP.NET-512BD4?style=flat&logo=dotnet&logoColor=white) | **Backendová logika**, API, autentizace |
+| ![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB) | **Frontend**, dynamické UI |
+| ![Konva.js](https://img.shields.io/badge/Konva.js-0D274D?style=flat&logo=javascript&logoColor=white) | **Animace** jednotek, efektů a objektů |
+| ![Canvas](https://img.shields.io/badge/Canvas-E34F26?style=flat&logo=html5&logoColor=white) | **Vykreslování** mapy a herních prvků |
+| ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white) | **Snadné nasazení** aplikace |
 
 ---
 
@@ -46,25 +61,25 @@ Hra je založena na uzavřeném cyklu tří hlavních proměnných: **Ovce**, **
 
 Každá postavená budova (dům) snižuje množství volné půdy ($L$). Množství volné půdy přímo definuje **maximální počet ovcí**, které může hráč vlastnit.
 
-- _Důsledek:_ Čím více domů postavíš, tím méně ovcí můžeš dlouhodobě chovat.
+> _Důsledek:_ Čím více domů postavíš, tím méně ovcí můžeš dlouhodobě chovat.
 
 #### 2. Spotřeba a Hladomor
 
 Populace ke svému přežití vyžaduje neustálý přísun ovcí.
 
-- **Stav hladomoru:** Pokud zásoba ovcí ($S$) klesne na 0, populace začne vymírat ($P$ se snižuje v čase).
+> **Stav hladomoru:** Pokud zásoba ovcí ($S$) klesne na 0, populace začne vymírat ($P$ se snižuje v čase).
 
 #### 3. Progres (Radnice)
 
 Radnice slouží jako technologický uzel. Její vylepšení je podmíněno dosažením určité úrovně populace.
 
-- _Strategický prvek:_ Hráč musí často postavit více domů, než kolik dokáže jeho půda dlouhodobě uživit, jen aby "protnul" hranici pro upgrade radnice.
+> _Strategický prvek:_ Hráč musí často postavit více domů, než kolik dokáže jeho půda dlouhodobě uživit, jen aby "protnul" hranici pro upgrade radnice.
 
 #### 4. Efektivita ovcí
 
 S vyšší úrovní hráče roste efektivita produkce ovcí na jednotku volné půdy. Čím vyšší level, tím více ovcí dokáže stejná plocha uživit.
 
-- _Důsledek:_ Progrese se vyplácí – upgrade radnice zlepšuje ekonomickou výkonnost celé vesnice.
+> _Důsledek:_ Progrese se vyplácí – upgrade radnice zlepšuje ekonomickou výkonnost celé vesnice.
 
 ---
 
@@ -81,3 +96,9 @@ S vyšší úrovní hráče roste efektivita produkce ovcí na jednotku volné p
 
 - [ ] **Efektivita pastvy:** Technologie zvyšující počet ovcí na jednotku půdy.
 - [ ] **Vertikální růst:** Upgrady domů (více lidí na stejné ploše)
+
+---
+
+<p align="center">
+  <i>Vytvořeno s ❤️ týmem Bob Čermák & Víťa Dobrovský</i>
+</p>
