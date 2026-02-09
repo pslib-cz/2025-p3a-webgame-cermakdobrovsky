@@ -49,25 +49,26 @@ const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDele
                         </figure>
                       </div>
                     )}
-                    {building?.building.isTownHall && (
+                    {building?.building.isTownHall ? (
                       <div>
                         <p>Benefity:</p>
                         <p>Rychlost množení ovcí: +5%</p>
                         <p>Rychlost růstu populace: +5%</p>
                       </div>
-                    )}
-                    <div>
-                      <p>Benefity:</p>
-                      <div className="building-menu__description-content">
-                        <p className="building-menu__description-content-text">Kapacita po vylepšení:</p>
-                        <div className="building-menu__resource">
-                          <p className="building-menu__resource-amount">{building?.building.levels.find((level) => level.level === building.level + 1)?.capacity}</p>
-                          <figure className="building-menu__resource-figure">
-                            <img className="img-responsive" src="images/content/monk.png" alt="Obrázek populace" loading="lazy" />
-                          </figure>
+                    ) : (
+                      <div>
+                        <p>Benefity:</p>
+                        <div className="building-menu__description-content">
+                          <p className="building-menu__description-content-text">Kapacita po vylepšení:</p>
+                          <div className="building-menu__resource">
+                            <p className="building-menu__resource-amount">{building?.building.levels.find((level) => level.level === building.level + 1)?.capacity}</p>
+                            <figure className="building-menu__resource-figure">
+                              <img className="img-responsive" src="images/content/monk.png" alt="Obrázek populace" loading="lazy" />
+                            </figure>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                   <div className="building-menu__upgrade-section-buttons">
                     <Button bgColor="button--primary--blue" onClick={() => building && onBuildingUpgrade?.(building)}>
