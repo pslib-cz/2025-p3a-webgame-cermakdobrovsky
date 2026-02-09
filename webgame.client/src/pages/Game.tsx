@@ -134,11 +134,8 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
     }
   };
   const handleLevelUpLoss = async (cost: number) => {
-    addSheep(gameState.playerId, gameState.sheep - cost);
-    setGameState((prev) => ({
-      ...prev,
-      sheep: Math.max(0, prev.sheep - cost),
-    }));
+    const data = await addSheep(gameState.playerId, -cost);
+    if (data) setGameState((prev) => ({ ...prev, sheep: data.sheep }));
   };
   const upgradeCost = gameState.buildingMap.buildings.find((b) => b.building.isTownHall)?.building?.levels.find((l) => l.level === gameState.level)?.upgradeCost ?? 0;
   return (

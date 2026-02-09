@@ -93,7 +93,6 @@ namespace WebGame.Server.Controllers
         public async Task<IActionResult> AddSheep(string playerId, int amount)
         {
             if (string.IsNullOrEmpty(playerId)) return BadRequest("Nebyl zadán žádný ID hráče.");
-            if (amount <= 0) return BadRequest("Počet ovcí musí být kladný.");
 
             GameState? gameState = await _dbc.GameStates
                 .FirstOrDefaultAsync(gs => gs.PlayerId == playerId);
