@@ -192,11 +192,6 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
             </li>
           ) : (
             <>
-              <li>
-                <Button variant="secondary" imgSrc="images/content/warrior.png">
-                  Útok
-                </Button>
-              </li>
               <li ref={shopButtonRef}>
                 <Button onClick={() => setIsOpenShop(true)} variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">
                   Stavět
