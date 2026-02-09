@@ -667,7 +667,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3rem;
+  gap: 2rem;
   background-color: var(--blue, #4795a7);
   margin-top: 2.5rem;
 }
@@ -675,7 +675,7 @@
 @media screen and (min-width: 1701px) {
   .menu__container {
     margin-top: 4.5rem;
-    gap: 5rem;
+    gap: 4.5rem;
   }
 }
 
@@ -721,10 +721,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1rem;
   min-width: 300px;
   margin: 0;
   padding: 0;
+}
+
+@media (min-width: 1701px) {
+  .menu__container-nav-menu {
+    gap: 1.5rem;
+  }
 }
 
 .menu__container-nav-menu-item {
@@ -1162,7 +1168,7 @@
   gap: 0.5rem;
   max-width: 800px;
   text-align: center;
-  margin-top: -3rem; /* Reduce gap between title and goal */
+  margin-top: -3rem;
 }
 
 .menu__container-goal-text {
@@ -1176,7 +1182,7 @@
 .menu__container-goal-description {
   font-size: var(--text-body, 1.5625rem);
   color: var(--white, #ffffff);
-  margin: 0;
+  margin: 1.6rem;
   line-height: 1.4;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   font-weight: 500;
@@ -1215,7 +1221,7 @@
 }
 
 .level-up-game__circle {
-  margin-top: 2.55rem;
+  margin-top: 1.25rem;
   width: 350px;
 }
 
@@ -1233,7 +1239,7 @@
   align-items: center;
   justify-content: center;
   gap: 2.5rem;
-  margin-top: 6rem;
+  margin-top: 4rem;
 }
 
 .level-up-game__content-img {
