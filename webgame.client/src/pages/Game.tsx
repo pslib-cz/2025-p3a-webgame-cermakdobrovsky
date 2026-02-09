@@ -121,7 +121,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
       if (res.ok) {
         const newId = await res.text();
         localStorage.setItem("playerId", newId);
-        sessionStorage.setItem(`hasPlayed_${newId}`, "true");
+        localStorage.setItem(`hasPlayed_${newId}`, "true");
         window.location.reload();
       }
     } catch (e) {
