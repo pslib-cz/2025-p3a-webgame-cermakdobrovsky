@@ -88,6 +88,23 @@ namespace WebGame.Server.Controllers
             }
             return Ok(gameState);
         }
+
+        [HttpGet("sheep/{playerId}/{amount}")]
+        public async Task<IActionResult> AddSheep(string playerId, int amount)
+        {
+            if (string.IsNullOrEmpty(playerId)) return BadRequest("Nebyl zadán žádný ID hráče.");
+            if (amount <= 0) return BadRequest("Počet ovcí musí být kladný.");
+
+            GameState? gameState = await _dbc.GameStates
+                .FirstOrDefaultAsync(gs => gs.PlayerId == playerId);
+
+            if (gameState == null) return NotFound("Game state not found for the given player ID.");
+
+            gameState.Sheep += amount;
+            await _dbc.SaveChangesAsync();
+            return Ok(gameState);
+        }
+
     
         [HttpGet("advance/{playerId}")]
         public async Task<IActionResult> AdvanceGame(string playerId)

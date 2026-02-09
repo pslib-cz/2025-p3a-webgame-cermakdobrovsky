@@ -2,6 +2,7 @@ import { type FC, use, useState, useRef, useEffect } from "react";
 import type { GameState } from "./../../types/gameModels";
 import type { Building, Map, MapBuilding } from "./../../types/mapModels";
 import MapCanvas from "./../map/MapCanvas";
+import { addSheep } from "../../lib/gameUtils";
 import { Button, Resource, TownHallLevel, Shop, BuildingMenu, GameOver, MusicButton, LevelUpGame, TutorialMonk, WinScreen } from "./../components";
 
 import { useAudio } from "../hooks/useAudio";
@@ -133,14 +134,12 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
       handleUpgradeBuilding(townHall);
     }
   };
-  const handleLevelUpLoss = () => {
-    const cost = gameState.buildingMap.buildings.find((b) => b.building.isTownHall)?.building?.levels.find((l) => l.level === gameState.level)?.upgradeCost;
-    if (cost !== undefined) {
-      setGameState((prev) => ({
-        ...prev,
-        sheep: Math.max(0, prev.sheep - cost),
-      }));
-    }
+  const handleLevelUpLoss = async (cost: number) => {
+    addSheep(gameState.playerId, gameState.sheep - cost);
+    setGameState((prev) => ({
+      ...prev,
+      sheep: Math.max(0, prev.sheep - cost),
+    }));
   };
   const upgradeCost = gameState.buildingMap.buildings.find((b) => b.building.isTownHall)?.building?.levels.find((l) => l.level === gameState.level)?.upgradeCost ?? 0;
   return (

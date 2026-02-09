@@ -5,7 +5,7 @@ type LevelUpGameProps = {
   currentLevel: number;
   villageToggle: (value: boolean) => void;
   onWin: () => void;
-  onLoss: () => void;
+  onLoss: (cost: number) => void;
   upgradeCost: number;
 };
 const LevelUpGame: FC<LevelUpGameProps> = ({ currentLevel, villageToggle, onWin, onLoss, upgradeCost }) => {
@@ -75,7 +75,7 @@ const LevelUpGame: FC<LevelUpGameProps> = ({ currentLevel, villageToggle, onWin,
     if (hitSwordCollision) {
       setGameOver(true);
       setIsPlaying(false);
-      onLoss();
+      onLoss(upgradeCost);
       return;
     }
     setStuckSwords((prev) => [...prev, hitAngle]);

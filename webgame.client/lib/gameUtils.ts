@@ -47,3 +47,9 @@ export const hasEnoughToUpgrade = (gameState: GameState): boolean => {
 
   return gameState.sheep >= cost && gameState.population >= populationRequirement;
 };
+
+export const addSheep = async (playerId: string, amount: number): Promise<GameState> => {
+  const res = await fetch(`/api/game/sheep/${playerId}/${amount}`);
+  if (!res.ok) throw new Error("Failed to add sheep");
+  return await res.json();
+};
