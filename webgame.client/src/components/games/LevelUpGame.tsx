@@ -1,4 +1,4 @@
-import { type FC, useState, useEffect, useRef } from "react";
+import { type FC, useState, useEffect, useRef } from "react"; 
 import { Button } from "../../components";
 
 type LevelUpGameProps = {
