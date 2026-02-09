@@ -178,7 +178,7 @@ const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChan
         <div className="menu__container-goal" ref={goalRef}>
           <p className="menu__container-goal-description">
             Cíl hry je dosáhnout 10. úrovně vesnice. Čím více stavíš, tím vyšší máš populaci a tím více potřebuješ ovcí. Jenže čím více plochy je zastavěno, tím méně mají ovce místa a nemůžeš jich mít
-            tolik. Když budeš mít víc populace než ovcí, tak ti ovce začnou umírat a ty prohraješ.
+            tolik. Když budeš mít víc populace než ovcí, tak ti ovce začnou umírat.
           </p>
         </div>
         {!showCredits && !showEnterId && (

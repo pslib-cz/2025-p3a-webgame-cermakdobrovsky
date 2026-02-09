@@ -44,7 +44,11 @@ namespace WebGame.Server.Data
                 for (int level = 1; level <= 10; level++)
                 {
                     int populationRequirement = 0;
-                    if (building.IsTownHall) populationRequirement = level * 30;
+                    if (building.IsTownHall)
+                    {
+                        if (level == 1) populationRequirement = 100;
+                        else populationRequirement = 100 + level * 25;
+                    } 
                     levels.Add(new BuildingLevel
                     {
                         BuildingId = building.BuildingId,
