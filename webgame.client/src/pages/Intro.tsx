@@ -7,7 +7,7 @@ import { useAudio } from "../hooks/useAudio";
 const Intro: FC = () => {
     //Hooks
     const navigate = useNavigate();
-    const { playBackgroundMusic } = useAudio();
+    const { playBackgroundMusic, isPlaying } = useAudio();
     const containerRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const sheepLeftRef = useRef<HTMLDivElement>(null);
@@ -56,7 +56,7 @@ const Intro: FC = () => {
     }, { scope: containerRef });
     const handleContinue = contextSafe(() => {
         if (!containerRef.current) return;
-        playBackgroundMusic("/audios/menu-soundtrack.mp3");
+        if (isPlaying) playBackgroundMusic("/audios/menu-soundtrack.mp3");
         gsap.to(containerRef.current, {
             opacity: 0,
             duration: 0.5,

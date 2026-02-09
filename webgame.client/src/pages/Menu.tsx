@@ -5,6 +5,7 @@ import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { useAudio } from '../hooks/useAudio';
+import { MusicButton } from '../components';
 
 type MenuProps = {
     gameStatePromise: Promise<GameState | null>;
@@ -16,7 +17,7 @@ const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChan
     const initialGameState: GameState | null = use<GameState | null>(gameStatePromise);
     const playerId: string = use<string>(playerIdPromise);
     //Hooks
-    const { playBackgroundMusic, playSFX } = useAudio();
+    const { playBackgroundMusic, playSFX, isPlaying } = useAudio();
     const navigate = useNavigate();
     const [showCredits, setShowCredits] = useState<boolean>(false);
     const [showEnterId, setShowEnterId] = useState<boolean>(false);
@@ -40,7 +41,7 @@ const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChan
         try {
             const res = await fetch(`/api/game/state/${enteredId}`);
             if (res.ok) {
-                sessionStorage.setItem(`hasPlayed_${enteredId}`, "true");
+                localStorage.setItem(`hasPlayed_${enteredId}`, "true");
                 onPlayerIdChange(enteredId);
                 navigate("/game");
             } else {
@@ -53,7 +54,7 @@ const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChan
     const handleNewGame = async (): Promise<void> => {
         try {
             if ((!initialGameState || !hasPlayed) && playerId) {
-                sessionStorage.setItem(`hasPlayed_${playerId}`, "true");
+                localStorage.setItem(`hasPlayed_${playerId}`, "true");
                 setHasPlayed(true);
                 onPlayerIdChange(playerId);
                 navigate("/game");
@@ -61,7 +62,7 @@ const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChan
                 const res = await fetch("/api/game/create");
                 if (res.ok) {
                     const newId = await res.text();
-                    sessionStorage.setItem(`hasPlayed_${newId}`, "true");
+                    localStorage.setItem(`hasPlayed_${newId}`, "true");
                     onPlayerIdChange(newId);
                     navigate("/game");
                 } else {
@@ -74,7 +75,7 @@ const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChan
     };
     useEffect(() => {
         if (playerId) {
-            const stored = sessionStorage.getItem(`hasPlayed_${playerId}`);
+            const stored = localStorage.getItem(`hasPlayed_${playerId}`);
             setHasPlayed(stored === "true");
         }
     }, [playerId]);
@@ -117,18 +118,11 @@ const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChan
         }
     }, { dependencies: [showCredits, showEnterId], scope: containerRef });
     useEffect(() => {
-        const handleUserInteraction = () => {
-            playBackgroundMusic("/audios/menu-soundtrack.mp3");
-        };
-        window.addEventListener("click", handleUserInteraction);
-        return () => window.removeEventListener("click", handleUserInteraction);
-    }, [playBackgroundMusic]);
-    useEffect(() => {
         const musicSrc = "/audios/menu-soundtrack.mp3";
         const musicOptions = { loop: true };
-        playBackgroundMusic(musicSrc, musicOptions);
+        if (isPlaying) playBackgroundMusic(musicSrc, musicOptions);
         const handleInteraction = () => {
-            playBackgroundMusic(musicSrc, musicOptions);
+            if (isPlaying) playBackgroundMusic(musicSrc, musicOptions);
         };
         window.addEventListener('click', handleInteraction, { once: true });
         window.addEventListener('keydown', handleInteraction, { once: true });
@@ -136,9 +130,12 @@ const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChan
             window.removeEventListener('click', handleInteraction);
             window.removeEventListener('keydown', handleInteraction);
         };
-    }, [playBackgroundMusic]);
+    }, [playBackgroundMusic, isPlaying]);
     return (
         <div className="menu" ref={containerRef}>
+            <div className="music-position">
+                <MusicButton/>
+            </div>
             <div className="menu__container">
                 <div className="menu__container-title" ref={titleRef}>
                     <figure className="menu__container-title-figure">
@@ -177,16 +174,10 @@ const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChan
                 {showEnterId && (
                     <div ref={enterIdRef} style={{ display: 'contents' }}>
                         <div className="menu__container-enter-id">
-                            <input
-                                className="menu__container-enter-id-input"
-                                type="text"
-                                placeholder="Zadejte ID:"
-                                value={enteredId}
-                                onChange={(e) => {
+                            <input id="menu__container-enter-id-input" className="menu__container-enter-id-input" type="text" placeholder="Zadejte ID:" value={enteredId} onChange={(e) => {
                                     setEnteredId(e.target.value.toLowerCase().trim());
                                     setLoadError(null);
-                                }}
-                            />
+                                }}/>
                             {loadError && <p className="menu__container-enter-id-error">{loadError}</p>}
                         </div>
                         <nav className="menu__container-nav">

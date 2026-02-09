@@ -10,7 +10,7 @@ const Item: FC<ItemProps> = ({ imgSrc, price, onBuy }) => {
   return (
     <div className="item">
         <figure className="item__figure">
-            <img className="img-responsive" src={imgSrc === "/images/buildings/2.png" ? "/images/buildings/2/2.png" : imgSrc} alt="Obrázek budovy" loading='lazy'/>
+            <img className="img-responsive" src={imgSrc === "/images/buildings/2.png" ? "/images/buildings/2-1.png" : imgSrc} alt="Obrázek budovy" loading='lazy'/>
         </figure>
         <div className="item__details">
            <div className="item__info">

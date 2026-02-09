@@ -20,9 +20,18 @@ const Button: FC<ButtonProps> = ({ variant = "primary", bgColor = "button--secon
     primary: `button--primary ${bgColor}`,
     secondary: `${smallerImg ? "button--secondary--small" : "button--secondary"} ${bgColor}`,
   };
+  //Functions
+  const handleDelayedClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    playSFX("/audios/button-click.mp3");
+    if (onClick) {
+      setTimeout(() => {
+        onClick(e);
+      }, 250);
+    }
+  };
   return (
     <>
-      <button className={`${baseStyles} ${variantStyles[variant]} ${className}`} onClick={(e) => { playSFX("/audios/button-click.mp3"); onClick?.(e); }}>{imgSrc && variant === "secondary" && <figure><img src={imgSrc} alt="Obrázek tlačítka"/></figure>}<span>{children}</span></button>
+      <button className={`${baseStyles} ${variantStyles[variant]} ${className}`} onClick={(e) => {handleDelayedClick(e); onClick?.(e);}}>{imgSrc && variant === "secondary" && <figure><img src={imgSrc} alt="Obrázek tlačítka"/></figure>}<span>{children}</span></button>
       </>
     )
 }
