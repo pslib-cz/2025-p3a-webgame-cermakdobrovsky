@@ -127,14 +127,17 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
     }
   };
   const handleLevelUpWin = () => {
-    setGameState((prev) => ({ ...prev, level: prev.level + 1 }));
+    const townHall = gameState.buildingMap.buildings.find((b) => b.building.isTownHall);
+    if (townHall) {
+      handleUpgradeBuilding(townHall);
+    }
   };
   const handleLevelUpLoss = () => {
     const cost = gameState.buildingMap.buildings.find((b) => b.building.isTownHall)?.building?.levels.find((l) => l.level === gameState.level)?.upgradeCost;
     if (cost !== undefined) {
       setGameState((prev) => ({
         ...prev,
-        sheep: Math.max(0, prev.sheep - cost)
+        sheep: Math.max(0, prev.sheep - cost),
       }));
     }
   };
@@ -175,12 +178,22 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
           }}
         />
         <BuildingMenu
-          onBuildingUpgrade={handleUpgradeBuilding}
+          onBuildingUpgrade={(building) => {
+            if (building.building.isTownHall) {
+              if (hasEnoughToUpgrade(gameState)) {
+                setIsLevelUpGame(true);
+              } else {
+                setIsUpgradeBuildingError({ error: true, message: "Nemáš dostatek ovcí ani populace na vylepšení!" });
+              }
+              setCurrentBuilding(null);
+            } else {
+              handleUpgradeBuilding(building);
+            }
+          }}
           onDeleteBuilding={handleDeleteBuilding}
           isOpen={currentBuilding !== null}
           building={currentBuilding ?? undefined}
           onClose={() => setCurrentBuilding(null)}
-          onBuildingLevelUp={ () => hasEnoughToUpgrade(gameState) ? setIsLevelUpGame : setIsUpgradeBuildingError}
         />
         <ul className="page__resources-area">
           <li>
@@ -245,15 +258,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
             inStarvation={inStarvation}
           />
         )}
-        {isLevelUpGame && (
-          <LevelUpGame
-            villageToggle={setIsLevelUpGame}
-            currentLevel={gameState.level}
-            onWin={handleLevelUpWin}
-            onLoss={handleLevelUpLoss}
-            upgradeCost={upgradeCost}
-          />
-        )}
+        {isLevelUpGame && <LevelUpGame villageToggle={setIsLevelUpGame} currentLevel={gameState.level} onWin={handleLevelUpWin} onLoss={handleLevelUpLoss} upgradeCost={upgradeCost} />}
       </div>
     </div>
   );

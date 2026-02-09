@@ -40,7 +40,10 @@ export const gameStatePromise = defaultPromises.gameStatePromise;
 export const hasEnoughToUpgrade = (gameState: GameState): boolean => {
   const townHall = gameState.buildingMap.buildings.find((b) => b.building.isTownHall);
   if (!townHall) return false;
+
   const levelInfo = townHall.building?.levels.find((l) => l.level === townHall.level);
-  const cost = levelInfo?.upgradeCost ?? (townHall.level * 10);
-  return gameState.sheep >= cost && gameState.population >= cost;
+  const cost = levelInfo?.upgradeCost ?? 0;
+  const populationRequirement = levelInfo?.populationCost ?? 0;
+
+  return gameState.sheep >= cost && gameState.population >= populationRequirement;
 };
