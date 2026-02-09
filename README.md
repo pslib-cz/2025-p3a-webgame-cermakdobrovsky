@@ -6,9 +6,9 @@
 ---
 
 <p align="center">
-  <img src="/public/images/content/game-menu.png" width="30%" alt="Ukázka ze hry 1">
-  <img src="/public/images/content/game-game.png" width="30%" alt="Ukázka ze hry 2">
-  <img src="/public/images/content/game-levelup.png" width="30%" alt="Ukázka ze hry 3">
+  <img src="/webgame.client/public/images/content/game-menu.png" width="30%" alt="Ukázka ze hry 1">
+  <img src="/webgame.client/public/images/content/game-game.png" width="30%" alt="Ukázka ze hry 2">
+  <img src="/webgame.client/public/images/content/game-levelup.png" width="30%" alt="Ukázka ze hry 3">
 </p>
 
 ---
