@@ -5,6 +5,7 @@ import MapCanvas from "./../map/MapCanvas";
 import { Button, Resource, TownHallLevel, Shop, BuildingMenu, GameOver, MusicButton, LevelUpGame } from "./../components";
 import { useAudio } from "../hooks/useAudio";
 import { addBuilding, deleteBuilding, upgradeBuilding } from "../../lib/mapUtils";
+import { hasEnoughToUpgrade } from "../../lib/gameUtils";
 import { Link, useNavigate } from "react-router-dom";
 
 type GameProps = {
@@ -84,7 +85,6 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
     }, 2500);
     return () => clearInterval(interval);
   }, [gameState?.playerId]);
-
   useEffect(() => {
     if (gameState.sheep < gameState.population) {
       setInStarvation(true);
@@ -92,7 +92,6 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
       setInStarvation(false);
     }
   }, [gameState.sheep, gameState.population]);
-
   const handleUpgradeBuilding = async (mapBuilding: MapBuilding) => {
     const data = await upgradeBuilding(mapBuilding, setIsUpgradeBuildingError);
     if (data) {
@@ -106,12 +105,10 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
     if (data) setGameState(data);
   };
   const handleDeleteBuilding = async (mapBuilding: MapBuilding) => {
-    // Ensure mapId is correct using gameState if available
     const buildingToDelete = { ...mapBuilding };
     if ((!buildingToDelete.mapId || buildingToDelete.mapId <= 0) && gameState?.buildingMap?.mapId) {
       buildingToDelete.mapId = gameState.buildingMap.mapId;
     }
-
     const data = await deleteBuilding(buildingToDelete);
     if (data) setGameState(data);
     setCurrentBuilding(null);
@@ -129,6 +126,19 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
       console.error("Restart failed", e);
     }
   };
+  const handleLevelUpWin = () => {
+    setGameState((prev) => ({ ...prev, level: prev.level + 1 }));
+  };
+  const handleLevelUpLoss = () => {
+    const cost = gameState.buildingMap.buildings.find((b) => b.building.isTownHall)?.building?.levels.find((l) => l.level === gameState.level)?.upgradeCost;
+    if (cost !== undefined) {
+      setGameState((prev) => ({
+        ...prev,
+        sheep: Math.max(0, prev.sheep - cost)
+      }));
+    }
+  };
+  const upgradeCost = gameState.buildingMap.buildings.find((b) => b.building.isTownHall)?.building?.levels.find((l) => l.level === gameState.level)?.upgradeCost ?? 0;
   return (
     <div className="game">
       {gameState.sheep <= 0 && <GameOver onRestart={handleRestart} onHome={() => navigate("/menu")} />}
@@ -170,7 +180,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
           isOpen={currentBuilding !== null}
           building={currentBuilding ?? undefined}
           onClose={() => setCurrentBuilding(null)}
-          onBuildingLevelUp={setIsLevelUpGame}
+          onBuildingLevelUp={ () => hasEnoughToUpgrade(gameState) ? setIsLevelUpGame : setIsUpgradeBuildingError}
         />
         <ul className="page__resources-area">
           <li>
@@ -217,7 +227,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
             </Button>
           </Link>
         </div>
-        {gameState && isLevelUpGame && (
+        {gameState && !isLevelUpGame && (
           <MapCanvas
             groundMap={groundMap}
             buildingsMap={gameState.buildingMap}
@@ -235,7 +245,15 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
             inStarvation={inStarvation}
           />
         )}
-        {!isLevelUpGame && <LevelUpGame currentLevel={gameState.level} />}
+        {isLevelUpGame && (
+          <LevelUpGame
+            villageToggle={setIsLevelUpGame}
+            currentLevel={gameState.level}
+            onWin={handleLevelUpWin}
+            onLoss={handleLevelUpLoss}
+            upgradeCost={upgradeCost}
+          />
+        )}
       </div>
     </div>
   );

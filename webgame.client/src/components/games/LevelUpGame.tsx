@@ -2,17 +2,22 @@ import { type FC, useState, useEffect, useRef } from "react";
 import { Button } from "../../components";
 
 type LevelUpGameProps = {
-  currentLevel: number
+  currentLevel: number,
+  villageToggle: (value: boolean) => void,
+  onWin: () => void,
+  onLoss: () => void,
+  upgradeCost: number
 };
-
-const LevelUpGame: FC<LevelUpGameProps> = ({ currentLevel }) => {
+const LevelUpGame: FC<LevelUpGameProps> = ({ currentLevel, villageToggle, onWin, onLoss, upgradeCost }) => {
   const maxLevels = 10;
   //Hooks
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [gameOver, setGameOver] = useState<boolean>(false);
+  const [isWinner, setIsWinner] = useState<boolean>(false);
   const [enemies, setEnemies] = useState<{ id: number; src: string; x: number; y: number; angle: number }[]>([]);
   const [stuckSwords, setStuckSwords] = useState<number[]>([]);
   const [isReloading, setIsReloading] = useState<boolean>(false);
+  //Refs
   const circleRef = useRef<HTMLElement>(null);
   const rotationRef = useRef(0);
   const speedRef = useRef(0);
@@ -36,20 +41,21 @@ const LevelUpGame: FC<LevelUpGameProps> = ({ currentLevel }) => {
     setEnemies(newEnemies);
     setStuckSwords([]);
     setGameOver(false);
+    setIsWinner(false);
     setIsPlaying(false);
     rotationRef.current = 0;
     if (circleRef.current) {
-        circleRef.current.style.transform = `rotate(0deg)`;
+      circleRef.current.style.transform = `rotate(0deg)`;
     }
   };
   const handleShoot = () => {
-    if (gameOver) {
-        initializeGame();
-        return;
+    if (gameOver || isWinner) {
+      initializeGame();
+      return;
     }
     if (!isPlaying) {
       setIsPlaying(true);
-      return; 
+      return;
     }
     if (isReloadingRef.current) return;
     setIsReloading(true);
@@ -57,28 +63,36 @@ const LevelUpGame: FC<LevelUpGameProps> = ({ currentLevel }) => {
     setTimeout(() => {
       setIsReloading(false);
       isReloadingRef.current = false;
-    }, 300); 
+    }, 300);
     const currentRotation = rotationRef.current % 360;
     let hitAngle = (90 - currentRotation) % 360;
     if (hitAngle < 0) hitAngle += 360;
     const hitSwordCollision = stuckSwords.some(swordAngle => {
-        const diff = Math.abs(swordAngle - hitAngle);
-        const normalizedDiff = Math.min(diff, 360 - diff);
-        return normalizedDiff < 15; 
+      const diff = Math.abs(swordAngle - hitAngle);
+      const normalizedDiff = Math.min(diff, 360 - diff);
+      return normalizedDiff < 15;
     });
     if (hitSwordCollision) {
-        setGameOver(true);
-        setIsPlaying(false);
-        return; 
+      setGameOver(true);
+      setIsPlaying(false);
+      onLoss();
+      return;
     }
     setStuckSwords(prev => [...prev, hitAngle]);
     const hitEnemyIndex = enemies.findIndex(enemy => {
       const diff = Math.abs(enemy.angle - hitAngle);
       const normalizedDiff = Math.min(diff, 360 - diff);
-      return normalizedDiff < 20; 
+      return normalizedDiff < 20;
     });
     if (hitEnemyIndex !== -1) {
-      setEnemies(prev => prev.filter((_, i) => i !== hitEnemyIndex));
+      const nextEnemies = enemies.filter((_, i) => i !== hitEnemyIndex);
+      setEnemies(nextEnemies);
+      if (nextEnemies.length === 0) {
+        setIsWinner(true);
+        setIsPlaying(false);
+        onWin();
+        villageToggle(false);
+      }
     }
   };
   useEffect(() => {
@@ -86,11 +100,12 @@ const LevelUpGame: FC<LevelUpGameProps> = ({ currentLevel }) => {
   }, []);
   useEffect(() => {
     let animationFrameId: number;
-    if (!isPlaying || gameOver) return;
+    if (!isPlaying || gameOver || isWinner) return;
     const animate = () => {
-      const baseSpeed = 0.2 + currentLevel * 0.1;
-      if (Math.random() < 0.005 + currentLevel * 0.002) {
-        speedRef.current += 2 + currentLevel * 0.5;
+      const baseSpeed = 0.15 + currentLevel * 0.08;
+      const randomChance = 0.002 + (currentLevel * 0.002);
+      if (Math.random() < randomChance) {
+        speedRef.current += 1.5 + currentLevel * 0.3;
       }
       speedRef.current *= 0.95;
       rotationRef.current += baseSpeed + speedRef.current;
@@ -101,7 +116,7 @@ const LevelUpGame: FC<LevelUpGameProps> = ({ currentLevel }) => {
     };
     animate();
     return () => cancelAnimationFrame(animationFrameId);
-  }, [currentLevel, isPlaying, gameOver]);
+  }, [currentLevel, isPlaying, gameOver, isWinner]);
   return (
     <div className="level-up-game">
       <div className="level-up-game__dots-map" style={{ opacity: isPlaying ? 0 : 100, transition: 'opacity 0.25s ease-in-out' }}>
@@ -123,13 +138,13 @@ const LevelUpGame: FC<LevelUpGameProps> = ({ currentLevel }) => {
             style={{
               left: `calc(50% + ${enemy.x}px)`,
               top: `calc(50% + ${enemy.y}px)`,
-              zIndex: 1, 
+              zIndex: 1,
             }}
           />
         ))}
         {stuckSwords.map((angle, index) => {
           const angleRad = angle * (Math.PI / 180);
-          const radius = 110; 
+          const radius = 110;
           const x = Math.cos(angleRad) * radius;
           const y = Math.sin(angleRad) * radius;
           return (
@@ -151,12 +166,29 @@ const LevelUpGame: FC<LevelUpGameProps> = ({ currentLevel }) => {
         })}
       </figure>
       <div className="level-up-game__content">
-        <figure className="level-up-game__content-img" style={{ opacity: isReloading || gameOver ? 0 : 1, transition: 'opacity 0.25s ease-in-out' }}>
-          <img className="img-responsive" src="images/content/sword.png" alt="Obrázek populace" loading="lazy"/>
-        </figure>
-        <Button bgColor={gameOver ? "button--primary--red" : "button--primary--blue"} onClick={handleShoot}>
-            {gameOver ? "Restartovat" : isPlaying ? "Střelit" : "Začít"}
-        </Button>
+        {
+          !isWinner && !gameOver ? (
+            <>
+              <figure className="level-up-game__content-img" style={{ opacity: isReloading || gameOver || isWinner ? 0 : 1, transition: 'opacity 0.1s' }}>
+                <img className="img-responsive" src="images/content/sword.png" alt="Obrázek populace" loading="lazy" />
+              </figure>
+              <Button bgColor={gameOver ? "button--primary--red" : (isWinner ? "button--primary--green" : "button--primary--blue")} onClick={handleShoot}>
+                {isPlaying ? 'Střílet' : 'Hrát'}
+              </Button>
+            </>
+          ) : null
+        }
+        {gameOver &&
+          <div className="level-up-game-over__content">
+            <div className="level-up-game-over__content-container">
+              <p className="level-up-game-over__text">Prohrál jsi ztrácíš: <span>{upgradeCost}</span></p>
+              <figure className="level-up-game-over__img">
+                <img className="img-responsive" src="images/content/sheep.png" alt="Obrázek ovce" loading="lazy" />
+              </figure>
+            </div>
+            <Button onClick={() => initializeGame()} bgColor="button--primary--blue">Znovu</Button>
+          </div>
+        }
       </div>
     </div>
   )

@@ -8,9 +8,8 @@ type BuildingMenuProps = {
   onClose: () => void;
   onDeleteBuilding?: (building: MapBuilding) => void;
   onBuildingUpgrade?: (building: MapBuilding) => void;
-  onBuildingLevelUp?: (value: boolean) => void;
 };
-const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDeleteBuilding, onBuildingUpgrade, onBuildingLevelUp }) => {
+const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDeleteBuilding, onBuildingUpgrade }) => {
   return (
     <>
       {isOpen && (
@@ -71,7 +70,7 @@ const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDele
                     </div>
                   </div>
                   <div className="building-menu__upgrade-section-buttons">
-                    <Button bgColor="button--primary--blue" onClick={() => { building && onBuildingUpgrade?.(building); building?.building.isTownHall && onBuildingLevelUp?.(true) }}>
+                    <Button bgColor="button--primary--blue" onClick={() => { building && onBuildingUpgrade?.(building) }}>
                       Vylepšit
                     </Button>
                     {!building?.building.isTownHall && (

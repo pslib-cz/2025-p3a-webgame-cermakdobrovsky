@@ -1161,6 +1161,7 @@
 .level-up-game__dots-map {
   display: flex;
   gap: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .level-up-game__dot {
@@ -1211,5 +1212,48 @@
 }
 
 .level-up-game__content-img {
+  width: 50px;
+}
+
+.level-up-winner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.level-up-winner__text {
+  font-size: var(--text-title, 2.4375rem);
+  color: var(--white, #ffffff);
+  margin: 0;
+  font-weight: 400;
+}
+
+.level-up-game-over__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.level-up-game-over__content-container {
+  display: flex;
+  gap: .5rem;
+}
+
+.level-up-game-over__text {
+  font-size: var(--text-title, 2.4375rem);
+  color: var(--white, #ffffff);
+  margin: 0;
+  font-weight: 400;
+}
+
+.level-up-game-over__text span {
+  color: yellow;
+}
+
+.level-up-game-over__img {
   width: 50px;
 }

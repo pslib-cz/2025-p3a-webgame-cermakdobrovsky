@@ -3,7 +3,7 @@ import { useAudio } from "../../hooks/useAudio";
 
 type ButtonProps = {
   variant?: "primary" | "secondary",
-  bgColor?: "button--primary--blue" | "button--primary--red" | "button--secondary--brown" | "button--secondary--blue",
+  bgColor?: string | boolean,
   imgSrc?: string,
   smallerImg?: boolean,
   className?: string,
