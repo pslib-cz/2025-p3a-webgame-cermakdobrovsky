@@ -3,14 +3,15 @@ import { useAudio } from "../../hooks/useAudio";
 
 type ButtonProps = {
   variant?: "primary" | "secondary";
-  bgColor?: "button--primary--blue" | "button--primary--red" | "button--secondary--brown" | "button--secondary--blue" | boolean;
+  bgColor?: string | boolean;
   imgSrc?: string;
   smallerImg?: boolean;
   className?: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  timeDelay?: number;
   children: React.ReactNode;
 };
-const Button: FC<ButtonProps> = ({ variant = "primary", bgColor = "button--secondary--brown", imgSrc, smallerImg = false, className, onClick, children }) => {
+const Button: FC<ButtonProps> = ({ variant = "primary", bgColor = "button--secondary--brown", imgSrc, smallerImg = false, className, onClick, timeDelay = 250, children }) => {
   //Hooks
   const { playSFX } = useAudio();
 
@@ -24,9 +25,13 @@ const Button: FC<ButtonProps> = ({ variant = "primary", bgColor = "button--secon
   const handleDelayedClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     playSFX("/audios/button-click.mp3");
     if (onClick) {
+      if (timeDelay === 0) {
+        onClick(e);
+        return;
+      }
       setTimeout(() => {
         onClick(e);
-      }, 250);
+      }, timeDelay);
     }
   };
   return (
