@@ -2,9 +2,10 @@ import { type FC, use, useState, useRef, useEffect } from "react";
 import type { GameState } from "./../../types/gameModels";
 import type { Building, Map, MapBuilding } from "./../../types/mapModels";
 import MapCanvas from "./../map/MapCanvas";
-import { Button, Resource, TownHallLevel, Shop, BuildingMenu, GameOver, MusicButton, TutorialMonk } from "./../components";
+import { Button, Resource, TownHallLevel, Shop, BuildingMenu, GameOver, MusicButton, LevelUpGame, TutorialMonk } from "./../components";
 import { useAudio } from "../hooks/useAudio";
 import { addBuilding, deleteBuilding, upgradeBuilding } from "../../lib/mapUtils";
+import { hasEnoughToUpgrade } from "../../lib/gameUtils";
 import { Link, useNavigate } from "react-router-dom";
 
 type GameProps = {
@@ -25,6 +26,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
   const shopButtonRef = useRef<HTMLLIElement>(null);
   const [inStarvation, setInStarvation] = useState<boolean>(false);
   const [displayError, setDisplayError] = useState<string | null>(null);
+  const [isLevelUpGame, setIsLevelUpGame] = useState<boolean>(false);
   const [isAddBuildingError, setIsAddBuildingError] = useState<{ error: boolean; message: string }>({
     error: false,
     message: "",
@@ -83,7 +85,6 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
     }, 2500);
     return () => clearInterval(interval);
   }, [gameState?.playerId]);
-
   useEffect(() => {
     if (gameState.sheep < gameState.population) {
       setInStarvation(true);
@@ -91,7 +92,6 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
       setInStarvation(false);
     }
   }, [gameState.sheep, gameState.population]);
-
   const handleUpgradeBuilding = async (mapBuilding: MapBuilding) => {
     const data = await upgradeBuilding(mapBuilding, setIsUpgradeBuildingError);
     if (data) {
@@ -105,12 +105,10 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
     if (data) setGameState(data);
   };
   const handleDeleteBuilding = async (mapBuilding: MapBuilding) => {
-    // Ensure mapId is correct using gameState if available
     const buildingToDelete = { ...mapBuilding };
     if ((!buildingToDelete.mapId || buildingToDelete.mapId <= 0) && gameState?.buildingMap?.mapId) {
       buildingToDelete.mapId = gameState.buildingMap.mapId;
     }
-
     const data = await deleteBuilding(buildingToDelete);
     if (data) setGameState(data);
     setCurrentBuilding(null);
@@ -128,6 +126,22 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
       console.error("Restart failed", e);
     }
   };
+  const handleLevelUpWin = () => {
+    const townHall = gameState.buildingMap.buildings.find((b) => b.building.isTownHall);
+    if (townHall) {
+      handleUpgradeBuilding(townHall);
+    }
+  };
+  const handleLevelUpLoss = () => {
+    const cost = gameState.buildingMap.buildings.find((b) => b.building.isTownHall)?.building?.levels.find((l) => l.level === gameState.level)?.upgradeCost;
+    if (cost !== undefined) {
+      setGameState((prev) => ({
+        ...prev,
+        sheep: Math.max(0, prev.sheep - cost),
+      }));
+    }
+  };
+  const upgradeCost = gameState.buildingMap.buildings.find((b) => b.building.isTownHall)?.building?.levels.find((l) => l.level === gameState.level)?.upgradeCost ?? 0;
   return (
     <div className="game">
       <TutorialMonk />
@@ -165,7 +179,18 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
           }}
         />
         <BuildingMenu
-          onBuildingUpgrade={handleUpgradeBuilding}
+          onBuildingUpgrade={(building) => {
+            if (building.building.isTownHall) {
+              if (hasEnoughToUpgrade(gameState)) {
+                setIsLevelUpGame(true);
+              } else {
+                setIsUpgradeBuildingError({ error: true, message: "Nemáš dostatek ovcí ani populace na vylepšení!" });
+              }
+              setCurrentBuilding(null);
+            } else {
+              handleUpgradeBuilding(building);
+            }
+          }}
           onDeleteBuilding={handleDeleteBuilding}
           isOpen={currentBuilding !== null}
           building={currentBuilding ?? undefined}
@@ -195,14 +220,18 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
                 Zrušit
               </Button>
             </li>
+          ) : isLevelUpGame ? (
+            <li ref={shopButtonRef}>
+              <Button onClick={() => setIsLevelUpGame(false)} variant="secondary" bgColor="button--secondary--brown" imgSrc="images/content/house.png">
+                Vesnice
+              </Button>
+            </li>
           ) : (
-            <>
-              <li ref={shopButtonRef}>
-                <Button onClick={() => setIsOpenShop(true)} variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">
-                  Stavět
-                </Button>
-              </li>
-            </>
+            <li ref={shopButtonRef}>
+              <Button onClick={() => setIsOpenShop(true)} variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">
+                Stavět
+              </Button>
+            </li>
           )}
         </ul>
         <div className="page__home-button">
@@ -212,7 +241,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
             </Button>
           </Link>
         </div>
-        {gameState && (
+        {gameState && !isLevelUpGame && (
           <MapCanvas
             groundMap={groundMap}
             buildingsMap={gameState.buildingMap}
@@ -230,6 +259,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
             inStarvation={inStarvation}
           />
         )}
+        {isLevelUpGame && <LevelUpGame villageToggle={setIsLevelUpGame} currentLevel={gameState.level} onWin={handleLevelUpWin} onLoss={handleLevelUpLoss} upgradeCost={upgradeCost} />}
       </div>
     </div>
   );

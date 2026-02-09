@@ -71,7 +71,7 @@ const BuildingMenu: FC<BuildingMenuProps> = ({ isOpen, building, onClose, onDele
                     )}
                   </div>
                   <div className="building-menu__upgrade-section-buttons">
-                    <Button bgColor="button--primary--blue" onClick={() => building && onBuildingUpgrade?.(building)}>
+                    <Button bgColor="button--primary--blue" onClick={() => { building && onBuildingUpgrade?.(building) }}>
                       Vylepšit
                     </Button>
                     {!building?.building.isTownHall && (
