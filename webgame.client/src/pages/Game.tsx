@@ -2,7 +2,8 @@ import { type FC, use, useState, useRef, useEffect } from "react";
 import type { GameState } from "./../../types/gameModels";
 import type { Building, Map, MapBuilding } from "./../../types/mapModels";
 import MapCanvas from "./../map/MapCanvas";
-import { Button, Resource, TownHallLevel, Shop, BuildingMenu, GameOver, MusicButton, LevelUpGame, TutorialMonk } from "./../components";
+import { Button, Resource, TownHallLevel, Shop, BuildingMenu, GameOver, MusicButton, LevelUpGame, TutorialMonk, WinScreen } from "./../components";
+
 import { useAudio } from "../hooks/useAudio";
 import { addBuilding, deleteBuilding, upgradeBuilding } from "../../lib/mapUtils";
 import { hasEnoughToUpgrade } from "../../lib/gameUtils";
@@ -146,6 +147,8 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
     <div className="game">
       <TutorialMonk />
       {gameState.sheep <= 0 && <GameOver onRestart={handleRestart} onHome={() => navigate("/menu")} />}
+      {gameState.level >= 10 && <WinScreen onRestart={handleRestart} onHome={() => navigate("/menu")} />}
+
       <div className="page">
         {inStarvation && gameState.sheep > 0 && (
           <div className="starvation-alert">

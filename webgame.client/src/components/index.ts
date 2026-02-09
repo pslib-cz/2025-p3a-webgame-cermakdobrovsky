@@ -14,3 +14,4 @@ export { default as GameOver } from "./menus/GameOver";
 export { default as MusicButton } from "./buttons/MusicButton";
 export { default as TutorialMonk } from "./TutorialMonk/TutorialMonk";
 export { default as LevelUpGame } from "./games/LevelUpGame";
+export { default as WinScreen } from "./menus/WinScreen";
