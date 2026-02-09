@@ -2,7 +2,7 @@ import { type FC, use, useState, useRef, useEffect } from "react";
 import type { GameState } from "./../../types/gameModels";
 import type { Building, Map, MapBuilding } from "./../../types/mapModels";
 import MapCanvas from "./../map/MapCanvas";
-import { Button, Resource, TownHallLevel, Shop, BuildingMenu, GameOver, MusicButton } from "./../components";
+import { Button, Resource, TownHallLevel, Shop, BuildingMenu, GameOver, MusicButton, TutorialMonk } from "./../components";
 import { useAudio } from "../hooks/useAudio";
 import { addBuilding, deleteBuilding, upgradeBuilding } from "../../lib/mapUtils";
 import { Link, useNavigate } from "react-router-dom";
@@ -130,6 +130,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
   };
   return (
     <div className="game">
+      <TutorialMonk />
       {gameState.sheep <= 0 && <GameOver onRestart={handleRestart} onHome={() => navigate("/menu")} />}
       <div className="page">
         {inStarvation && gameState.sheep > 0 && (

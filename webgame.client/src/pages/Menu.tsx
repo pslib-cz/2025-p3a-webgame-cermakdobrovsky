@@ -64,6 +64,7 @@ const Menu: FC<MenuProps> = ({ gameStatePromise, playerIdPromise, onPlayerIdChan
         if (res.ok) {
           const newId = await res.text();
           localStorage.setItem(`hasPlayed_${newId}`, "true");
+          localStorage.removeItem("tutorialCompleted");
           onPlayerIdChange(newId);
           navigate("/game");
         } else {
