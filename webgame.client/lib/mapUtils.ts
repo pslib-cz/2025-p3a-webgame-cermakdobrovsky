@@ -29,14 +29,12 @@ export const addBuilding = async (buildingId: number, bottomLeftX: number, botto
   const data: GameState = await response.json();
   return data;
 };
-export const deleteBuilding = async (mapBuilding: MapBuilding, buildingDeleteCallback: (response: { error: boolean, message: string }) => void): Promise<GameState | null> => {
+export const deleteBuilding = async (mapBuilding: MapBuilding): Promise<GameState | null> => {
   const { mapId, bottomLeftX, bottomLeftY } = mapBuilding;
   const response = await fetch(`/api/map/building/${mapId}/${bottomLeftX}/${bottomLeftY}`, {
     method: "DELETE",
   });
   if (!response.ok) {
-    const errorMessage = await response.text();
-    buildingDeleteCallback({ error: true, message: errorMessage });
     return null;
   }
   const data: GameState = await response.json();

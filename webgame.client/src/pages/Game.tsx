@@ -3,7 +3,6 @@ import type { GameState } from "./../../types/gameModels";
 import type { Building, Map, MapBuilding } from "./../../types/mapModels";
 import MapCanvas from "./../map/MapCanvas";
 import { Button, Resource, TownHallLevel, Shop, BuildingMenu, GameOver, MusicButton } from "./../components";
-import { useDebugMode } from "./../hooks/useDebugMode";
 import { useAudio } from "../hooks/useAudio";
 import { addBuilding, deleteBuilding, upgradeBuilding } from "../../lib/mapUtils";
 import { Link, useNavigate } from "react-router-dom";
@@ -24,14 +23,9 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
   const [placingBuilding, setPlacingBuilding] = useState<Building | null>(null);
   const [currentBuilding, setCurrentBuilding] = useState<MapBuilding | null>(null);
   const shopButtonRef = useRef<HTMLLIElement>(null);
-  const { debugMode, toggleDebugMode } = useDebugMode();
   const [inStarvation, setInStarvation] = useState<boolean>(false);
   const [displayError, setDisplayError] = useState<string | null>(null);
   const [isAddBuildingError, setIsAddBuildingError] = useState<{ error: boolean; message: string }>({
-    error: false,
-    message: "",
-  });
-  const [isDeleteBuildingError, setIsDeleteBuildingError] = useState<{ error: boolean; message: string }>({
     error: false,
     message: "",
   });
@@ -58,27 +52,23 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
     if (isAddBuildingError.error) setDisplayError(isAddBuildingError.message);
   }, [isAddBuildingError]);
   useEffect(() => {
-    if (isDeleteBuildingError.error) setDisplayError(isDeleteBuildingError.message);
-  }, [isDeleteBuildingError]);
-  useEffect(() => {
     if (isUpgradeBuildingError.error) setDisplayError(isUpgradeBuildingError.message);
   }, [isUpgradeBuildingError]);
   useEffect(() => {
-    if (!isAddBuildingError.error && !isDeleteBuildingError.error && !isUpgradeBuildingError.error) {
+    if (!isAddBuildingError.error && !isUpgradeBuildingError.error) {
       setDisplayError(null);
     }
-  }, [isAddBuildingError, isDeleteBuildingError, isUpgradeBuildingError]);
+  }, [isAddBuildingError, isUpgradeBuildingError]);
   const activeError = displayError ? { message: displayError } : null;
   useEffect(() => {
-    if (isAddBuildingError.error || isDeleteBuildingError.error || isUpgradeBuildingError.error) {
+    if (isAddBuildingError.error || isUpgradeBuildingError.error) {
       const timer = setTimeout(() => {
         setIsAddBuildingError((prev) => ({ ...prev, error: false }));
-        setIsDeleteBuildingError((prev) => ({ ...prev, error: false }));
         setIsUpgradeBuildingError((prev) => ({ ...prev, error: false }));
       }, 2600);
       return () => clearTimeout(timer);
     }
-  }, [isAddBuildingError, isDeleteBuildingError, isUpgradeBuildingError]);
+  }, [isAddBuildingError, isUpgradeBuildingError]);
   //Advance game every 5 seconds
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -116,7 +106,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
       buildingToDelete.mapId = gameState.buildingMap.mapId;
     }
 
-    const data = await deleteBuilding(buildingToDelete, setIsDeleteBuildingError);
+    const data = await deleteBuilding(buildingToDelete);
     if (data) setGameState(data);
     setCurrentBuilding(null);
   };
