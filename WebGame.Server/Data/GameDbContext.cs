@@ -29,11 +29,11 @@ namespace WebGame.Server.Data
         {
             Building[] buildings = [
                 new Building { BuildingId = 1, Name = "Radnice", Description = "Popis radnice", IsTownHall = true, Width = 10, Height = 7, ResourceId = 2, BaseHeight=6, BaseWidth=10},
-                new Building { BuildingId = 2, Name = "Domek", Description = "Popis domu", Width = 4, Height = 6, InitialCost = 5, ResourceId = 2, BaseHeight=4, BaseWidth=4 },
-                new Building { BuildingId = 3, Name = "Kostel", Description = "Popis kostelu", Width = 6, Height = 9, InitialCost = 12, ResourceId = 2, BaseHeight=6, BaseWidth=6 },
+                new Building { BuildingId = 2, Name = "Domek", Description = "Popis domu", Width = 4, Height = 6, InitialCost = 5, ResourceId = 2, BaseHeight=3, BaseWidth=4 },
+                new Building { BuildingId = 3, Name = "Kostel", Description = "Popis kostelu", Width = 6, Height = 9, InitialCost = 12, ResourceId = 2, BaseHeight=5, BaseWidth=6 },
                 new Building { BuildingId = 4, Name = "Střelnice", Description = "Popis střelnice", Width = 6, Height = 7, InitialCost = 10, ResourceId = 3, BaseHeight=5, BaseWidth=6 },
-                new Building { BuildingId = 5, Name = "Zbrojírna", Description = "Popis zbrojírny", Width = 6, Height = 7, InitialCost = 15, ResourceId = 3, BaseHeight=6, BaseWidth=6 },
-                new Building { BuildingId = 6, Name = "Věž", Description = "Popis věže", Width = 4, Height = 7, InitialCost = 8, ResourceId = 3, BaseHeight=5, BaseWidth=4 }
+                new Building { BuildingId = 5, Name = "Zbrojírna", Description = "Popis zbrojírny", Width = 6, Height = 7, InitialCost = 15, ResourceId = 3, BaseHeight=5, BaseWidth=6 },
+                new Building { BuildingId = 6, Name = "Věž", Description = "Popis věže", Width = 4, Height = 7, InitialCost = 8, ResourceId = 3, BaseHeight=3, BaseWidth=4 }
             ];
             modelBuilder.Entity<Building>().HasData(buildings);
 

@@ -52,7 +52,7 @@ const BuildingComponent: React.FC<buildingProps> = ({ building, tileSize, transp
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         x={building.bottomLeftX * tileSize}
-        y={rectY + rectHeight - imageHeight - 10}
+        y={rectY + rectHeight - imageHeight}
         width={buildingWidth}
         height={imageHeight}
         onClick={() => onClick?.(building)}
