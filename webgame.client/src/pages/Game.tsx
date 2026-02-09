@@ -82,6 +82,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
           } else {
             setInStarvation(false);
           }
+          setGameState(updatedState);
         }
       }
     }, 2500);
