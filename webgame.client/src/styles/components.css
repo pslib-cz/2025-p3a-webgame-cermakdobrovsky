@@ -1006,6 +1006,7 @@
 .menu__container-enter-id-error {
   color: red;
   margin-top: 0.5rem;
+  margin-bottom: 0;
   font-size: var(--text-subtitle, 1.5625rem);
 }
 
