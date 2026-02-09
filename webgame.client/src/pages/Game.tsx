@@ -2,7 +2,7 @@ import { type FC, use, useState, useRef, useEffect } from "react";
 import type { GameState } from "./../../types/gameModels";
 import type { Building, Map, MapBuilding } from "./../../types/mapModels";
 import MapCanvas from "./../map/MapCanvas";
-import { Button, Resource, TownHallLevel, Shop, BuildingMenu, GameOver, MusicButton } from "./../components";
+import { Button, Resource, TownHallLevel, Shop, BuildingMenu, GameOver, MusicButton, LevelUpGame } from "./../components";
 import { useAudio } from "../hooks/useAudio";
 import { addBuilding, deleteBuilding, upgradeBuilding } from "../../lib/mapUtils";
 import { Link, useNavigate } from "react-router-dom";
@@ -25,6 +25,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
   const shopButtonRef = useRef<HTMLLIElement>(null);
   const [inStarvation, setInStarvation] = useState<boolean>(false);
   const [displayError, setDisplayError] = useState<string | null>(null);
+  const [isLevelUpGame, setIsLevelUpGame] = useState<boolean>(false);
   const [isAddBuildingError, setIsAddBuildingError] = useState<{ error: boolean; message: string }>({
     error: false,
     message: "",
@@ -77,17 +78,21 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
         if (response.ok) {
           const updatedState = await response.json();
 
-          if (updatedState.sheep < updatedState.population) {
-            setInStarvation(true);
-          } else {
-            setInStarvation(false);
-          }
           setGameState(updatedState);
         }
       }
     }, 2500);
     return () => clearInterval(interval);
   }, [gameState?.playerId]);
+
+  useEffect(() => {
+    if (gameState.sheep < gameState.population) {
+      setInStarvation(true);
+    } else {
+      setInStarvation(false);
+    }
+  }, [gameState.sheep, gameState.population]);
+
   const handleUpgradeBuilding = async (mapBuilding: MapBuilding) => {
     const data = await upgradeBuilding(mapBuilding, setIsUpgradeBuildingError);
     if (data) {
@@ -165,6 +170,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
           isOpen={currentBuilding !== null}
           building={currentBuilding ?? undefined}
           onClose={() => setCurrentBuilding(null)}
+          onBuildingLevelUp={setIsLevelUpGame}
         />
         <ul className="page__resources-area">
           <li>
@@ -190,19 +196,18 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
                 Zrušit
               </Button>
             </li>
+          ) : isLevelUpGame ? (
+            <li ref={shopButtonRef}>
+              <Button onClick={() => setIsLevelUpGame(false)} variant="secondary" bgColor="button--secondary--brown" imgSrc="images/content/house.png">
+                Vesnice
+              </Button>
+            </li>
           ) : (
-            <>
-              <li>
-                <Button variant="secondary" imgSrc="images/content/warrior.png">
-                  Útok
-                </Button>
-              </li>
-              <li ref={shopButtonRef}>
-                <Button onClick={() => setIsOpenShop(true)} variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">
-                  Stavět
-                </Button>
-              </li>
-            </>
+            <li ref={shopButtonRef}>
+              <Button onClick={() => setIsOpenShop(true)} variant="secondary" bgColor="button--secondary--blue" imgSrc="images/content/house.png">
+                Stavět
+              </Button>
+            </li>
           )}
         </ul>
         <div className="page__home-button">
@@ -212,7 +217,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
             </Button>
           </Link>
         </div>
-        {gameState && (
+        {gameState && isLevelUpGame && (
           <MapCanvas
             groundMap={groundMap}
             buildingsMap={gameState.buildingMap}
@@ -230,6 +235,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
             inStarvation={inStarvation}
           />
         )}
+        {!isLevelUpGame && <LevelUpGame currentLevel={gameState.level} />}
       </div>
     </div>
   );

@@ -12,3 +12,4 @@ export { default as SpriteAnimation } from './sprite-animations/SpriteAnimation'
 export { default as DestructionEffect } from './tiles/DestructionEffect';
 export { default as GameOver } from './menus/GameOver';
 export { default as MusicButton } from './buttons/MusicButton';
+export { default as LevelUpGame } from './games/LevelUpGame';

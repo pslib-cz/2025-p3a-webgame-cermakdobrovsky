@@ -71,11 +71,11 @@ const Intro: FC = () => {
             <div className="intro__container">
                 <div className="intro__container-title">
                     <figure className="intro__container-title-figure" ref={sheepLeftRef}>
-                        <img className="img-responsive" src="images/content/sheep.png" alt="Obrázek ovce" loading="lazy" />
+                        <img className="img-responsive" src="images/content/sheep.png" alt="Obrázek ovce"/>
                     </figure>
                     <h1 className="intro__container-title-text" ref={titleRef}>Clash Of Brynza</h1>
                     <figure className="intro__container-title-figure" ref={sheepRightRef}>
-                        <img className="img-responsive" src="images/content/sheep.png" alt="Obrázek ovce" loading="lazy" />
+                        <img className="img-responsive" src="images/content/sheep.png" alt="Obrázek ovce"/>
                     </figure>
                 </div>
                 <p className="intro__container-text" ref={textRef}>Klikni pro pokračování</p>
