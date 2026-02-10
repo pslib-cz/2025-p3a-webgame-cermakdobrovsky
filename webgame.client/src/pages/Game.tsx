@@ -141,7 +141,9 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
     const data = await addSheep(gameState.playerId, -cost);
     if (data) setGameState((prev) => ({ ...prev, sheep: data.sheep }));
   };
-  const upgradeCost = gameState.buildingMap.buildings.find((b) => b.building.isTownHall)?.building?.levels.find((l) => l.level === gameState.level)?.upgradeCost ?? 0;
+  const townHall = gameState.buildingMap.buildings.find((b) => b.building.isTownHall);
+  const townHallLevel = townHall?.level ?? 1;
+  const upgradeCost = townHall?.building?.levels.find((l) => l.level === townHallLevel)?.upgradeCost ?? 0;
   return (
     <div className="game">
       <TutorialMonk />
