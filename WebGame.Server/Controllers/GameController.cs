@@ -130,7 +130,7 @@ namespace WebGame.Server.Controllers
             if (gameState.Level < 10)
             {
                 double delta = (DateTime.UtcNow - gameState.LastUpdated).TotalSeconds;
-                if (delta > 0 && delta <= 5) gameState.PlayTimeSeconds += delta;
+                if (delta > 0 && delta <= 20) gameState.PlayTimeSeconds += delta;
             }
             gameState.LastUpdated = DateTime.UtcNow;
             await _dbc.SaveChangesAsync();

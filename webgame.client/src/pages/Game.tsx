@@ -126,7 +126,7 @@ const Game: FC<GameProps> = ({ groundMapPromise, buildingsPromise, gameStateProm
           setGameState(updatedState);
         }
       }
-    }, 1000);
+    }, 5000);
     return () => clearInterval(interval);
   }, [gameState?.playerId, gameState.level, inStarvation]);
   useEffect(() => {
