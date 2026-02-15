@@ -24,8 +24,8 @@ const LevelUpGame: FC<LevelUpGameProps> = ({ currentLevel, villageToggle, onWin,
   const isReloadingRef = useRef(false);
 
   const initializeGame = () => {
-    const newEnemies = Array.from({ length: 8 }).map((_, index) => {
-      const angleDeg = index * (360 / 8);
+    const newEnemies = Array.from({ length: 6 }).map((_, index) => {
+      const angleDeg = index * (360 / 6);
       const angleRad = angleDeg * (Math.PI / 180);
       const radius = 160;
       const x = Math.cos(angleRad) * radius;
